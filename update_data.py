@@ -128,15 +128,17 @@ KR_SECTOR_MAP = {
 # ──────────────────────────────────────────────────────
 US_SECTORS = {
     # AI / 기술
-    "AI 인프라":          ["NVDA","AMD","SMCI","DELL","HPE","VRT","ETN","ANET","CSCO","MRVL"],
-    "AI 소프트웨어":      ["MSFT","GOOGL","META","PLTR","AI","PATH","SOUN","BBAI","GOOG"],
+    "AI 인프라 & GPU":    ["NVDA","AMD","SMCI","DELL","HPE","VRT","ETN","MRVL","ANET","AAPL"],
+    "AI 에이전트 & LLM":  ["MSFT","GOOGL","META","PLTR","AI","PATH","GOOG","AMZN","ORCL"],
+    "AI 응용 소프트웨어": ["SOUN","BBAI","CRCL","APP","TTD","MGNI","RBLX","U"],
     "클라우드 & SaaS":    ["AMZN","MSFT","ORCL","SNOW","MDB","DDOG","NET","CFLT","HUBS","ZI"],
     "엔터프라이즈 SW":    ["ORCL","ADBE","NOW","INTU","CRM","WDAY","TEAM","VEEV","ANSS","PTC"],
     "사이버보안":         ["CRWD","PANW","FTNT","ZS","S","OKTA","CYBR","NET","TENB","SAIL"],
     # 반도체
-    "반도체 (칩)":        ["NVDA","AMD","INTC","AVGO","QCOM","MU","TXN","MRVL","ARM","ON","MPWR","SWKS"],
-    "반도체 장비":        ["AMAT","LRCX","KLAC","ASML","TER","ONTO","ACLS","CAMT","FORM"],
-    "광통신 & 데이터센터":["CIEN","LITE","ANET","CSCO","COHR","VIAV","INFN","JNPR","SMCI","FFIV"],
+    "메모리 & AI칩":      ["NVDA","AMD","MU","MRVL","ARM","INTC","AVGO","QCOM"],
+    "반도체 소재·장비":   ["AMAT","LRCX","KLAC","ASML","TER","ONTO","ACLS","CAMT","FORM","MPWR"],
+    "네트워킹 & 광통신":  ["ANET","CIEN","CSCO","LITE","COHR","VIAV","JNPR","SMCI","FFIV","INFN"],
+    "반도체 부품 & 팹리스":["AVGO","QCOM","TXN","ON","SWKS","MCHP","NXPI","ADI","QRVO"],
     # 에너지
     "전력 & 전력인프라":  ["VRT","ETN","PWR","EMR","ROK","PH","AYI","EATON","URI","WMS"],
     "원자력 & 신규에너지":["CEG","VST","TLN","CCJ","NNE","OKLO","SMR","NRG","BW","LEU"],
@@ -161,6 +163,8 @@ US_SECTORS = {
     # 산업재
     "항공우주 & 방산":    ["LMT","RTX","NOC","GD","BA","HII","LDOS","SAIC","L","KTOS"],
     "산업재 & 물류":      ["CAT","DE","HON","GE","UPS","FDX","ETN","EMR","ROK","PH"],
+    "로봇 & 자동화":      ["ISRG","ABB","ROK","PH","HON","EMR","FANUC","IRBT","BRZE","AZTA"],
+    "우주 & 위성통신":    ["RKLB","ASTS","SPCE","LUNR","KTOS","HII","SAIC","BA","NOC","LMT"],
     # 부동산
     "데이터센터 리츠":    ["AMT","EQIX","DLR","CCI","IRM","CONE"],
     "리츠 & 부동산":      ["PLD","SPG","O","VICI","AVB","EXR","WY","NNN","WELL"],

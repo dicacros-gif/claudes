@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
 <title>S-RIM Terminal | 주식 가치평가</title>
 <style>
 /* ── Dark theme (default) ── */
@@ -99,7 +101,7 @@
 
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{background:var(--bg0);color:var(--t0);font-size:13px;min-height:100vh;transition:background .25s,color .25s;}
-body{font-family:'SF Mono','Fira Code','JetBrains Mono',Consolas,'Apple SD Gothic Neo','Noto Sans KR',monospace;}
+body{font-family:'SF Mono','Fira Code','JetBrains Mono',Consolas,'Pretendard Variable','Pretendard','Apple SD Gothic Neo','Noto Sans KR',monospace;}
 
 /* ── Header ── */
 .hdr{background:linear-gradient(90deg,#030508,#0a1220);border-bottom:1px solid var(--border);
@@ -133,18 +135,24 @@ body{font-family:'SF Mono','Fira Code','JetBrains Mono',Consolas,'Apple SD Gothi
 .panel{display:none;}.panel.active{display:block;}
 .wrap{max-width:1600px;margin:0 auto;padding:12px 14px;}
 
-/* ── Sector tile grid (Korean + US) ── */
-.sec-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:5px;margin-bottom:10px;}
-.sec-btn{padding:9px 11px;border:1px solid var(--border);border-radius:4px;cursor:pointer;
-  background:var(--bg2);color:var(--t1);font-size:11px;text-align:left;
-  transition:background .12s,border-color .12s,transform .1s,box-shadow .12s;font-family:inherit;}
-.sec-btn:hover{border-color:var(--cyan);color:var(--t0);background:var(--bg3);
-  transform:translateY(-1px);box-shadow:0 3px 10px var(--shadow);}
-.sec-btn.active{background:var(--bg3);border-color:var(--cyan);color:var(--t0);
-  box-shadow:0 0 0 1px var(--cyan2) inset;}
-.sec-btn .sbn{font-weight:700;display:block;margin-bottom:2px;}
-.sec-btn .sbc{font-size:9px;color:var(--t2);}
-.sec-btn.active .sbc{color:var(--t1);}
+/* ── Sector tab bar (horizontal scrollable) ── */
+.sec-bar{display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;
+  gap:5px;padding:8px 14px;background:var(--bg1);border-bottom:1px solid var(--border);}
+.sec-bar::-webkit-scrollbar{display:none;}
+.sec-grid{display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;
+  gap:5px;padding:8px 14px;background:var(--bg1);border-bottom:1px solid var(--border);}
+.sec-grid::-webkit-scrollbar{display:none;}
+.sec-btn{flex-shrink:0;white-space:nowrap;display:inline-flex;align-items:center;gap:5px;
+  padding:5px 14px;border:1px solid var(--border);border-radius:16px;cursor:pointer;
+  background:transparent;color:var(--t1);font-size:11px;font-weight:600;
+  transition:all .15s;font-family:inherit;}
+.sec-btn:hover{border-color:var(--cyan);color:var(--t0);background:var(--bg2);}
+.sec-btn.active{background:var(--cyan2);border-color:var(--cyan);color:#ffffff;font-weight:700;}
+[data-theme="light"] .sec-btn.active{color:#ffffff;}
+.sec-btn .sbn{font-weight:inherit;}
+.sec-btn .sbc{font-size:9px;padding:1px 6px;border-radius:9px;
+  background:var(--bg3);color:var(--t2);}
+.sec-btn.active .sbc{background:rgba(0,0,0,.25);color:rgba(255,255,255,.75);}
 
 /* ── Toolbar / search ── */
 .toolbar{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;align-items:center;}
@@ -365,8 +373,8 @@ footer a:hover{color:var(--cyan);}
 
 <!-- ══ KOSPI ══ -->
 <div id="tab-kospi" class="panel active">
+<div id="sec-grid-kospi" class="sec-grid"></div>
 <div class="wrap">
-  <div id="sec-grid-kospi" class="sec-grid"></div>
   <div class="toolbar">
     <input class="srch" id="sk-kospi" type="text" placeholder="종목명 / 코드 검색..." oninput="filterKr('kospi')">
   </div>
@@ -387,8 +395,8 @@ footer a:hover{color:var(--cyan);}
 
 <!-- ══ KOSDAQ ══ -->
 <div id="tab-kosdaq" class="panel">
+<div id="sec-grid-kosdaq" class="sec-grid"></div>
 <div class="wrap">
-  <div id="sec-grid-kosdaq" class="sec-grid"></div>
   <div class="toolbar">
     <input class="srch" id="sk-kosdaq" type="text" placeholder="종목명 / 코드 검색..." oninput="filterKr('kosdaq')">
   </div>
@@ -409,14 +417,16 @@ footer a:hover{color:var(--cyan);}
 
 <!-- ══ US STOCKS ══ -->
 <div id="tab-us" class="panel">
-<div class="wrap">
-  <div class="exch-row">
-    <span class="exch-lbl">거래소:</span>
+<div class="sec-grid" style="justify-content:space-between;flex-wrap:nowrap;">
+  <div id="us-sectors-grid" style="display:flex;flex-wrap:nowrap;gap:5px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0;"></div>
+  <div class="exch-row" style="flex-shrink:0;margin-bottom:0;padding-left:10px;border-left:1px solid var(--border);">
+    <span class="exch-lbl">거래소</span>
     <button class="exch-btn active" onclick="setUSExch('ALL',this)">전체</button>
     <button class="exch-btn nq"     onclick="setUSExch('NASDAQ',this)">NASDAQ</button>
     <button class="exch-btn ny"     onclick="setUSExch('NYSE',this)">NYSE</button>
   </div>
-  <div id="us-sectors-grid" class="sec-grid"></div>
+</div>
+<div class="wrap">
   <div class="stats-row" id="stats-us"></div>
   <div class="tbl-wrap">
     <div class="th ug">
@@ -434,13 +444,13 @@ footer a:hover{color:var(--cyan);}
 
 <!-- ══ US 저평가 ══ -->
 <div id="tab-usrank" class="panel">
+<div class="sec-grid" style="align-items:center;">
+  <span class="exch-lbl">거래소</span>
+  <button class="exch-btn active" onclick="setUSRankExch('ALL',this)">전체</button>
+  <button class="exch-btn nq"     onclick="setUSRankExch('NASDAQ',this)">NASDAQ</button>
+  <button class="exch-btn ny"     onclick="setUSRankExch('NYSE',this)">NYSE</button>
+</div>
 <div class="wrap">
-  <div class="exch-row">
-    <span class="exch-lbl">거래소:</span>
-    <button class="exch-btn active" onclick="setUSRankExch('ALL',this)">전체</button>
-    <button class="exch-btn nq"     onclick="setUSRankExch('NASDAQ',this)">NASDAQ</button>
-    <button class="exch-btn ny"     onclick="setUSRankExch('NYSE',this)">NYSE</button>
-  </div>
   <input class="urk-search" id="urk-search" type="text" placeholder="티커 / 종목명 검색..." oninput="filterUSRank()">
   <div id="us-rank-content"><div style="padding:30px;text-align:center;color:var(--t2)">로딩 중...</div></div>
 </div>
@@ -666,14 +676,14 @@ function buildKrSecGrid(mkt){
   const total=G[mkt].length, totalBuy=G[mkt].filter(s=>s.gap<0).length;
   wrap.innerHTML=`<button class="sec-btn active" onclick="setSec('${mkt}',null,this)">
     <span class="sbn">전체</span>
-    <span class="sbc">${total}종목 · 저평가 ${totalBuy}</span>
+    <span class="sbc">${total}</span>
   </button>`
   +secs.map(s=>{
     const st=G[mkt].filter(x=>x.sec===s);
     const buy=st.filter(x=>x.gap<0).length;
     return`<button class="sec-btn" onclick="setSec('${mkt}','${s.replace(/'/g,"\\'")}',this)">
       <span class="sbn">${s}</span>
-      <span class="sbc">${st.length}종목 · 저평가 ${buy}</span>
+      <span class="sbc">${st.length}${buy>0?` · ↓${buy}`:''}</span>
     </button>`;
   }).join('');
 }
@@ -879,7 +889,7 @@ function buildUSSectors(){
     const active=G.activeUS===s?' active':'';
     return`<button class="sec-btn${active}" onclick="selectUSSec('${s.replace(/'/g,"\\'")}',this)">
       <span class="sbn">${s}</span>
-      <span class="sbc">${stocks.length}종목 · 저평가 ${buy}</span>
+      <span class="sbc">${stocks.length}${buy>0?` · ↓${buy}`:''}</span>
     </button>`;
   }).join('');
   if(secs.length&&!G.activeUS)selectUSSec(secs[0],wrap.querySelector('.sec-btn'));
