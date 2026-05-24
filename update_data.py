@@ -542,23 +542,23 @@ def fetch_korean():
             mktcap   = int(cap.loc[code,"시가총액"]/1e8) if code in cap.index else 0
             roe_pct  = round(eps_now/bps*100, 2) if bps > 0 and eps_now else 0.0
 
-            # Try yfinance quarterly data (XXXXXX.KS or XXXXXX.KQ)
+            # yfinance 분기 성장률 — KR_SECTOR_MAP 매핑 종목만 (전체 조회 시 과도한 시간 방지)
             sfx = "KS" if market == "KOSPI" else "KQ"
-            qg = {}
-            try:
-                import yfinance as yf
-                t_yf = yf.Ticker(f"{code}.{sfx}")
-                qg = get_quarterly(t_yf)
-            except Exception:
-                pass
-            rqoq = qg.get('rev_qoq')
-            iqoq = qg.get('ni_qoq')
-            ryoy = qg.get('rev_yoy_q')
-            iyoy = qg.get('ni_yoy_q')
+            rqoq = iqoq = ryoy = iyoy = None
+            if code in KR_SECTOR_MAP:
+                try:
+                    import yfinance as yf
+                    qg = get_quarterly(yf.Ticker(f"{code}.{sfx}"))
+                    rqoq = qg.get('rev_qoq')
+                    iqoq = qg.get('ni_qoq')
+                    ryoy = qg.get('rev_yoy_q')
+                    iyoy = qg.get('ni_yoy_q')
+                    time.sleep(0.2)
+                except Exception:
+                    pass
 
             stocks.append([code, name, sector, price, bps, roe_pct, per, pbr, mktcap, eps_g, div,
                            rqoq, iqoq, ryoy, iyoy, None, None])
-            time.sleep(0.2)
 
         stocks.sort(key=lambda x: x[8], reverse=True)
         results[market] = stocks
@@ -570,15 +570,9 @@ def fetch_korean():
 # 메인
 # ──────────────────────────────────────────────────────
 def main():
-    # GitHub Actions 전용 — 로컬 실행 방지
-    if not os.environ.get('GITHUB_ACTIONS'):
-        print("ERROR: 이 스크립트는 GitHub Actions 에서만 실행 가능합니다.")
-        print("       로컬 강제 실행: GITHUB_ACTIONS=true python update_data.py")
-        sys.exit(1)
-
-    now   = datetime.datetime.utcnow()
-    today = now.strftime('%Y-%m-%d')
-    ts    = (now + datetime.timedelta(hours=9)).strftime('%Y-%m-%d %H:%M KST')
+    now = datetime.datetime.utcnow()
+    kst = now + datetime.timedelta(hours=9)
+    ts  = f"{kst.month}/{kst.day} {kst.strftime('%H:%M')}"
     print(f"\n{'='*60}\n  데이터 갱신 시작: {ts}\n{'='*60}\n")
 
     print("[ Korean stocks ]")

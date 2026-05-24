@@ -527,7 +527,8 @@ const G = {
 function setUpdTime(dt){
   const el=document.getElementById('clk');
   if(!el)return;
-  el.textContent=dt?'업데이트: '+dt:'--';
+  el.textContent=dt||'--';
+  if(dt)el.title='마지막 업데이트: '+dt;
 }
 
 // ── 다크/라이트 토글 ──
