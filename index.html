@@ -3,745 +3,1021 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>S-RIM 마법사 Plus</title>
+<title>S-RIM Terminal | 주식 가치평가</title>
 <style>
-  :root {
-    --primary: #1a5276;
-    --accent:  #2980b9;
-    --green:   #1e8449;
-    --orange:  #d35400;
-    --red:     #c0392b;
-    --bg:      #f4f6f8;
-    --card:    #ffffff;
-    --border:  #d5d8dc;
-    --text:    #1c2833;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Apple SD Gothic Neo','Noto Sans KR',sans-serif; background:var(--bg); color:var(--text); font-size:14px; }
+:root{
+  --bg0:#06090f;--bg1:#0b1120;--bg2:#101829;--bg3:#162035;
+  --border:#1c2e48;--bord2:#243d60;
+  --t0:#dde6f5;--t1:#7a90b0;--t2:#384e6a;
+  --cyan:#00ccff;--cyan2:#0096c0;
+  --green:#00d47a;--green2:#008a4f;
+  --red:#ff3a4a;--red2:#a01828;
+  --orange:#ff9000;--yellow:#ffd000;
+  --purple:#b060ff;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:var(--bg0);color:var(--t0);font-size:13px;min-height:100vh;}
+body{font-family:'SF Mono','Fira Code','JetBrains Mono',Consolas,'Apple SD Gothic Neo','Noto Sans KR',monospace;}
 
-  /* ── Header ── */
-  header { background:var(--primary); color:#fff; padding:12px 20px; display:flex; align-items:center; gap:12px; }
-  header h1 { font-size:19px; font-weight:700; }
-  header .sub { font-size:11px; opacity:.7; margin-top:2px; }
-  #updated-badge { margin-left:auto; font-size:11px; background:rgba(255,255,255,.15); padding:4px 10px; border-radius:20px; }
+.hdr{background:linear-gradient(90deg,#030508,#0a1220);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:12px;padding:0 16px;height:46px;position:sticky;top:0;z-index:100;}
+.logo{font-size:14px;font-weight:800;color:var(--cyan);letter-spacing:2px;}
+.logo span{color:var(--t1);font-weight:400;font-size:10px;margin-left:6px;letter-spacing:.5px;}
+.hdr-right{display:flex;gap:8px;margin-left:auto;align-items:center;flex-shrink:0;}
+.badge{font-size:10px;padding:2px 8px;border-radius:2px;border:1px solid var(--border);color:var(--t1);}
+.badge.live{border-color:var(--cyan2);color:var(--cyan);}
+#clk{font-size:11px;color:var(--t1);min-width:55px;text-align:right;font-variant-numeric:tabular-nums;}
 
-  /* ── Tab nav ── */
-  .tab-nav { display:flex; background:#fff; border-bottom:2px solid var(--border); padding:0 20px; }
-  .tab-btn {
-    padding:12px 24px; font-size:14px; font-weight:600; cursor:pointer; color:#777;
-    border:none; background:none; border-bottom:3px solid transparent; margin-bottom:-2px;
-    transition:color .15s, border-color .15s;
-  }
-  .tab-btn:hover { color:var(--accent); }
-  .tab-btn.active { color:var(--primary); border-bottom-color:var(--primary); }
+.tabs{display:flex;background:var(--bg1);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tb{padding:10px 18px;font-size:11px;font-weight:700;cursor:pointer;color:var(--t2);
+  border:none;background:none;border-bottom:2px solid transparent;margin-bottom:-1px;
+  transition:all .15s;white-space:nowrap;letter-spacing:.8px;font-family:inherit;}
+.tb:hover{color:var(--t1);}
+.tb.active{color:var(--cyan);border-bottom-color:var(--cyan);}
 
-  /* ── Tab panels ── */
-  .tab-panel { display:none; }
-  .tab-panel.active { display:block; }
+.panel{display:none;}.panel.active{display:block;}
+.wrap{max-width:1600px;margin:0 auto;padding:12px 14px;}
 
-  /* ── Container ── */
-  .container { max-width:1040px; margin:0 auto; padding:20px 16px; }
+.toolbar{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;align-items:center;}
+.srch{flex:1;min-width:150px;max-width:250px;padding:6px 10px;border:1px solid var(--border);
+  border-radius:3px;font-size:11px;background:var(--bg2);color:var(--t0);font-family:inherit;}
+.srch:focus{outline:none;border-color:var(--cyan);}
+.srch::placeholder{color:var(--t2);}
+.sf-wrap{display:flex;gap:3px;flex-wrap:wrap;}
+.sf{padding:3px 9px;border:1px solid var(--border);border-radius:2px;font-size:10px;
+  cursor:pointer;background:var(--bg2);color:var(--t1);transition:all .1s;white-space:nowrap;font-family:inherit;}
+.sf:hover{border-color:var(--cyan);color:var(--cyan);}
+.sf.active{background:var(--cyan2);color:#fff;border-color:var(--cyan);}
 
-  /* ── Card ── */
-  .card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:20px; margin-bottom:18px; box-shadow:0 1px 4px rgba(0,0,0,.06); }
-  .card h2 { font-size:14px; font-weight:700; color:var(--primary); margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid var(--primary); display:flex; align-items:center; gap:6px; }
+.stats-row{display:flex;gap:12px;padding:6px 10px;background:var(--bg2);border:1px solid var(--border);
+  border-radius:3px;margin-bottom:8px;flex-wrap:wrap;}
+.st{display:flex;flex-direction:column;gap:1px;}
+.st-l{font-size:9px;color:var(--t2);letter-spacing:.5px;text-transform:uppercase;}
+.st-v{font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;}
+.pos{color:var(--green);}.neg{color:var(--red);}.neu{color:var(--t1);}
 
-  /* ── Inputs ── */
-  .search-row { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
-  .search-row input { flex:1; min-width:120px; padding:9px 12px; border:1px solid var(--border); border-radius:6px; font-size:14px; }
-  .search-row input:focus { outline:none; border-color:var(--accent); }
-  .btn { padding:9px 18px; border:none; border-radius:6px; cursor:pointer; font-size:13px; font-weight:600; transition:opacity .15s; }
-  .btn:hover { opacity:.85; }
-  .btn-primary { background:var(--accent); color:#fff; }
-  .btn-calc { background:var(--primary); color:#fff; font-size:15px; padding:12px 32px; width:100%; margin-top:8px; }
+.tbl-wrap{background:var(--bg1);border:1px solid var(--border);border-radius:4px;overflow:hidden;overflow-x:auto;}
 
-  .input-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:12px; }
-  .input-group label { display:block; font-size:12px; color:#555; margin-bottom:4px; font-weight:600; }
-  .input-group input { width:100%; padding:8px 10px; border:1px solid var(--border); border-radius:6px; font-size:14px; }
-  .input-group input:focus { outline:none; border-color:var(--accent); }
-  .input-group .hint { font-size:11px; color:#888; margin-top:3px; }
+/* Korean grid */
+.kg{display:grid;grid-template-columns:30px minmax(120px,1fr) 80px 88px 52px 55px 88px 88px 76px 64px;align-items:center;}
+/* US grid: ticker name exch price pe fpe peg rev_qoq ni_qoq target gap signal */
+.ug{display:grid;grid-template-columns:58px minmax(120px,1fr) 48px 80px 52px 52px 46px 62px 62px 76px 68px 62px;align-items:center;}
 
-  .toggle-row { display:flex; gap:6px; margin-bottom:14px; align-items:center; }
-  .toggle-btn { padding:5px 14px; border:1px solid var(--accent); border-radius:20px; cursor:pointer; font-size:12px; color:var(--accent); background:#fff; transition:all .15s; }
-  .toggle-btn.active { background:var(--accent); color:#fff; }
+.th{padding:7px 10px;background:var(--bg3);font-size:9px;font-weight:700;color:var(--t2);letter-spacing:.6px;text-transform:uppercase;border-bottom:1px solid var(--border);}
+.th>span{text-align:right;padding:0 3px;}
+.th>span:nth-child(1){text-align:center;}
+.th>span:nth-child(2){text-align:left;}
+.tr{padding:8px 10px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .1s;font-size:12px;}
+.tr:hover{background:#0e1828;}
+.tr.expanded{background:#0d192e;border-left:2px solid var(--cyan);}
+.tr>span{text-align:right;padding:0 3px;font-variant-numeric:tabular-nums;}
+.tr>span:nth-child(1){text-align:center;color:var(--t2);font-size:11px;}
+.tr>span:nth-child(2){text-align:left;}
+.nm{font-weight:700;color:var(--t0);}.cd{font-size:10px;color:var(--t2);}
+.chip{font-size:9px;font-weight:700;padding:2px 5px;border-radius:2px;letter-spacing:.3px;}
+.cB2{background:#0d3020;color:var(--green);border:1px solid var(--green2);}
+.cB1{background:#102818;color:#3fd880;border:1px solid #1e6040;}
+.cH{background:#2a1d00;color:var(--orange);border:1px solid #5a3c00;}
+.cO{background:#280c14;color:var(--red);border:1px solid #5a1020;}
 
-  .rate-row { display:flex; align-items:center; gap:8px; margin-top:8px; flex-wrap:wrap; }
-  .rate-row span { font-size:12px; color:#666; }
-  .rate-row input { width:72px; padding:6px 8px; border:1px solid var(--border); border-radius:4px; font-size:13px; }
-  #k-display { font-weight:700; color:var(--accent); font-size:15px; }
+.exp{display:none;background:#080e1a;border-bottom:2px solid var(--bord2);}
+.exp.open{display:block;}
+.exp-inner{padding:14px;}
 
-  /* ── Calculator results ── */
-  #calc-results { display:none; }
+.ctrl{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end;padding:10px 12px;
+  background:var(--bg2);border:1px solid var(--border);border-radius:3px;margin-bottom:10px;}
+.cg{display:flex;flex-direction:column;gap:2px;}
+.cg label{font-size:9px;color:var(--t1);text-transform:uppercase;letter-spacing:.4px;}
+.cg input{width:72px;padding:5px 7px;border:1px solid var(--border);border-radius:2px;
+  font-size:11px;background:var(--bg1);color:var(--t0);font-family:inherit;}
+.cg input:focus{outline:none;border-color:var(--cyan);}
+.kd{font-weight:700;color:var(--cyan);font-size:14px;padding-bottom:4px;}
 
-  /* ── 3-value cards ── */
-  .result-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:16px; }
-  @media(max-width:600px){ .result-cards { grid-template-columns:1fr; } }
-  .val-card { border-radius:10px; padding:16px; text-align:center; }
-  .val-card.max  { background:#eaf4fb; border:2px solid var(--accent); }
-  .val-card.fair { background:#eafaf1; border:2px solid var(--green); }
-  .val-card.min  { background:#fef9e7; border:2px solid var(--orange); }
-  .val-card .label { font-size:12px; font-weight:700; color:#555; margin-bottom:6px; }
-  .val-card .value { font-size:26px; font-weight:800; }
-  .val-card.max  .value { color:var(--accent); }
-  .val-card.fair .value { color:var(--green); }
-  .val-card.min  .value { color:var(--orange); }
-  .val-card .gap  { font-size:12px; margin-top:4px; }
-  .val-card .desc { font-size:11px; color:#777; margin-top:4px; }
+.vcards{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px;}
+@media(max-width:480px){.vcards{grid-template-columns:1fr;}}
+.vc{border-radius:3px;padding:11px;text-align:center;border:1px solid;}
+.vmx{background:#081424;border-color:#1a4060;}.vfr{background:#081a10;border-color:#1a5035;}.vmn{background:#1a1000;border-color:#503a10;}
+.vc .vl{font-size:9px;color:var(--t1);margin-bottom:5px;letter-spacing:.3px;}
+.vc .vv{font-size:19px;font-weight:700;font-variant-numeric:tabular-nums;}
+.vmx .vv{color:#60d0ff;}.vfr .vv{color:var(--green);}.vmn .vv{color:var(--orange);}
+.vc .vg{font-size:11px;margin-top:2px;}
 
-  /* ── Signal ── */
-  .signal-bar { padding:13px 20px; border-radius:8px; font-size:15px; font-weight:700; text-align:center; margin-bottom:16px; }
-  .sig-strong-buy { background:#1e8449; color:#fff; }
-  .sig-buy        { background:#27ae60; color:#fff; }
-  .sig-hold       { background:#f39c12; color:#fff; }
-  .sig-sell       { background:#e74c3c; color:#fff; }
-  .sig-over       { background:#c0392b; color:#fff; }
+.sig{padding:7px 12px;border-radius:3px;font-size:12px;font-weight:700;text-align:center;margin-bottom:10px;}
+.sB2{background:#082a16;color:var(--green);border:1px solid var(--green2);}
+.sB1{background:#0a2218;color:#3fd880;border:1px solid #1a5030;}
+.sH{background:#221600;color:var(--orange);border:1px solid #4a3200;}
+.sO{background:#220810;color:var(--red);border:1px solid #4a1020;}
 
-  /* ── Bar chart ── */
-  .bar-track { position:relative; height:34px; background:#eee; border-radius:6px; overflow:visible; }
-  .bar-seg { position:absolute; top:0; bottom:0; border-radius:4px; }
-  .bar-min  { background:#f39c12; }
-  .bar-fair { background:#27ae60; }
-  .bar-max  { background:#2980b9; }
-  .price-mark { position:absolute; top:-6px; width:3px; bottom:-6px; background:#c0392b; border-radius:2px; z-index:10; }
-  .price-lbl  { position:absolute; top:-20px; transform:translateX(-50%); font-size:11px; font-weight:700; color:#c0392b; white-space:nowrap; }
-  .bar-labels { display:flex; justify-content:space-between; margin-top:6px; font-size:11px; color:#777; }
-  .legend { margin-top:10px; display:flex; gap:14px; font-size:12px; flex-wrap:wrap; }
-  .legend span { display:flex; align-items:center; gap:4px; }
-  .leg-dot { width:12px; height:12px; border-radius:2px; }
+.btrack{position:relative;height:20px;background:#1a2436;border-radius:2px;overflow:visible;margin-bottom:2px;}
+.bseg{position:absolute;top:0;bottom:0;border-radius:2px;}
+.bmn{background:#b06000;}.bfr{background:var(--green2);}.bmx{background:var(--cyan2);}
+.pmk{position:absolute;top:-4px;width:2px;bottom:-4px;background:var(--red);z-index:10;}
+.plbl{position:absolute;top:-15px;transform:translateX(-50%);font-size:9px;font-weight:700;color:var(--red);white-space:nowrap;}
+.bends{display:flex;justify-content:space-between;font-size:9px;color:var(--t2);margin-bottom:8px;}
 
-  /* ── Detail table ── */
-  .dtable { width:100%; border-collapse:collapse; margin-top:12px; }
-  .dtable th,.dtable td { padding:8px 12px; text-align:right; font-size:13px; border-bottom:1px solid var(--border); }
-  .dtable th { background:#f4f6f8; font-weight:700; text-align:center; }
-  .dtable td:first-child { text-align:left; }
-  .dtable .hl { font-weight:700; color:var(--primary); }
+.dt{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:10px;}
+.dt th,.dt td{padding:5px 8px;border-bottom:1px solid var(--border);text-align:right;}
+.dt th{background:var(--bg3);font-size:9px;font-weight:700;color:var(--t1);text-align:center;letter-spacing:.3px;}
+.dt td:first-child{text-align:left;color:var(--t1);}
+.hl{color:var(--cyan);font-weight:700;}
 
-  /* ── Projection table ── */
-  .ptable { width:100%; border-collapse:collapse; font-size:12px; }
-  .ptable th,.ptable td { padding:5px 8px; border:1px solid #e0e0e0; text-align:center; white-space:nowrap; }
-  .ptable th { background:#eaf0fb; font-weight:700; }
-  .pos { color:var(--green); } .neg { color:var(--red); }
+.peertitle{font-size:10px;font-weight:700;color:var(--cyan);margin:12px 0 5px;letter-spacing:.8px;text-transform:uppercase;}
+.pg{display:grid;grid-template-columns:1fr 78px 52px 82px 82px 68px 58px;align-items:center;}
+.phead{padding:5px 10px;background:var(--bg3);font-size:9px;font-weight:700;color:var(--t1);border-radius:3px 3px 0 0;letter-spacing:.4px;text-transform:uppercase;}
+.phead>span{text-align:right;padding:0 3px;}
+.phead>span:first-child{text-align:left;}
+.prow{padding:6px 10px;background:var(--bg2);border-bottom:1px solid var(--border);font-size:11px;}
+.prow:last-child{border-radius:0 0 3px 3px;border-bottom:none;}
+.prow>span{text-align:right;padding:0 3px;font-variant-numeric:tabular-nums;}
+.prow>span:first-child{text-align:left;}
+.prow.cur{background:#162034;border-left:2px solid var(--orange);}
 
-  /* ══════════════════════════════════════════
-     저평가 랭킹 탭
-  ══════════════════════════════════════════ */
-  .rank-header {
-    display:grid;
-    grid-template-columns: 36px 1fr 90px 90px 90px 90px 90px 76px;
-    gap:4px; padding:10px 14px; background:#1a5276; color:#fff;
-    border-radius:8px 8px 0 0; font-size:12px; font-weight:700;
-    align-items:center; cursor:pointer; user-select:none;
-  }
-  .rank-header span { text-align:right; }
-  .rank-header span:first-child { text-align:center; }
-  .rank-header span:nth-child(2) { text-align:left; }
+/* US peer grid: ticker name exch price pe fpe rev_qoq ni_qoq target gap signal */
+.upg{display:grid;grid-template-columns:56px 1fr 46px 78px 50px 50px 58px 58px 74px 66px 58px;align-items:center;}
 
-  .rank-row-wrap { border-left:1px solid var(--border); border-right:1px solid var(--border); }
-  .rank-row-wrap:last-child { border-radius:0 0 8px 8px; border-bottom:1px solid var(--border); }
+/* US sector selector */
+.us-secs{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:5px;margin-bottom:10px;}
+.us-sb{padding:9px 11px;border:1px solid var(--border);border-radius:3px;cursor:pointer;
+  background:var(--bg2);color:var(--t1);font-size:11px;text-align:left;transition:all .12s;font-family:inherit;}
+.us-sb:hover{border-color:var(--cyan);color:var(--cyan);}
+.us-sb.active{background:var(--bg3);border-color:var(--cyan);color:var(--t0);}
+.us-sb .sbn{font-weight:700;display:block;}
+.us-sb .sbc{font-size:9px;color:var(--t2);}
 
-  .rank-row {
-    display:grid;
-    grid-template-columns: 36px 1fr 90px 90px 90px 90px 90px 76px;
-    gap:4px; padding:11px 14px; background:#fff; font-size:13px;
-    align-items:center; cursor:pointer; transition:background .12s;
-    border-bottom:1px solid #f0f0f0;
-  }
-  .rank-row:hover { background:#f0f7ff; }
-  .rank-row.expanded { background:#eaf4fb; }
-  .rank-row .num { text-align:center; font-weight:700; color:#999; }
-  .rank-row .name { font-weight:700; }
-  .rank-row .code { font-size:11px; color:#aaa; }
-  .rank-row .money { text-align:right; font-variant-numeric:tabular-nums; }
-  .rank-row .sig-chip {
-    text-align:center; font-size:11px; font-weight:700; padding:3px 6px;
-    border-radius:20px;
-  }
-  .rank-row .gap-cell { text-align:right; font-weight:700; }
+/* US metrics panel */
+.us-mets{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:8px;}
+@media(max-width:560px){.us-mets{grid-template-columns:repeat(2,1fr);}}
+.um{background:var(--bg2);border:1px solid var(--border);border-radius:3px;padding:9px;text-align:center;}
+.um .uml{font-size:9px;color:var(--t2);text-transform:uppercase;letter-spacing:.3px;margin-bottom:3px;}
+.um .umv{font-size:15px;font-weight:700;font-variant-numeric:tabular-nums;}
+.um-sec{font-size:10px;font-weight:700;color:var(--cyan);padding:6px 10px;background:var(--bg3);
+  border:1px solid var(--border);border-radius:3px;margin:10px 0 6px;letter-spacing:.5px;}
 
-  /* 확장 패널 */
-  .detail-panel { display:none; padding:20px; background:#f8fbff; border-bottom:1px solid var(--border); }
-  .detail-panel.open { display:block; }
-  .detail-panel .inner-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:14px; }
-  @media(max-width:620px){ .detail-panel .inner-cards { grid-template-columns:1fr; } }
-  .mini-card { border-radius:8px; padding:12px; text-align:center; }
-  .mini-card.max  { background:#eaf4fb; border:2px solid var(--accent); }
-  .mini-card.fair { background:#eafaf1; border:2px solid var(--green); }
-  .mini-card.min  { background:#fef9e7; border:2px solid var(--orange); }
-  .mini-card .lbl { font-size:11px; font-weight:700; color:#555; margin-bottom:4px; }
-  .mini-card .val { font-size:20px; font-weight:800; }
-  .mini-card.max  .val { color:var(--accent); }
-  .mini-card.fair .val { color:var(--green); }
-  .mini-card.min  .val { color:var(--orange); }
-  .mini-card .g   { font-size:11px; margin-top:3px; }
-  .open-calc-btn { float:right; padding:6px 14px; background:var(--primary); color:#fff; border:none; border-radius:6px; cursor:pointer; font-size:12px; font-weight:600; margin-bottom:10px; }
-  .open-calc-btn:hover { opacity:.85; }
+/* Sub-tabs */
+.stabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:10px;}
+.stb{padding:7px 14px;font-size:10px;font-weight:700;cursor:pointer;color:var(--t2);
+  border:none;background:none;border-bottom:2px solid transparent;margin-bottom:-1px;
+  transition:all .12s;font-family:inherit;letter-spacing:.5px;}
+.stb:hover{color:var(--t1);}
+.stb.active{color:var(--cyan);border-bottom-color:var(--cyan);}
+.subp{display:none;}.subp.active{display:block;}
 
-  @media(max-width:720px){
-    .rank-header, .rank-row { grid-template-columns: 28px 1fr 72px 72px 72px 60px; }
-    .rank-header span:nth-child(4),
-    .rank-header span:nth-child(5),
-    .rank-row .hide-sm { display:none; }
-  }
+.sectitle{font-size:11px;font-weight:700;color:var(--cyan);padding:8px 10px;
+  background:var(--bg2);border:1px solid var(--border);border-bottom:none;
+  border-radius:3px 3px 0 0;letter-spacing:.5px;}
 
-  footer { text-align:center; padding:24px; font-size:11px; color:#aaa; }
-  footer a { color:#aaa; }
+.ptbl{width:100%;border-collapse:collapse;font-size:10px;}
+.ptbl th,.ptbl td{padding:4px 6px;border:1px solid var(--border);text-align:center;white-space:nowrap;}
+.ptbl th{background:var(--bg3);color:var(--t1);font-size:9px;}
+
+.dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--green);
+  margin-right:4px;animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
+
+/* Exchange filter */
+.exch-row{display:flex;gap:4px;margin-bottom:8px;align-items:center;}
+.exch-lbl{font-size:9px;color:var(--t2);margin-right:4px;text-transform:uppercase;letter-spacing:.5px;}
+.exch-btn{padding:3px 10px;border:1px solid var(--border);border-radius:2px;font-size:10px;font-weight:700;
+  cursor:pointer;background:var(--bg2);color:var(--t1);transition:all .1s;font-family:inherit;}
+.exch-btn:hover{border-color:var(--cyan);color:var(--cyan);}
+.exch-btn.active{background:#001830;border-color:var(--cyan);color:var(--cyan);}
+.exch-btn.nq.active{background:#001418;border-color:#00aaff;color:#00aaff;}
+.exch-btn.ny.active{background:#180010;border-color:#aa44ff;color:#aa44ff;}
+
+/* US rank tab */
+.urk-sec{margin-bottom:16px;}
+.urk-title{font-size:11px;font-weight:700;color:var(--cyan);padding:6px 10px;
+  background:var(--bg2);border:1px solid var(--border);border-radius:3px 3px 0 0;
+  display:flex;align-items:center;gap:8px;}
+.urk-title .cnt{font-size:9px;color:var(--t2);font-weight:400;}
+.urk-search{padding:5px 10px;margin-bottom:8px;border:1px solid var(--border);border-radius:3px;
+  font-size:11px;background:var(--bg2);color:var(--t0);font-family:inherit;width:100%;max-width:300px;}
+.urk-search:focus{outline:none;border-color:var(--cyan);}
+
+/* Responsive */
+@media(max-width:900px){
+  .kg{grid-template-columns:26px minmax(100px,1fr) 78px 52px 82px 76px 64px;}
+  .kh-s,.kh-s-cell,.kh-pbr{display:none!important;}
+  .ug{grid-template-columns:52px minmax(100px,1fr) 76px 50px 50px 70px 62px;}
+  .uh-s{display:none!important;}
+  .upg{grid-template-columns:50px 1fr 72px 48px 68px 62px 56px;}
+  .uph-s{display:none!important;}
+}
+@media(max-width:620px){
+  .kg{grid-template-columns:22px 1fr 72px 78px 68px 56px;}
+  .kh-sm,.kh-sm-cell{display:none!important;}
+  .pg{grid-template-columns:1fr 68px 80px 60px 56px;}
+  .ph-sm{display:none!important;}
+  .ug{grid-template-columns:48px 1fr 70px 68px 60px;}
+  .uh-sm{display:none!important;}
+}
+footer{text-align:center;padding:14px;font-size:10px;color:var(--t2);border-top:1px solid var(--border);margin-top:16px;}
+footer a{color:var(--t2);}
 </style>
 </head>
 <body>
 
-<header>
-  <div>
-    <h1>📊 S-RIM 마법사 Plus</h1>
-    <div class="sub">잔여이익모델(RIM) 기반 주식 내재가치 계산기</div>
+<div class="hdr">
+  <div class="logo">S-RIM<span>TERMINAL v4</span></div>
+  <div class="hdr-right">
+    <span class="badge live"><span class="dot"></span>LIVE</span>
+    <span class="badge" id="upd-kr">KR --</span>
+    <span class="badge" id="upd-us">US --</span>
+    <span id="clk"></span>
   </div>
-  <span id="updated-badge">데이터 로딩 중...</span>
-</header>
-
-<!-- ── Tab 네비게이션 ── -->
-<div class="tab-nav">
-  <button class="tab-btn active" onclick="switchTab('calc')">🧮 계산기</button>
-  <button class="tab-btn"        onclick="switchTab('rank')">📉 저평가 순위</button>
 </div>
 
-<!-- ════════════════════════════════════════
-     탭 1: 계산기
-════════════════════════════════════════ -->
-<div id="tab-calc" class="tab-panel active">
-<div class="container">
-
-  <div class="card">
-    <h2>📋 종목 및 입력 정보</h2>
-
-    <div class="search-row">
-      <input id="inp-code"  type="text"   placeholder="종목코드 (예: 005930)" maxlength="10" style="max-width:150px;">
-      <input id="inp-name"  type="text"   placeholder="회사명" style="max-width:180px;">
-      <button class="btn btn-primary" onclick="loadPreset()">기본값 불러오기</button>
-    </div>
-
-    <div class="toggle-row" id="roe-toggle">
-      <span style="font-size:12px;color:#555;">ROE 기준:</span>
-      <button class="toggle-btn active" onclick="setRoeMode('annual')">1년후 기준</button>
-      <button class="toggle-btn"        onclick="setRoeMode('quarter')">최근분기 기준</button>
-    </div>
-
-    <div class="input-grid">
-      <div class="input-group">
-        <label>현재주가 (원)</label>
-        <input id="inp-price"  type="number" value="55800" min="0">
-      </div>
-      <div class="input-group">
-        <label>BPS — 주당자기자본 (원)</label>
-        <input id="inp-bps"    type="number" value="44643" min="0">
-        <div class="hint">= 자기자본(억원)×1억 ÷ 총주식수</div>
-      </div>
-      <div class="input-group">
-        <label>ROE (%)</label>
-        <input id="inp-roe"    type="number" value="13.55" step="0.01" min="0">
-      </div>
-      <div class="input-group">
-        <label>자기자본 (억원) <small style="color:#aaa">선택</small></label>
-        <input id="inp-equity" type="number" value="3032543" min="0" oninput="recalcBps()">
-      </div>
-      <div class="input-group">
-        <label>총주식수 <small style="color:#aaa">선택</small></label>
-        <input id="inp-shares" type="number" value="6792669250" min="1" oninput="recalcBps()">
-        <div class="hint">보통주 + 우선주</div>
-      </div>
-    </div>
-
-    <div style="margin-top:16px;">
-      <label style="font-size:12px;font-weight:700;color:#555;display:block;margin-bottom:6px;">요구수익률 (k)</label>
-      <div class="rate-row">
-        <span>무위험수익률</span>
-        <input id="inp-rf"  type="number" value="3.1" step="0.1" oninput="recalcK()"> %
-        <span style="font-weight:700;font-size:16px;color:#999;">+</span>
-        <span>ERP</span>
-        <input id="inp-erp" type="number" value="5.5" step="0.1" oninput="recalcK()"> %
-        <span style="font-weight:700;font-size:16px;color:var(--accent);">=</span>
-        <span id="k-display">8.60%</span>
-      </div>
-    </div>
-
-    <button class="btn btn-calc" onclick="calculate()">계산하기</button>
-  </div>
-
-  <div id="calc-results">
-    <div id="signal-bar" class="signal-bar">--</div>
-
-    <div class="result-cards">
-      <div class="val-card max">
-        <div class="label">🔵 최대가치 (초과이익 무한)</div>
-        <div class="value" id="v-max">--</div>
-        <div class="gap"   id="g-max"></div>
-        <div class="desc">ROE 영구 유지 시 상한</div>
-      </div>
-      <div class="val-card fair">
-        <div class="label">🟢 적정가치 (10년 수렴)</div>
-        <div class="value" id="v-fair">--</div>
-        <div class="gap"   id="g-fair"></div>
-        <div class="desc">ROE → k 10년 선형 수렴</div>
-      </div>
-      <div class="val-card min">
-        <div class="label">🟡 최소가치 (5년 수렴)</div>
-        <div class="value" id="v-min">--</div>
-        <div class="gap"   id="g-min"></div>
-        <div class="desc">ROE → k 5년 선형 수렴</div>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>📈 가치 범위 vs 현재주가</h2>
-      <div class="bar-track" id="bar-track">
-        <div class="bar-seg bar-min"  id="bar-min"></div>
-        <div class="bar-seg bar-fair" id="bar-fair-seg"></div>
-        <div class="bar-seg bar-max"  id="bar-max-seg"></div>
-        <div class="price-mark" id="price-mark">
-          <span class="price-lbl" id="price-lbl"></span>
-        </div>
-      </div>
-      <div class="bar-labels"><span id="bl-0"></span><span id="bl-max"></span></div>
-      <div class="legend">
-        <span><span class="leg-dot" style="background:#2980b9"></span>최대가치</span>
-        <span><span class="leg-dot" style="background:#27ae60"></span>적정가치</span>
-        <span><span class="leg-dot" style="background:#f39c12"></span>최소가치</span>
-        <span><span class="leg-dot" style="background:#c0392b"></span>현재주가</span>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>📊 상세 수치</h2>
-      <table class="dtable">
-        <thead><tr><th>항목</th><th>최대 (무한)</th><th>적정 (10년)</th><th>최소 (5년)</th></tr></thead>
-        <tbody id="detail-tbody"></tbody>
-      </table>
-    </div>
-
-    <div class="card">
-      <h2>📅 ROE 수렴 프로젝션 (10년)</h2>
-      <div style="overflow-x:auto;">
-        <table class="ptable" id="proj-table"></table>
-      </div>
-    </div>
-  </div>
-
+<div class="tabs">
+  <button class="tb active" onclick="switchTab('kospi')">🏛 KOSPI</button>
+  <button class="tb"        onclick="switchTab('kosdaq')">📈 KOSDAQ</button>
+  <button class="tb"        onclick="switchTab('us')">🇺🇸 US STOCKS</button>
+  <button class="tb"        onclick="switchTab('usrank')">🎯 US 저평가</button>
+  <button class="tb"        onclick="switchTab('rank')">📊 저평가 순위</button>
 </div>
-</div><!-- /tab-calc -->
 
-<!-- ════════════════════════════════════════
-     탭 2: 저평가 순위
-════════════════════════════════════════ -->
-<div id="tab-rank" class="tab-panel">
-<div class="container">
-
-  <div class="card" style="padding-bottom:0; overflow:hidden;">
-    <h2 style="padding:0 0 8px 0; margin-bottom:0;">
-      📉 저평가 순위
-      <span style="font-size:11px;color:#999;font-weight:400;margin-left:8px;">적정가치(10년) 기준 괴리율 순 정렬 · 클릭하면 상세 보기</span>
-    </h2>
-    <div style="padding:10px 0;">
-      <div class="rank-header">
-        <span>순위</span>
-        <span style="text-align:left;">종목명</span>
-        <span>현재주가</span>
-        <span>최소가치</span>
-        <span>적정가치</span>
-        <span class="hide-sm">최대가치</span>
-        <span>괴리율(적정)</span>
-        <span>신호</span>
-      </div>
-      <div id="rank-list"></div>
+<!-- ══ KOSPI ══ -->
+<div id="tab-kospi" class="panel active">
+<div class="wrap">
+  <div class="toolbar">
+    <input class="srch" id="sk-kospi" type="text" placeholder="종목명 / 코드 검색..." oninput="filterKr('kospi')">
+    <div class="sf-wrap" id="sf-kospi"></div>
+  </div>
+  <div class="stats-row" id="stats-kospi"></div>
+  <div class="tbl-wrap">
+    <div class="th kg">
+      <span>순위</span><span>종목명</span><span class="kh-s">업종</span>
+      <span>현재주가</span><span class="kh-sm">PER</span><span class="kh-sm">ROE</span>
+      <span>적정가치</span><span class="kh-s">최소가치</span>
+      <span>괴리율</span><span>신호</span>
     </div>
-    <div id="rank-empty" style="display:none; padding:24px; text-align:center; color:#aaa; font-size:13px;">
-      데이터를 불러오는 중입니다...
+    <div id="list-kospi"></div>
+  </div>
+</div>
+</div>
+
+<!-- ══ KOSDAQ ══ -->
+<div id="tab-kosdaq" class="panel">
+<div class="wrap">
+  <div class="toolbar">
+    <input class="srch" id="sk-kosdaq" type="text" placeholder="종목명 / 코드 검색..." oninput="filterKr('kosdaq')">
+    <div class="sf-wrap" id="sf-kosdaq"></div>
+  </div>
+  <div class="stats-row" id="stats-kosdaq"></div>
+  <div class="tbl-wrap">
+    <div class="th kg">
+      <span>순위</span><span>종목명</span><span class="kh-s">업종</span>
+      <span>현재주가</span><span class="kh-sm">PER</span><span class="kh-sm">ROE</span>
+      <span>적정가치</span><span class="kh-s">최소가치</span>
+      <span>괴리율</span><span>신호</span>
+    </div>
+    <div id="list-kosdaq"></div>
+  </div>
+</div>
+</div>
+
+<!-- ══ US STOCKS ══ -->
+<div id="tab-us" class="panel">
+<div class="wrap">
+  <div class="exch-row">
+    <span class="exch-lbl">거래소:</span>
+    <button class="exch-btn active" onclick="setUSExch('ALL',this)">전체</button>
+    <button class="exch-btn nq" onclick="setUSExch('NASDAQ',this)">NASDAQ</button>
+    <button class="exch-btn ny" onclick="setUSExch('NYSE',this)">NYSE</button>
+  </div>
+  <div id="us-sectors-grid" class="us-secs"></div>
+  <div class="stats-row" id="stats-us"></div>
+  <div class="tbl-wrap">
+    <div class="th ug">
+      <span>티커</span><span>종목명</span>
+      <span class="uh-s">거래소</span>
+      <span>현재가</span>
+      <span>P/E</span><span>Fwd P/E</span><span class="uh-sm">PEG</span>
+      <span class="uh-s">매출QoQ</span><span class="uh-s">이익QoQ</span>
+      <span>목표가</span><span>괴리율</span><span>신호</span>
+    </div>
+    <div id="list-us"><div style="padding:30px;text-align:center;color:var(--t2)">섹터를 선택하세요</div></div>
+  </div>
+</div>
+</div>
+
+<!-- ══ US 저평가 ══ -->
+<div id="tab-usrank" class="panel">
+<div class="wrap">
+  <div class="exch-row">
+    <span class="exch-lbl">거래소:</span>
+    <button class="exch-btn active" onclick="setUSRankExch('ALL',this)">전체</button>
+    <button class="exch-btn nq" onclick="setUSRankExch('NASDAQ',this)">NASDAQ</button>
+    <button class="exch-btn ny" onclick="setUSRankExch('NYSE',this)">NYSE</button>
+  </div>
+  <input class="urk-search" id="urk-search" type="text" placeholder="티커 / 종목명 검색..." oninput="filterUSRank()">
+  <div id="us-rank-content"><div style="padding:30px;text-align:center;color:var(--t2)">로딩 중...</div></div>
+</div>
+</div>
+
+<!-- ══ 저평가 순위 ══ -->
+<div id="tab-rank" class="panel">
+<div class="wrap">
+  <div class="stabs">
+    <button class="stb active" onclick="switchSub('rk','kospi100')">🏛 KOSPI 100</button>
+    <button class="stb"        onclick="switchSub('rk','kosdaq100')">📈 KOSDAQ 100</button>
+  </div>
+
+  <div id="rk-kospi100" class="subp active">
+    <div class="tbl-wrap">
+      <div class="sectitle">🏆 KOSPI 저평가 TOP 100 — 적정가치(RIM 10년) 대비 괴리율 순</div>
+      <div class="th kg">
+        <span>순위</span><span>종목명</span><span class="kh-s">업종</span>
+        <span>현재주가</span><span class="kh-sm">PER</span><span class="kh-sm">ROE</span>
+        <span>적정가치</span><span class="kh-s">최소가치</span>
+        <span>괴리율</span><span>신호</span>
+      </div>
+      <div id="rk-list-kospi"></div>
     </div>
   </div>
 
+  <div id="rk-kosdaq100" class="subp">
+    <div class="tbl-wrap">
+      <div class="sectitle">🏆 KOSDAQ 저평가 TOP 100 — 적정가치(RIM 10년) 대비 괴리율 순</div>
+      <div class="th kg">
+        <span>순위</span><span>종목명</span><span class="kh-s">업종</span>
+        <span>현재주가</span><span class="kh-sm">PER</span><span class="kh-sm">ROE</span>
+        <span>적정가치</span><span class="kh-s">최소가치</span>
+        <span>괴리율</span><span>신호</span>
+      </div>
+      <div id="rk-list-kosdaq"></div>
+    </div>
+  </div>
 </div>
-</div><!-- /tab-rank -->
+</div>
 
-<footer>
-  S-RIM 마법사 Plus · 잔여이익모델(Residual Income Model) 기반 가치평가<br>
-  본 계산기는 참고용이며 투자 결정의 책임은 투자자 본인에게 있습니다.
-  <br><a href="https://github.com/dicacros-gif/claudes" target="_blank">GitHub</a>
-</footer>
+<footer>S-RIM Terminal v4 · RIM + 실시간 데이터 기반 가치평가 · 참고용이며 투자 결정의 책임은 투자자 본인에게 있습니다 · <a href="https://github.com/dicacros-gif/claudes" target="_blank">GitHub</a></footer>
 
 <script>
-// ══════════════════════════════════════════
+// ════════════════════════════════════════════════════
 //  전역 상태
-// ══════════════════════════════════════════
-let roeMode  = 'annual';
-let stockData = null;
-let expandedCode = null;   // 현재 열린 종목
+// ════════════════════════════════════════════════════
+const G = {
+  rf:0.031, erp:0.055,
+  kospi:[], kosdaq:[], us:{},
+  activeSec:{kospi:null,kosdaq:null},
+  activeUS:null,
+  usExch:'ALL',
+  usRankExch:'ALL',
+};
 
-// ══════════════════════════════════════════
-//  탭 전환
-// ══════════════════════════════════════════
-function switchTab(tab) {
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-' + tab).classList.add('active');
-  document.querySelector(`.tab-btn[onclick="switchTab('${tab}')"]`).classList.add('active');
+// ── 시계 ──
+setInterval(()=>{
+  const n=new Date(), p=v=>String(v).padStart(2,'0');
+  document.getElementById('clk').textContent=`${p(n.getHours())}:${p(n.getMinutes())}:${p(n.getSeconds())}`;
+},1000);
+
+// ════════════════════════════════════════════════════
+//  수치 유틸
+// ════════════════════════════════════════════════════
+const fmt  = v => Math.round(v).toLocaleString('ko-KR');
+const fmtW = v => fmt(v)+'원';
+const fmtD = v => v!=null&&v!==0?`$${Number(v).toFixed(2)}`:'--';
+
+// Gradient colour: larger abs → deeper, near zero → faint
+function gradColor(n, isGood, cap=40){
+  const intensity = Math.min(Math.abs(n) / cap, 1.0);
+  const t = intensity;
+  if(isGood){
+    // faint green rgb(18,55,36) → vivid rgb(0,212,122)
+    const r=Math.round(18*(1-t)), g=Math.round(55+157*t), b=Math.round(36+86*t);
+    return `rgb(${r},${g},${b})`;
+  } else {
+    // faint red rgb(90,22,28) → vivid rgb(255,58,74)
+    const r=Math.round(90+165*t), g=Math.round(22+36*t), b=Math.round(28+46*t);
+    return `rgb(${r},${g},${b})`;
+  }
 }
 
-// ══════════════════════════════════════════
-//  초기화
-// ══════════════════════════════════════════
-window.addEventListener('DOMContentLoaded', () => {
-  recalcK();
-  fetchData();
+function gapHtml(v,p){
+  const g=(p-v)/v*100;
+  const color=gradColor(g, g<=0, 40);
+  return`<span style="color:${color}">${g>0?'+':''}${g.toFixed(1)}%</span>`;
+}
+function gapColor(gap, cap=40){
+  if(gap==null) return 'var(--t2)';
+  return gradColor(gap, gap<=0, cap);
+}
+function pctHtml(v, inv=false, cap=40){
+  if(v==null||v===undefined||v==='')return'<span style="color:var(--t2)">--</span>';
+  const n=Number(v);
+  if(isNaN(n))return'<span style="color:var(--t2)">--</span>';
+  if(n===0)return'<span style="color:var(--t2)">0.0%</span>';
+  const isGood=inv?(n<0):(n>0);
+  const color=gradColor(n, isGood, cap);
+  return`<span style="color:${color}">${n>0?'+':''}${n.toFixed(1)}%</span>`;
+}
+function n1(v){ if(v==null)return'--'; const f=Number(v); return isNaN(f)?'--':f.toFixed(1); }
+function n2(v){ if(v==null)return'--'; const f=Number(v); return isNaN(f)?'--':f.toFixed(2); }
+function nBig(v){ if(!v||v===0)return'--'; return Number(v).toLocaleString(); }
+
+// ════════════════════════════════════════════════════
+//  RIM (한국)
+// ════════════════════════════════════════════════════
+function rimInf(bps,roe,k){
+  if(roe<=k)return{v:bps,pv:0};
+  const pv=bps*(roe-k)/k; return{v:bps+pv,pv};
+}
+function rim(bps,roe,k,yrs){
+  let eq=bps,pv=0; const rows=[];
+  for(let t=1;t<=yrs;t++){
+    const w=(yrs-t)/yrs,rt=roe*w+k*(1-w),ri=eq*(rt-k),pvt=ri/Math.pow(1+k,t);
+    pv+=pvt; rows.push({t,rt,eq,ri,pvt,cum:pv}); eq*=(1+rt);
+  }
+  return{v:bps+pv,pv,rows};
+}
+function enrichKr(s){
+  const roe=s[5]/100, k=G.rf+G.erp;
+  const mx=rimInf(s[4],roe,k), fr=rim(s[4],roe,k,10), mn=rim(s[4],roe,k,5);
+  const gap=fr.v>0?(s[3]-fr.v)/fr.v*100:0;
+  return{
+    c:s[0],n:s[1],sec:s[2],p:s[3],b:s[4],r:s[5],
+    per:s[6],pbr:s[7],m:s[8],eg:s[9]||0,div:s[10]||0,
+    roe,k,vMax:mx.v,vFair:fr.v,vMin:mn.v,gap
+  };
+}
+
+// ── Korean signal ──
+function krSig(p,mn,fr,mx){
+  if(p<mn*.9) return{lbl:'강력매수',cls:'cB2',msg:'🚀 강력 매수 — 최소가치의 90% 미만'};
+  if(p<mn)    return{lbl:'매수',    cls:'cB1',msg:'✅ 매수 — 현재주가 ≤ 최소가치'};
+  if(p<fr)    return{lbl:'매수고려',cls:'cB1',msg:'🟢 매수 고려 — 현재주가 ≤ 적정가치'};
+  if(p<mx)    return{lbl:'보유',    cls:'cH', msg:'🟡 보유/관망 — 적정~최대가치 사이'};
+  return      {lbl:'고평가',       cls:'cO', msg:'🔴 고평가 — 현재주가 > 최대가치'};
+}
+
+// ════════════════════════════════════════════════════
+//  US 밸류에이션 신호
+// ════════════════════════════════════════════════════
+function usSig(s, peers){
+  let score=0;
+  if(s.gap!=null){
+    if(s.gap<-25)score+=2; else if(s.gap<-10)score+=1;
+    else if(s.gap>25)score-=2; else if(s.gap>10)score-=1;
+  }
+  if(s.peg>0&&s.peg<20){
+    if(s.peg<1)score+=2; else if(s.peg<1.5)score+=1;
+    else if(s.peg>3)score-=1;
+  }
+  const fpes=peers.map(p=>p.fper).filter(v=>v>0&&v<200);
+  if(fpes.length>2&&s.fper>0){
+    const sorted=[...fpes].sort((a,b)=>a-b);
+    const med=sorted[Math.floor(sorted.length/2)];
+    if(s.fper/med<0.75)score+=1; else if(s.fper/med>1.3)score-=1;
+  }
+  if(s.fpeg&&s.fpeg>0&&s.fpeg<20){ if(s.fpeg<1)score+=1; }
+  if(s.rev_qoq!=null&&s.rev_qoq>20)score+=1;
+  if(score>=3) return{lbl:'Strong Buy',cls:'cB2',msg:'🚀 Strong Buy — Multiple undervaluation signals'};
+  if(score>=1) return{lbl:'Buy',       cls:'cB1',msg:'✅ Buy — Analyst target + valuation discount'};
+  if(score<=-2)return{lbl:'Overvalued',cls:'cO', msg:'🔴 Overvalued — Above target, expensive metrics'};
+  if(score<=-1)return{lbl:'Caution',   cls:'cH', msg:'🟡 Caution — Approaching fair value'};
+  return       {lbl:'Hold',            cls:'cH', msg:'🟡 Hold — Near fair value'};
+}
+
+// ════════════════════════════════════════════════════
+//  데이터 로드
+// ════════════════════════════════════════════════════
+window.addEventListener('DOMContentLoaded',()=>{
+  Promise.all([
+    fetch('stocks.json?t='+Date.now()).then(r=>r.json()),
+    fetch('us_stocks.json?t='+Date.now()).then(r=>r.json()).catch(()=>null)
+  ]).then(([kr,us])=>{
+    G.rf=kr.rf??0.031; G.erp=kr.erp??0.055;
+    G.kospi =(kr.KOSPI ||[]).map(enrichKr).sort((a,b)=>a.gap-b.gap);
+    G.kosdaq=(kr.KOSDAQ||[]).map(enrichKr).sort((a,b)=>a.gap-b.gap);
+    document.getElementById('upd-kr').textContent='KR '+kr.updated;
+    ['kospi','kosdaq'].forEach(m=>{buildSF(m);renderStats(m);renderKr(m,G[m]);});
+    buildRankings();
+    if(us){
+      G.us=us.sectors||{};
+      document.getElementById('upd-us').textContent='US '+us.updated;
+      buildUSSectors();
+      buildUSRankTab();
+    } else {
+      document.getElementById('upd-us').textContent='US N/A';
+    }
+  }).catch(e=>console.error(e));
 });
 
-function fetchData() {
-  fetch('data.json?t=' + Date.now())
-    .then(r => r.json())
-    .then(d => {
-      stockData = d;
-      document.getElementById('updated-badge').textContent = '데이터 기준: ' + d.updated;
-      loadPreset();
-      calculate();
-      buildRanking();
-    })
-    .catch(() => {
-      document.getElementById('updated-badge').textContent = '기본값 사용 중';
-      calculate();
-    });
+// ════════════════════════════════════════════════════
+//  탭 전환
+// ════════════════════════════════════════════════════
+function switchTab(t){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tb').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
+  document.querySelector(`.tb[onclick="switchTab('${t}')"]`).classList.add('active');
+}
+function switchSub(grp,t){
+  document.querySelectorAll(`#tab-${grp} .subp`).forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll(`#tab-${grp} .stb`).forEach(b=>b.classList.remove('active'));
+  document.getElementById(`${grp}-${t}`).classList.add('active');
+  document.querySelector(`.stb[onclick="switchSub('${grp}','${t}')"]`).classList.add('active');
 }
 
-// ══════════════════════════════════════════
-//  계산기 탭 - 프리셋 & 입력
-// ══════════════════════════════════════════
-function loadPreset(code) {
-  if (!stockData || !stockData.stocks.length) return;
-  const s = code
-    ? (stockData.stocks.find(x => x.code === code) || stockData.stocks[0])
-    : (() => {
-        const c = document.getElementById('inp-code').value.trim();
-        return stockData.stocks.find(x => x.code === c) || stockData.stocks[0];
-      })();
-
-  document.getElementById('inp-code').value    = s.code;
-  document.getElementById('inp-name').value    = s.name;
-  document.getElementById('inp-price').value   = s.price;
-  document.getElementById('inp-equity').value  = s.equity_billion || '';
-  document.getElementById('inp-shares').value  = (s.shares_common || 0) + (s.shares_preferred || 0) || '';
-  document.getElementById('inp-rf').value      = +(s.risk_free * 100).toFixed(2);
-  document.getElementById('inp-erp').value     = +(s.erp * 100).toFixed(2);
-  recalcK();
-  document.getElementById('inp-roe').value = roeMode === 'annual'
-    ? +(s.roe_annual * 100).toFixed(2)
-    : +(s.roe_quarter * 100).toFixed(2);
-  if (s.bps) {
-    document.getElementById('inp-bps').value = s.bps;
-  } else {
-    recalcBps();
-  }
+// ════════════════════════════════════════════════════
+//  한국 섹터필터 / 통계 / 렌더
+// ════════════════════════════════════════════════════
+function buildSF(mkt){
+  const secs=[...new Set(G[mkt].map(s=>s.sec))].sort();
+  const w=document.getElementById('sf-'+mkt);
+  w.innerHTML=`<button class="sf active" onclick="setSec('${mkt}',null,this)">전체</button>`
+    +secs.map(s=>`<button class="sf" onclick="setSec('${mkt}','${s.replace(/'/g,"\\'")}',this)">${s}</button>`).join('');
+}
+function setSec(mkt,sec,btn){
+  G.activeSec[mkt]=sec;
+  document.querySelectorAll(`#sf-${mkt} .sf`).forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active'); filterKr(mkt);
+}
+function filterKr(mkt){
+  const q=document.getElementById('sk-'+mkt).value.trim();
+  const sec=G.activeSec[mkt];
+  const list=G[mkt].filter(s=>(!q||s.n.includes(q)||s.c.includes(q))&&(!sec||s.sec===sec));
+  renderKr(mkt,list);
+}
+function renderStats(mkt){
+  const list=G[mkt];
+  const buy=list.filter(s=>s.gap<0).length;
+  const medGap=(list[Math.floor(list.length/2)]||{gap:0}).gap;
+  const avgRoe=(list.reduce((a,s)=>a+s.r,0)/list.length).toFixed(1);
+  document.getElementById('stats-'+mkt).innerHTML=`
+    <div class="st"><div class="st-l">종목수</div><div class="st-v neu">${list.length}</div></div>
+    <div class="st"><div class="st-l">저평가</div><div class="st-v pos">${buy}</div></div>
+    <div class="st"><div class="st-l">중간 괴리율</div><div class="st-v ${medGap<0?'pos':'neg'}">${medGap>0?'+':''}${medGap.toFixed(1)}%</div></div>
+    <div class="st"><div class="st-l">평균 ROE</div><div class="st-v neu">${avgRoe}%</div></div>
+    <div class="st"><div class="st-l">요구수익률(k)</div><div class="st-v neu">${((G.rf+G.erp)*100).toFixed(2)}%</div></div>`;
 }
 
-function setRoeMode(mode) {
-  roeMode = mode;
-  document.querySelectorAll('#roe-toggle .toggle-btn').forEach((b, i) => {
-    b.classList.toggle('active', (mode==='annual'&&i===0)||(mode==='quarter'&&i===1));
-  });
-  if (stockData) {
-    const code = document.getElementById('inp-code').value.trim();
-    const s = stockData.stocks.find(x => x.code === code) || stockData.stocks[0];
-    if (s) document.getElementById('inp-roe').value = roeMode === 'annual'
-      ? +(s.roe_annual*100).toFixed(2)
-      : +(s.roe_quarter*100).toFixed(2);
-  }
-}
-
-function recalcBps() {
-  const eq = parseFloat(document.getElementById('inp-equity').value) || 0;
-  const sh = parseFloat(document.getElementById('inp-shares').value) || 1;
-  if (eq > 0 && sh > 0) document.getElementById('inp-bps').value = Math.round(eq * 1e8 / sh);
-}
-
-function recalcK() {
-  const rf  = parseFloat(document.getElementById('inp-rf').value)  || 0;
-  const erp = parseFloat(document.getElementById('inp-erp').value) || 0;
-  document.getElementById('k-display').textContent = (rf + erp).toFixed(2) + '%';
-}
-
-function getK() {
-  return ((parseFloat(document.getElementById('inp-rf').value)||0) +
-          (parseFloat(document.getElementById('inp-erp').value)||0)) / 100;
-}
-
-// ══════════════════════════════════════════
-//  핵심 RIM 계산 함수
-// ══════════════════════════════════════════
-function calcInfinite(bps, roe, k) {
-  if (roe <= k) return { value: bps, pvRI: 0, rows: [] };
-  const pvRI = bps * (roe - k) / k;
-  let eq = bps;
-  const rows = [];
-  for (let t = 1; t <= 10; t++) {
-    const ri = eq * (roe - k);
-    rows.push({ t, roe_t: roe, equity: eq, ri, pv: ri / Math.pow(1+k,t), cumPv: 0 });
-    eq *= (1 + roe);
-  }
-  return { value: bps + pvRI, pvRI, rows };
-}
-
-function calcRIM(bps, roe, k, years) {
-  let eq = bps, pvRI = 0;
-  const rows = [];
-  for (let t = 1; t <= years; t++) {
-    const w     = (years - t) / years;
-    const roe_t = roe * w + k * (1 - w);
-    const ri    = eq * (roe_t - k);
-    const pv    = ri / Math.pow(1 + k, t);
-    pvRI += pv;
-    rows.push({ t, roe_t, equity: eq, ri, pv, cumPv: pvRI });
-    eq *= (1 + roe_t);
-  }
-  return { value: bps + pvRI, pvRI, rows };
-}
-
-// ══════════════════════════════════════════
-//  계산기 탭 - 결과 렌더
-// ══════════════════════════════════════════
-function calculate() {
-  const price = parseFloat(document.getElementById('inp-price').value) || 0;
-  const bps   = parseFloat(document.getElementById('inp-bps').value)   || 0;
-  const roe   = parseFloat(document.getElementById('inp-roe').value)   / 100;
-  const k     = getK();
-  if (!bps || !roe || !k) return;
-
-  const mr = calcInfinite(bps, roe, k);
-  const fr = calcRIM(bps, roe, k, 10);
-  const nr = calcRIM(bps, roe, k, 5);
-
-  renderCalcResults(price, bps, roe, k, mr, fr, nr);
-}
-
-function renderCalcResults(price, bps, roe, k, mr, fr, nr) {
-  const vMax = mr.value, vFair = fr.value, vMin = nr.value;
-  const fmt  = v => Math.round(v).toLocaleString('ko-KR') + '원';
-  const gapHtml = (v, p) => {
-    if (!p) return '';
-    const g = ((p - v) / v * 100).toFixed(1);
-    return `<span style="color:${+g>0?'#c0392b':'#27ae60'}">${+g>0?'+':''}${g}%</span>`;
-  };
-
-  document.getElementById('v-max').textContent  = fmt(vMax);
-  document.getElementById('v-fair').textContent = fmt(vFair);
-  document.getElementById('v-min').textContent  = fmt(vMin);
-  document.getElementById('g-max').innerHTML    = gapHtml(vMax,  price);
-  document.getElementById('g-fair').innerHTML   = gapHtml(vFair, price);
-  document.getElementById('g-min').innerHTML    = gapHtml(vMin,  price);
-
-  const sb  = document.getElementById('signal-bar');
-  const sig = getSignal(price, vMin, vFair, vMax);
-  sb.className = 'signal-bar ' + sig.cls;
-  sb.textContent = sig.msg;
-
-  const cMax = Math.max(vMax, price) * 1.1;
-  const pct  = v => (v / cMax * 100).toFixed(2) + '%';
-  document.getElementById('bar-min').style.cssText      = `left:0;width:${pct(vMin)}`;
-  document.getElementById('bar-fair-seg').style.cssText = `left:0;width:${pct(vFair)}`;
-  document.getElementById('bar-max-seg').style.cssText  = `left:0;width:${pct(vMax)}`;
-  const pm = document.getElementById('price-mark');
-  pm.style.left = pct(price);
-  document.getElementById('price-lbl').textContent = price.toLocaleString('ko-KR') + '원';
-  document.getElementById('bl-0').textContent   = '0원';
-  document.getElementById('bl-max').textContent = Math.round(cMax).toLocaleString('ko-KR') + '원';
-
-  const spread = (roe - k) * 100;
-  document.getElementById('detail-tbody').innerHTML = [
-    ['BPS (주당자기자본)', fmt(bps), '', ''],
-    ['ROE', (roe*100).toFixed(2)+'%', '', ''],
-    ['요구수익률 (k)', (k*100).toFixed(2)+'%', '', ''],
-    ['ROE-k (Spread)', spread.toFixed(2)+'%', '', ''],
-    ['PV(잔여이익)', fmt(mr.pvRI), fmt(fr.pvRI), fmt(nr.pvRI)],
-    ['내재가치', fmt(vMax), fmt(vFair), fmt(vMin)],
-    ['현재주가 괴리율', gapHtml(vMax,price), gapHtml(vFair,price), gapHtml(vMin,price)],
-  ].map(([l,a,b,c]) => `<tr><td>${l}</td><td class="hl">${a}</td><td>${b}</td><td>${c}</td></tr>`).join('');
-
-  const maxRows = mr.rows.slice(0,10), fairRows = fr.rows;
-  let th = '<tr><th>연도</th><th>무한 ROE</th><th>무한 RI</th><th>10년 ROE</th><th>10년 RI</th><th>PV(10년)</th><th>누적 PV</th></tr>';
-  let tb = '';
-  for (let i = 0; i < 10; i++) {
-    const m = maxRows[i]||{}, f = fairRows[i]||{};
-    const cls = (f.ri||0) >= 0 ? 'pos' : 'neg';
-    tb += `<tr>
-      <td>+${i+1}년</td>
-      <td>${((m.roe_t||0)*100).toFixed(2)}%</td>
-      <td class="${cls}">${Math.round(m.ri||0).toLocaleString()}</td>
-      <td>${((f.roe_t||0)*100).toFixed(2)}%</td>
-      <td class="${cls}">${Math.round(f.ri||0).toLocaleString()}</td>
-      <td>${Math.round(f.pv||0).toLocaleString()}</td>
-      <td>${Math.round(f.cumPv||0).toLocaleString()}</td></tr>`;
-  }
-  document.getElementById('proj-table').innerHTML = th + tb;
-  document.getElementById('calc-results').style.display = 'block';
-}
-
-// ══════════════════════════════════════════
-//  신호 분류
-// ══════════════════════════════════════════
-function getSignal(price, vMin, vFair, vMax) {
-  if (price < vMin * 0.9)   return { cls:'sig-strong-buy', msg:'🚀 강력 매수 — 현재주가가 최소가치보다 10% 이상 저평가' };
-  if (price < vMin)         return { cls:'sig-buy',        msg:'✅ 매수 구간 — 현재주가 ≤ 최소가치' };
-  if (price < vFair)        return { cls:'sig-buy',        msg:'🟢 매수 고려 — 현재주가 ≤ 적정가치' };
-  if (price < vMax)         return { cls:'sig-hold',       msg:'🟡 보유 / 관망 — 현재주가가 적정~최대가치 사이' };
-  return                           { cls:'sig-over',       msg:'🔴 고평가 주의 — 현재주가 > 최대가치' };
-}
-
-function gapNum(v, p) {
-  if (!p) return '';
-  const g = ((p - v) / v * 100).toFixed(1);
-  return `<span style="color:${+g>0?'#c0392b':'#27ae60'}">${+g>0?'+':''}${g}%</span>`;
-}
-
-// ══════════════════════════════════════════
-//  저평가 순위 탭
-// ══════════════════════════════════════════
-function buildRanking() {
-  if (!stockData || !stockData.stocks.length) {
-    document.getElementById('rank-empty').style.display = 'block';
-    return;
-  }
-
-  const k_default = 0.086;   // 기본 요구수익률 (각 종목의 risk_free+erp 사용)
-
-  const enriched = stockData.stocks.map(s => {
-    const bps  = s.bps || (s.equity_billion > 0
-      ? Math.round(s.equity_billion * 1e8 / ((s.shares_common||0) + (s.shares_preferred||0)))
-      : 0);
-    const roe  = s.roe_annual || 0;
-    const k    = (s.risk_free || 0.031) + (s.erp || 0.055);
-    const mr   = calcInfinite(bps, roe, k);
-    const fr   = calcRIM(bps, roe, k, 10);
-    const nr   = calcRIM(bps, roe, k, 5);
-    const gap  = fr.value > 0 ? (s.price - fr.value) / fr.value * 100 : 0;
-    return { ...s, bps, k, vMax: mr.value, vFair: fr.value, vMin: nr.value, gap };
-  });
-
-  // 괴리율 오름차순 (가장 저평가 먼저)
-  enriched.sort((a, b) => a.gap - b.gap);
-
-  const list = document.getElementById('rank-list');
-  list.innerHTML = '';
-
-  enriched.forEach((s, idx) => {
-    const sig   = getSignal(s.price, s.vMin, s.vFair, s.vMax);
-    const sigBg = { 'sig-strong-buy':'#1e8449', 'sig-buy':'#27ae60', 'sig-hold':'#f39c12', 'sig-sell':'#e74c3c', 'sig-over':'#c0392b' }[sig.cls] || '#aaa';
-    const gapStr = s.gap.toFixed(1);
-    const gapClr = s.gap < 0 ? '#27ae60' : '#c0392b';
-    const fmt    = v => Math.round(v).toLocaleString('ko-KR');
-
-    const wrap = document.createElement('div');
-    wrap.className = 'rank-row-wrap';
-
-    const row = document.createElement('div');
-    row.className = 'rank-row';
-    row.dataset.code = s.code;
-    row.innerHTML = `
-      <span class="num">${idx + 1}</span>
-      <span><span class="name">${s.name}</span><br><span class="code">${s.code}</span></span>
-      <span class="money">${fmt(s.price)}</span>
-      <span class="money">${fmt(s.vMin)}</span>
-      <span class="money">${fmt(s.vFair)}</span>
-      <span class="money hide-sm">${fmt(s.vMax)}</span>
-      <span class="gap-cell" style="color:${gapClr}">${s.gap > 0 ? '+' : ''}${gapStr}%</span>
-      <span class="sig-chip" style="background:${sigBg};color:#fff;">${sigLabel(sig.cls)}</span>`;
-
-    const panel = document.createElement('div');
-    panel.className = 'detail-panel';
-    panel.innerHTML = buildDetailHtml(s);
-
-    row.addEventListener('click', () => toggleDetail(s.code, wrap, row, panel, s));
-
-    wrap.appendChild(row);
-    wrap.appendChild(panel);
-    list.appendChild(wrap);
+function renderKr(mkt, stocks, targetId){
+  const realMkt=mkt.startsWith('_rk_')?mkt.replace('_rk_',''):mkt;
+  const listId=targetId||'list-'+mkt;
+  const list=document.getElementById(listId); if(!list)return;
+  list.innerHTML='';
+  if(!stocks.length){list.innerHTML='<div style="padding:20px;text-align:center;color:var(--t2)">검색 결과 없음</div>';return;}
+  stocks.forEach((s,i)=>{
+    const sg=krSig(s.p,s.vMin,s.vFair,s.vMax);
+    const gc=gapColor(s.gap,35);
+    const id=(targetId?'rk-':'')+realMkt+'-'+s.c;
+    const row=document.createElement('div');
+    row.className='tr kg'; row.id='row-'+id;
+    row.innerHTML=`
+      <span>${i+1}</span>
+      <span><span class="nm">${s.n}</span><br><span class="cd">${s.c}</span></span>
+      <span class="kh-s kh-s-cell">${s.sec}</span>
+      <span>${fmt(s.p)}</span>
+      <span class="kh-sm kh-sm-cell">${s.per>0?s.per.toFixed(1):'--'}</span>
+      <span class="kh-sm kh-sm-cell">${s.r.toFixed(1)}%</span>
+      <span>${fmt(s.vFair)}</span>
+      <span class="kh-s kh-s-cell">${fmt(s.vMin)}</span>
+      <span style="color:${gc}">${s.gap>0?'+':''}${s.gap.toFixed(1)}%</span>
+      <span><span class="chip ${sg.cls}">${sg.lbl}</span></span>`;
+    const pan=document.createElement('div');
+    pan.className='exp'; pan.id='exp-'+id;
+    row.addEventListener('click',()=>toggleKr(id,realMkt,s));
+    list.appendChild(row); list.appendChild(pan);
   });
 }
 
-function sigLabel(cls) {
-  return { 'sig-strong-buy':'강력매수', 'sig-buy':'매수', 'sig-hold':'보유', 'sig-sell':'매도', 'sig-over':'고평가' }[cls] || '';
+function toggleKr(id,mkt,s){
+  const pan=document.getElementById('exp-'+id), row=document.getElementById('row-'+id);
+  const open=pan.classList.contains('open');
+  document.querySelectorAll('.exp.open').forEach(p=>p.classList.remove('open'));
+  document.querySelectorAll('.tr.expanded').forEach(r=>r.classList.remove('expanded'));
+  if(!open){
+    pan.innerHTML=buildKrPanel(mkt,s);
+    pan.classList.add('open'); row.classList.add('expanded');
+    row.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
 }
 
-function buildDetailHtml(s) {
-  const fmt = v => Math.round(v).toLocaleString('ko-KR') + '원';
-  const g   = (v, p) => {
-    if (!p) return '';
-    const pct = ((p - v) / v * 100).toFixed(1);
-    return `<span style="color:${+pct>0?'#c0392b':'#27ae60'}">${+pct>0?'+':''}${pct}%</span>`;
-  };
-
-  return `
-  <button class="open-calc-btn" onclick="openInCalc('${s.code}')">계산기로 열기 ↗</button>
-  <div class="inner-cards">
-    <div class="mini-card max">
-      <div class="lbl">🔵 최대가치 (무한)</div>
-      <div class="val">${fmt(s.vMax)}</div>
-      <div class="g">${g(s.vMax, s.price)}</div>
+function buildKrPanel(mkt,s){
+  const rf100=(G.rf*100).toFixed(1), erp100=(G.erp*100).toFixed(1);
+  const realMkt=mkt.startsWith('_rk_')?mkt.replace('_rk_',''):mkt;
+  const allStocks=G[realMkt]||[];
+  const peers=allStocks.filter(x=>x.sec===s.sec);
+  const peerHtml=peers.length>1?`
+    <div class="peertitle">🏢 동일업종 비교 — ${s.sec} (${peers.length}개 종목)</div>
+    <div class="phead pg"><span>종목명</span><span>현재주가</span><span>ROE</span><span>적정가치</span><span class="ph-sm">최소가치</span><span>괴리율</span><span>신호</span></div>
+    ${peers.map(p=>{const ps=krSig(p.p,p.vMin,p.vFair,p.vMax);const gc=gapColor(p.gap,35);
+      return`<div class="prow pg${p.c===s.c?' cur':''}">
+        <span><b>${p.n}</b> <span style="font-size:9px;color:var(--t2)">${p.c}</span></span>
+        <span>${fmt(p.p)}</span><span>${p.r.toFixed(1)}%</span>
+        <span>${fmt(p.vFair)}</span><span class="ph-sm">${fmt(p.vMin)}</span>
+        <span style="color:${gc}">${p.gap>0?'+':''}${p.gap.toFixed(1)}%</span>
+        <span><span class="chip ${ps.cls}">${ps.lbl}</span></span>
+      </div>`}).join('')}`:'';
+  return`<div class="exp-inner">
+    <div class="ctrl">
+      <div class="cg"><label>ROE (%)</label><input id="cr-${s.c}" type="number" value="${s.r.toFixed(2)}" step="0.1" oninput="recompKr('${realMkt}','${s.c}')"></div>
+      <div class="cg"><label>무위험수익률 (%)</label><input id="rf-${s.c}" type="number" value="${rf100}" step="0.1" oninput="recompKr('${realMkt}','${s.c}')"></div>
+      <div class="cg"><label>ERP (%)</label><input id="ep-${s.c}" type="number" value="${erp100}" step="0.1" oninput="recompKr('${realMkt}','${s.c}')"></div>
+      <div class="kd" id="kd-${s.c}">k = ${(s.k*100).toFixed(2)}%</div>
     </div>
-    <div class="mini-card fair">
-      <div class="lbl">🟢 적정가치 (10년)</div>
-      <div class="val">${fmt(s.vFair)}</div>
-      <div class="g">${g(s.vFair, s.price)}</div>
-    </div>
-    <div class="mini-card min">
-      <div class="lbl">🟡 최소가치 (5년)</div>
-      <div class="val">${fmt(s.vMin)}</div>
-      <div class="g">${g(s.vMin, s.price)}</div>
-    </div>
-  </div>
-  ${buildMiniBar(s)}
-  <table class="dtable" style="margin-top:0;">
-    <thead><tr><th>항목</th><th>값</th><th>항목</th><th>값</th></tr></thead>
-    <tbody>
-      <tr><td>BPS</td><td class="hl">${Math.round(s.bps).toLocaleString()}원</td>
-          <td>ROE</td><td>${(s.roe_annual*100).toFixed(2)}%</td></tr>
-      <tr><td>요구수익률(k)</td><td class="hl">${(s.k*100).toFixed(2)}%</td>
-          <td>Spread</td><td>${((s.roe_annual-s.k)*100).toFixed(2)}%</td></tr>
-      <tr><td>현재주가</td><td class="hl">${s.price.toLocaleString()}원</td>
-          <td>적정가치 괴리율</td><td>${s.gap.toFixed(1)}%</td></tr>
-    </tbody>
-  </table>`;
-}
-
-function buildMiniBar(s) {
-  const cMax = Math.max(s.vMax, s.price) * 1.1;
-  const pct  = v => (v / cMax * 100).toFixed(2) + '%';
-  return `
-  <div style="margin:12px 0 14px;">
-    <div class="bar-track" style="height:26px;">
-      <div class="bar-seg bar-min"  style="left:0;width:${pct(s.vMin)}"></div>
-      <div class="bar-seg bar-fair" style="left:0;width:${pct(s.vFair)}"></div>
-      <div class="bar-seg bar-max"  style="left:0;width:${pct(s.vMax)}"></div>
-      <div class="price-mark" style="left:${pct(s.price)}">
-        <span class="price-lbl">${s.price.toLocaleString()}원</span>
-      </div>
-    </div>
-    <div class="bar-labels"><span>0원</span><span>${Math.round(cMax).toLocaleString()}원</span></div>
+    <div id="kr-res-${s.c}">${krResHtml(s)}</div>
+    ${peerHtml}
   </div>`;
 }
 
-function toggleDetail(code, wrap, row, panel, s) {
-  const isOpen = panel.classList.contains('open');
-  // 모든 패널 닫기
-  document.querySelectorAll('.detail-panel.open').forEach(p => p.classList.remove('open'));
-  document.querySelectorAll('.rank-row.expanded').forEach(r => r.classList.remove('expanded'));
-  expandedCode = null;
+function krResHtml(s){
+  const sg=krSig(s.p,s.vMin,s.vFair,s.vMax);
+  const cMax=Math.max(s.vMax,s.p)*1.1;
+  const pct=v=>(v/cMax*100).toFixed(2)+'%';
+  const spread=((s.roe-s.k)*100).toFixed(2);
+  const fr10=rim(s.b,s.roe,s.k,10);
+  let proj='';
+  fr10.rows.forEach(r=>{
+    proj+=`<tr><td>+${r.t}년</td><td>${(r.rt*100).toFixed(2)}%</td>
+      <td class="${r.ri>=0?'pos':'neg'}">${fmt(r.ri)}</td>
+      <td>${fmt(r.pvt)}</td><td>${fmt(r.cum)}</td></tr>`;
+  });
+  return`<div class="sig ${sg.cls}">${sg.msg}</div>
+  <div class="vcards">
+    <div class="vc vmx"><div class="vl">🔵 최대가치 (무한)</div><div class="vv">${fmtW(s.vMax)}</div><div class="vg">${gapHtml(s.vMax,s.p)}</div></div>
+    <div class="vc vfr"><div class="vl">🟢 적정가치 (10년)</div><div class="vv">${fmtW(s.vFair)}</div><div class="vg">${gapHtml(s.vFair,s.p)}</div></div>
+    <div class="vc vmn"><div class="vl">🟡 최소가치 (5년)</div><div class="vv">${fmtW(s.vMin)}</div><div class="vg">${gapHtml(s.vMin,s.p)}</div></div>
+  </div>
+  <div class="btrack">
+    <div class="bseg bmn" style="left:0;width:${pct(s.vMin)}"></div>
+    <div class="bseg bfr" style="left:0;width:${pct(s.vFair)}"></div>
+    <div class="bseg bmx" style="left:0;width:${pct(s.vMax)}"></div>
+    <div class="pmk" style="left:${pct(s.p)}"><span class="plbl">${fmt(s.p)}원</span></div>
+  </div>
+  <div class="bends"><span>0원</span><span>${fmtW(Math.round(cMax))}</span></div>
+  <table class="dt">
+    <thead><tr><th>항목</th><th>최대(무한)</th><th>적정(10년)</th><th>최소(5년)</th></tr></thead>
+    <tbody>
+      <tr><td>BPS</td><td class="hl" colspan="3">${fmtW(s.b)}</td></tr>
+      <tr><td>ROE</td><td colspan="3">${(s.roe*100).toFixed(2)}%</td></tr>
+      <tr><td>요구수익률(k)</td><td colspan="3">${(s.k*100).toFixed(2)}%</td></tr>
+      <tr><td>Spread (ROE−k)</td><td colspan="3"><span class="${+spread>0?'pos':'neg'}">${spread}%</span></td></tr>
+      <tr><td>PER / PBR</td><td class="hl" colspan="3">${s.per>0?s.per.toFixed(1):'--'}× / ${s.pbr>0?s.pbr.toFixed(2):'--'}×</td></tr>
+      <tr><td>EPS 성장(YoY)</td><td colspan="3">${pctHtml(s.eg)}</td></tr>
+      ${s.div>0?`<tr><td>배당수익률</td><td colspan="3"><span class="pos">${s.div.toFixed(2)}%</span></td></tr>`:''}
+      <tr><td>내재가치</td><td class="hl">${fmtW(s.vMax)}</td><td class="hl">${fmtW(s.vFair)}</td><td class="hl">${fmtW(s.vMin)}</td></tr>
+      <tr><td>괴리율</td><td>${gapHtml(s.vMax,s.p)}</td><td>${gapHtml(s.vFair,s.p)}</td><td>${gapHtml(s.vMin,s.p)}</td></tr>
+    </tbody>
+  </table>
+  <details><summary style="cursor:pointer;font-size:10px;color:var(--cyan);padding:4px 0;letter-spacing:.3px">▶ ROE 수렴 프로젝션 (10년)</summary>
+    <div style="overflow-x:auto;margin-top:6px;">
+      <table class="ptbl">
+        <thead><tr><th>연도</th><th>ROE_t</th><th>잔여이익</th><th>PV</th><th>누적PV</th></tr></thead>
+        <tbody>${proj}</tbody>
+      </table>
+    </div>
+  </details>`;
+}
 
-  if (!isOpen) {
-    panel.classList.add('open');
-    row.classList.add('expanded');
-    expandedCode = code;
-    wrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+function recompKr(mkt,code){
+  const base=G[mkt]?G[mkt].find(s=>s.c===code):null;if(!base)return;
+  const roe=(parseFloat(document.getElementById('cr-'+code).value)||0)/100;
+  const rf =(parseFloat(document.getElementById('rf-'+code).value)||0)/100;
+  const erp=(parseFloat(document.getElementById('ep-'+code).value)||0)/100;
+  const k=rf+erp;
+  const kd=document.getElementById('kd-'+code);if(kd)kd.textContent=`k = ${(k*100).toFixed(2)}%`;
+  const mx=rimInf(base.b,roe,k),fr=rim(base.b,roe,k,10),mn=rim(base.b,roe,k,5);
+  const s={...base,roe,r:roe*100,k,vMax:mx.v,vFair:fr.v,vMin:mn.v};
+  s.gap=fr.v>0?(s.p-fr.v)/fr.v*100:0;
+  const el=document.getElementById('kr-res-'+code);if(el)el.innerHTML=krResHtml(s);
+}
+
+// ════════════════════════════════════════════════════
+//  미국 — 거래소 필터
+// ════════════════════════════════════════════════════
+function setUSExch(exch, btn){
+  G.usExch=exch;
+  document.querySelectorAll('#tab-us .exch-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  buildUSSectors();
+  if(G.activeUS){
+    const stocks=getUSStocks(G.activeUS);
+    renderUSStats(G.activeUS,stocks);
+    renderUS(stocks);
+  }
+}
+function setUSRankExch(exch, btn){
+  G.usRankExch=exch;
+  document.querySelectorAll('#tab-usrank .exch-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  buildUSRankTab();
+}
+function getUSStocks(sec){
+  const all=G.us[sec]||[];
+  if(G.usExch==='ALL')return all;
+  return all.filter(s=>s.exch===G.usExch);
+}
+function getUSRankStocks(sec){
+  const all=G.us[sec]||[];
+  if(G.usRankExch==='ALL')return all;
+  return all.filter(s=>s.exch===G.usRankExch);
+}
+
+// ════════════════════════════════════════════════════
+//  미국 섹터 그리드
+// ════════════════════════════════════════════════════
+function buildUSSectors(){
+  const wrap=document.getElementById('us-sectors-grid');
+  const secs=Object.keys(G.us);
+  wrap.innerHTML=secs.map(s=>{
+    const stocks=getUSStocks(s);
+    const buy=stocks.filter(x=>x.gap!=null&&x.gap<0).length;
+    const active=G.activeUS===s?' active':'';
+    return`<button class="us-sb${active}" onclick="selectUSSec('${s.replace(/'/g,"\\'")}',this)">
+      <span class="sbn">${s}</span>
+      <span class="sbc">${stocks.length}종목 · 저평가 ${buy}개</span>
+    </button>`;
+  }).join('');
+  if(secs.length&&!G.activeUS) selectUSSec(secs[0], wrap.querySelector('.us-sb'));
+}
+
+function selectUSSec(sec, btn){
+  G.activeUS=sec;
+  document.querySelectorAll('.us-sb').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  const stocks=getUSStocks(sec);
+  renderUSStats(sec,stocks);
+  renderUS(stocks);
+}
+
+function renderUSStats(sec,stocks){
+  const buy=stocks.filter(s=>s.gap!=null&&s.gap<0).length;
+  const fpes=stocks.filter(s=>s.fper>0); const avgFpe=(fpes.reduce((a,s)=>a+s.fper,0)/(fpes.length||1)).toFixed(1);
+  const rgs=stocks.filter(s=>s.rev_g!=null); const avgRg=(rgs.reduce((a,s)=>a+s.rev_g,0)/(rgs.length||1)).toFixed(1);
+  const qs=stocks.filter(s=>s.rev_qoq!=null); const avgQoQ=(qs.reduce((a,s)=>a+s.rev_qoq,0)/(qs.length||1)).toFixed(1);
+  document.getElementById('stats-us').innerHTML=`
+    <div class="st"><div class="st-l">섹터</div><div class="st-v neu" style="font-size:10px">${sec}</div></div>
+    <div class="st"><div class="st-l">종목수</div><div class="st-v neu">${stocks.length}</div></div>
+    <div class="st"><div class="st-l">목표가 저평가</div><div class="st-v pos">${buy}</div></div>
+    <div class="st"><div class="st-l">평균 Fwd P/E</div><div class="st-v neu">${avgFpe}×</div></div>
+    <div class="st"><div class="st-l">평균 매출성장(YoY)</div><div class="st-v ${+avgRg>0?'pos':'neg'}">${+avgRg>0?'+':''}${avgRg}%</div></div>
+    <div class="st"><div class="st-l">평균 매출성장(QoQ)</div><div class="st-v ${+avgQoQ>0?'pos':'neg'}">${+avgQoQ>0?'+':''}${avgQoQ}%</div></div>`;
+}
+
+function renderUS(stocks){
+  const list=document.getElementById('list-us');
+  list.innerHTML='';
+  if(!stocks.length){list.innerHTML='<div style="padding:20px;text-align:center;color:var(--t2)">데이터 없음</div>';return;}
+  const peers=stocks;
+  stocks.forEach((s,i)=>{
+    const sg=usSig(s,peers);
+    const gc=gapColor(s.gap,35);
+    const id='us-'+s.t;
+    const exchColor=s.exch==='NASDAQ'?'#00aaff':s.exch==='NYSE'?'#aa44ff':'var(--t2)';
+    const row=document.createElement('div');
+    row.className='tr ug'; row.id='row-'+id;
+    row.innerHTML=`
+      <span><b>${s.t}</b></span>
+      <span><span class="nm">${s.n}</span></span>
+      <span class="uh-s" style="color:${exchColor};font-size:9px">${s.exch||'--'}</span>
+      <span>$${s.p.toFixed(2)}</span>
+      <span>${s.per>0?s.per.toFixed(1)+'×':'--'}</span>
+      <span>${s.fper>0?s.fper.toFixed(1)+'×':'--'}</span>
+      <span class="uh-sm">${s.peg>0&&s.peg<20?s.peg.toFixed(2):'--'}</span>
+      <span class="uh-s">${pctHtml(s.rev_qoq)}</span>
+      <span class="uh-s">${pctHtml(s.ni_qoq)}</span>
+      <span>${s.tgt?'$'+s.tgt.toFixed(2):'--'}</span>
+      <span style="color:${gc}">${s.gap!=null?(s.gap>0?'+':'')+s.gap.toFixed(1)+'%':'--'}</span>
+      <span><span class="chip ${sg.cls}">${sg.lbl}</span></span>`;
+    const pan=document.createElement('div');
+    pan.className='exp'; pan.id='exp-'+id;
+    row.addEventListener('click',()=>toggleUS(id,s,peers));
+    list.appendChild(row); list.appendChild(pan);
+  });
+}
+
+function toggleUS(id,s,peers){
+  const pan=document.getElementById('exp-'+id), row=document.getElementById('row-'+id);
+  const open=pan.classList.contains('open');
+  document.querySelectorAll('.exp.open').forEach(p=>p.classList.remove('open'));
+  document.querySelectorAll('.tr.expanded').forEach(r=>r.classList.remove('expanded'));
+  if(!open){
+    pan.innerHTML=buildUSPanel(s,peers);
+    pan.classList.add('open'); row.classList.add('expanded');
+    row.scrollIntoView({behavior:'smooth',block:'nearest'});
   }
 }
 
-function openInCalc(code) {
-  loadPreset(code);
-  calculate();
-  switchTab('calc');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+function buildUSPanel(s,peers){
+  const sg=usSig(s,peers);
+  const rec={'strong_buy':'Strong Buy','buy':'Buy','hold':'Hold','underperform':'Underperform','sell':'Sell'}[s.rec]||s.rec||'N/A';
+  const peerHtml=`
+    <div class="peertitle">🏢 섹터 비교 — ${G.activeUS||''} (${peers.length}종목)</div>
+    <div class="phead upg">
+      <span>티커/종목</span><span>거래소</span><span>현재가</span>
+      <span>P/E</span><span>Fwd P/E</span><span>매출QoQ</span><span>이익QoQ</span>
+      <span>목표가</span><span>갭</span><span>신호</span>
+    </div>
+    ${peers.map(p=>{
+      const ps=usSig(p,peers); const gc=gapColor(p.gap,35);
+      const ec=p.exch==='NASDAQ'?'#00aaff':p.exch==='NYSE'?'#aa44ff':'var(--t2)';
+      return`<div class="prow upg${p.t===s.t?' cur':''}">
+        <span><b>${p.t}</b> <span style="font-size:9px;color:var(--t2)">${p.n}</span></span>
+        <span style="color:${ec};font-size:9px">${p.exch||'--'}</span>
+        <span>$${p.p.toFixed(2)}</span>
+        <span>${p.per>0?p.per.toFixed(1)+'×':'--'}</span>
+        <span>${p.fper>0?p.fper.toFixed(1)+'×':'--'}</span>
+        <span>${pctHtml(p.rev_qoq)}</span>
+        <span>${pctHtml(p.ni_qoq)}</span>
+        <span>${p.tgt?'$'+p.tgt.toFixed(2):'--'}</span>
+        <span style="color:${gc}">${p.gap!=null?(p.gap>0?'+':'')+p.gap.toFixed(1)+'%':'--'}</span>
+        <span><span class="chip ${ps.cls}">${ps.lbl}</span></span>
+      </div>`;
+    }).join('')}`;
+
+  // helper: growth value with intensity color
+  const gv=(v,cap=50)=>{
+    if(v==null)return'<span style="color:var(--t2)">--</span>';
+    const n=Number(v); if(isNaN(n))return'<span style="color:var(--t2)">--</span>';
+    if(n===0)return'<span style="color:var(--t2)">0.0%</span>';
+    const color=gradColor(n,n>0,cap);
+    return`<span style="color:${color}">${n>0?'+':''}${n.toFixed(1)}%</span>`;
+  };
+
+  return`<div class="exp-inner">
+    <div class="sig ${sg.cls}">${sg.msg}</div>
+
+    <div class="um-sec">📊 가격 / 목표가</div>
+    <div class="us-mets">
+      <div class="um"><div class="uml">현재가</div><div class="umv">$${s.p.toFixed(2)}</div></div>
+      <div class="um"><div class="uml">애널 목표가(평균)</div><div class="umv ${s.gap!=null&&s.gap<0?'pos':'neg'}">${s.tgt?'$'+s.tgt.toFixed(2):'--'}</div></div>
+      <div class="um"><div class="uml">목표가 범위</div><div class="umv" style="font-size:12px">${s.tgt_lo?'$'+s.tgt_lo.toFixed(0):'--'} ~ ${s.tgt_hi?'$'+s.tgt_hi.toFixed(0):'--'}</div></div>
+      <div class="um"><div class="uml">애널 추천 (${s.nrec||0}명)</div><div class="umv" style="font-size:12px">${rec}</div></div>
+    </div>
+
+    <div class="um-sec">📐 밸류에이션</div>
+    <div class="us-mets">
+      <div class="um"><div class="uml">P/E (TTM)</div><div class="umv">${s.per>0?s.per.toFixed(1)+'×':'--'}</div></div>
+      <div class="um"><div class="uml">Fwd P/E</div><div class="umv">${s.fper>0?s.fper.toFixed(1)+'×':'--'}</div></div>
+      <div class="um"><div class="uml">PEG (TTM)</div><div class="umv ${s.peg>0&&s.peg<1.5?'pos':s.peg>3?'neg':''}">${s.peg>0&&s.peg<20?s.peg.toFixed(2):'--'}</div></div>
+      <div class="um"><div class="uml">Fwd PEG</div><div class="umv ${s.fpeg&&s.fpeg<1.5?'pos':s.fpeg&&s.fpeg>3?'neg':''}">${s.fpeg&&s.fpeg>0&&s.fpeg<20?s.fpeg.toFixed(2):'--'}</div></div>
+    </div>
+    <div class="us-mets">
+      <div class="um"><div class="uml">P/S (TTM)</div><div class="umv">${s.ps>0?s.ps.toFixed(1)+'×':'--'}</div></div>
+      <div class="um"><div class="uml">P/B</div><div class="umv">${s.pbr>0?s.pbr.toFixed(1)+'×':'--'}</div></div>
+      <div class="um"><div class="uml">EV/Sales</div><div class="umv">${s.ev_r>0?s.ev_r.toFixed(1)+'×':'--'}</div></div>
+      <div class="um"><div class="uml">EV/EBITDA</div><div class="umv">${s.ev_ebitda>0?s.ev_ebitda.toFixed(1)+'×':'--'}</div></div>
+    </div>
+
+    <div class="um-sec">📈 성장률 — 실적</div>
+    <div class="us-mets">
+      <div class="um"><div class="uml">매출 YoY (TTM)</div><div class="umv">${gv(s.rev_g)}</div></div>
+      <div class="um"><div class="uml">EPS YoY (TTM)</div><div class="umv">${gv(s.eps_g)}</div></div>
+      <div class="um"><div class="uml">매출 QoQ (전분기比)</div><div class="umv">${gv(s.rev_qoq)}</div></div>
+      <div class="um"><div class="uml">순이익 QoQ (전분기比)</div><div class="umv">${gv(s.ni_qoq)}</div></div>
+    </div>
+    <div class="us-mets">
+      <div class="um"><div class="uml">매출 YoY (최근분기)</div><div class="umv">${gv(s.rev_yoy_q)}</div></div>
+      <div class="um"><div class="uml">순이익 YoY (최근분기)</div><div class="umv">${gv(s.ni_yoy_q)}</div></div>
+      <div class="um"><div class="uml">EPS 분기 YoY</div><div class="umv">${gv(s.eps_qg)}</div></div>
+      <div class="um"><div class="uml">Forward EPS</div><div class="umv">${s.fwd_eps?'$'+Number(s.fwd_eps).toFixed(2):'--'}</div></div>
+    </div>
+
+    <div class="um-sec">🔮 미래 예측 (애널리스트 컨센서스)</div>
+    <div class="us-mets">
+      <div class="um"><div class="uml">매출 성장 (내년)</div><div class="umv">${gv(s.fwd_rev_g)}</div></div>
+      <div class="um"><div class="uml">매출 성장 (내후년)</div><div class="umv">${gv(s.fwd_rev_g2)}</div></div>
+      <div class="um"><div class="uml">EPS 성장 (내년)</div><div class="umv">${gv(s.fwd_eps_g)}</div></div>
+      <div class="um"><div class="uml">EPS 성장 (내후년)</div><div class="umv">${gv(s.fwd_eps_g2)}</div></div>
+    </div>
+
+    <div class="um-sec">💰 수익성</div>
+    <div class="us-mets">
+      <div class="um"><div class="uml">매출총이익률</div><div class="umv ${s.gm>50?'pos':s.gm>20?'neu':'neg'}">${s.gm!=null?s.gm.toFixed(1)+'%':'--'}</div></div>
+      <div class="um"><div class="uml">영업이익률</div><div class="umv ${s.om>20?'pos':s.om>5?'neu':'neg'}">${s.om!=null?s.om.toFixed(1)+'%':'--'}</div></div>
+      <div class="um"><div class="uml">순이익률</div><div class="umv ${s.nm>15?'pos':s.nm>0?'neu':'neg'}">${s.nm!=null?s.nm.toFixed(1)+'%':'--'}</div></div>
+      <div class="um"><div class="uml">FCF Yield</div><div class="umv ${s.fcf_yield>3?'pos':''}">${s.fcf_yield!=null?s.fcf_yield.toFixed(1)+'%':'--'}</div></div>
+    </div>
+    <div class="us-mets">
+      <div class="um"><div class="uml">ROE</div><div class="umv ${s.roe>15?'pos':''}">${s.roe!=null?s.roe.toFixed(1)+'%':'--'}</div></div>
+      <div class="um"><div class="uml">ROA</div><div class="umv ${s.roa>8?'pos':''}">${s.roa!=null?s.roa.toFixed(1)+'%':'--'}</div></div>
+      <div class="um"><div class="uml">부채비율 (D/E)</div><div class="umv ${s.de&&s.de<100?'pos':s.de>300?'neg':'neu'}">${s.de!=null?s.de.toFixed(0):'--'}</div></div>
+      <div class="um"><div class="uml">유동비율</div><div class="umv ${s.cr>1.5?'pos':s.cr<1?'neg':'neu'}">${s.cr!=null?s.cr.toFixed(2):'--'}</div></div>
+    </div>
+
+    <div class="um-sec">📉 기술적 지표</div>
+    <div class="us-mets">
+      <div class="um"><div class="uml">베타</div><div class="umv">${s.beta!=null?s.beta.toFixed(2):'--'}</div></div>
+      <div class="um"><div class="uml">52주 고점</div><div class="umv">$${s.w52h?s.w52h.toFixed(2):'--'}</div></div>
+      <div class="um"><div class="uml">52주 저점</div><div class="umv">$${s.w52l?s.w52l.toFixed(2):'--'}</div></div>
+      <div class="um"><div class="uml">52주 고점 대비</div><div class="umv ${s.hi_pct<-20?'pos':s.hi_pct>-5?'neg':'neu'}">${s.hi_pct!=null?s.hi_pct.toFixed(1)+'%':'--'}</div></div>
+    </div>
+    <div class="us-mets">
+      <div class="um"><div class="uml">50일 이평</div><div class="umv">${s.ma50?'$'+s.ma50.toFixed(2):'--'}</div></div>
+      <div class="um"><div class="uml">200일 이평</div><div class="umv">${s.ma200?'$'+s.ma200.toFixed(2):'--'}</div></div>
+      <div class="um"><div class="uml">52주 수익률</div><div class="umv ${s.w52chg>0?'pos':'neg'}">${s.w52chg!=null?(s.w52chg>0?'+':'')+s.w52chg.toFixed(1)+'%':'--'}</div></div>
+      <div class="um"><div class="uml">배당수익률</div><div class="umv ${s.div>0?'pos':'neu'}">${s.div?s.div.toFixed(2)+'%':'--'}</div></div>
+    </div>
+
+    <div class="um-sec">👥 소유구조 / 규모</div>
+    <div class="us-mets">
+      <div class="um"><div class="uml">내부자 보유</div><div class="umv">${s.ins!=null?s.ins.toFixed(1)+'%':'--'}</div></div>
+      <div class="um"><div class="uml">기관 보유</div><div class="umv">${s.inst!=null?s.inst.toFixed(1)+'%':'--'}</div></div>
+      <div class="um"><div class="uml">공매도 비율</div><div class="umv ${s.short>10?'neg':''}">${s.short!=null?s.short.toFixed(1)+'%':'--'}</div></div>
+      <div class="um"><div class="uml">FCF ($B)</div><div class="umv">${s.fcf?s.fcf+'B':'--'}</div></div>
+    </div>
+    <div class="us-mets">
+      <div class="um"><div class="uml">시가총액 ($B)</div><div class="umv">${s.mc>0?s.mc+'B':'--'}</div></div>
+      <div class="um"><div class="uml">EV ($B)</div><div class="umv">${s.ev>0?s.ev+'B':'--'}</div></div>
+      <div class="um"><div class="uml">거래소</div><div class="umv" style="font-size:12px">${s.exch||'--'}</div></div>
+      <div class="um"><div class="uml">산업군</div><div class="umv" style="font-size:10px;word-break:break-word">${(s.industry||'--').substring(0,30)}</div></div>
+    </div>
+
+    ${peerHtml}
+  </div>`;
+}
+
+// ════════════════════════════════════════════════════
+//  US 저평가 탭
+// ════════════════════════════════════════════════════
+function buildUSRankTab(){
+  const wrap=document.getElementById('us-rank-content');
+  const q=(document.getElementById('urk-search')||{}).value||'';
+  const secs=Object.entries(G.us);
+  if(!secs.length){wrap.innerHTML='<div style="padding:20px;text-align:center;color:var(--t2)">US 데이터 없음</div>';return;}
+
+  let html='';
+  secs.forEach(([sec,allStocks])=>{
+    let stocks=getUSRankStocksWithFilter(allStocks, q);
+    if(!stocks.length) return;
+    const sorted=[...stocks].sort((a,b)=>(a.gap??999)-(b.gap??999));
+    const domId='urk-sec-'+sec.replace(/[^a-zA-Z0-9]/g,'_');
+    const buy=sorted.filter(x=>x.gap!=null&&x.gap<0).length;
+    html+=`<div class="urk-sec">
+      <div class="urk-title">${sec} <span class="cnt">${sorted.length}종목 · 저평가 ${buy}</span></div>
+      <div class="tbl-wrap"><div class="th ug">
+        <span>티커</span><span>종목명</span><span class="uh-s">거래소</span><span>현재가</span>
+        <span>P/E</span><span>Fwd P/E</span><span class="uh-sm">PEG</span>
+        <span class="uh-s">매출QoQ</span><span class="uh-s">이익QoQ</span>
+        <span>목표가</span><span>괴리율</span><span>신호</span>
+      </div><div id="${domId}"></div></div>
+    </div>`;
+  });
+  wrap.innerHTML=html||'<div style="padding:20px;text-align:center;color:var(--t2)">검색 결과 없음</div>';
+
+  secs.forEach(([sec,allStocks])=>{
+    let stocks=getUSRankStocksWithFilter(allStocks, q);
+    if(!stocks.length) return;
+    const sorted=[...stocks].sort((a,b)=>(a.gap??999)-(b.gap??999));
+    const domId='urk-sec-'+sec.replace(/[^a-zA-Z0-9]/g,'_');
+    const el=document.getElementById(domId); if(!el)return;
+    sorted.forEach((s,i)=>{
+      const sg=usSig(s,stocks);
+      const gc=gapColor(s.gap,35);
+      const ec=s.exch==='NASDAQ'?'#00aaff':s.exch==='NYSE'?'#aa44ff':'var(--t2)';
+      const row=document.createElement('div');
+      row.className='tr ug';
+      row.style.cursor='pointer';
+      row.innerHTML=`
+        <span><b>${s.t}</b></span>
+        <span><span class="nm">${s.n}</span></span>
+        <span class="uh-s" style="color:${ec};font-size:9px">${s.exch||'--'}</span>
+        <span>$${s.p.toFixed(2)}</span>
+        <span>${s.per>0?s.per.toFixed(1)+'×':'--'}</span>
+        <span>${s.fper>0?s.fper.toFixed(1)+'×':'--'}</span>
+        <span class="uh-sm">${s.peg>0&&s.peg<20?s.peg.toFixed(2):'--'}</span>
+        <span class="uh-s">${pctHtml(s.rev_qoq)}</span>
+        <span class="uh-s">${pctHtml(s.ni_qoq)}</span>
+        <span>${s.tgt?'$'+s.tgt.toFixed(2):'--'}</span>
+        <span style="color:${gc}">${s.gap!=null?(s.gap>0?'+':'')+s.gap.toFixed(1)+'%':'--'}</span>
+        <span><span class="chip ${sg.cls}">${sg.lbl}</span></span>`;
+      const panId='urk-exp-'+s.t;
+      const pan=document.createElement('div');
+      pan.className='exp'; pan.id=panId;
+      row.addEventListener('click',()=>{
+        const open=pan.classList.contains('open');
+        document.querySelectorAll('.exp.open').forEach(p=>p.classList.remove('open'));
+        document.querySelectorAll('.tr.expanded').forEach(r=>r.classList.remove('expanded'));
+        if(!open){
+          pan.innerHTML=buildUSPanel(s,stocks);
+          pan.classList.add('open'); row.classList.add('expanded');
+          row.scrollIntoView({behavior:'smooth',block:'nearest'});
+        }
+      });
+      el.appendChild(row); el.appendChild(pan);
+    });
+  });
+}
+
+function getUSRankStocksWithFilter(allStocks, q){
+  let stocks=G.usRankExch==='ALL'?allStocks:allStocks.filter(s=>s.exch===G.usRankExch);
+  if(q) stocks=stocks.filter(s=>s.t.toUpperCase().includes(q.toUpperCase())||s.n.toLowerCase().includes(q.toLowerCase()));
+  return stocks;
+}
+
+function filterUSRank(){
+  buildUSRankTab();
+}
+
+// ════════════════════════════════════════════════════
+//  한국 순위 탭
+// ════════════════════════════════════════════════════
+function buildRankings(){
+  renderKr('_rk_kospi',  G.kospi.slice(0,100),  'rk-list-kospi');
+  renderKr('_rk_kosdaq', G.kosdaq.slice(0,100), 'rk-list-kosdaq');
 }
 </script>
 </body>
