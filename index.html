@@ -294,11 +294,6 @@ body{font-family:'SF Mono','Fira Code','JetBrains Mono',Consolas,'Apple SD Gothi
 .ptbl th{background:var(--bg3);color:var(--t1);font-size:9px;}
 .ptbl tr:hover td{background:var(--hover);}
 
-/* ── Live dot ── */
-.dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--green);
-  margin-right:4px;animation:blink 2s infinite;}
-@keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
-
 /* ── Exchange filter ── */
 .exch-row{display:flex;gap:4px;margin-bottom:8px;align-items:center;}
 .exch-lbl{font-size:9px;color:var(--t2);margin-right:4px;text-transform:uppercase;letter-spacing:.5px;}
@@ -350,12 +345,11 @@ footer a:hover{color:var(--cyan);}
 <body>
 
 <div class="hdr">
-  <div class="logo">S-RIM<span>TERMINAL v4</span></div>
+  <div class="logo">S-RIM<span>TERMINAL</span></div>
   <div class="hdr-right">
-    <span class="badge live"><span class="dot"></span>LIVE</span>
     <span class="badge" id="upd-kr">KR --</span>
     <span class="badge" id="upd-us">US --</span>
-    <span id="clk"></span>
+    <span id="clk" title="마지막 업데이트 시간"></span>
     <span class="theme-icon" id="theme-icon">🌙</span>
     <button class="theme-btn" id="theme-toggle" onclick="toggleTheme()" title="다크/라이트 모드"></button>
   </div>
@@ -492,7 +486,7 @@ footer a:hover{color:var(--cyan);}
 </div>
 </div>
 
-<footer>S-RIM Terminal v4 · RIM + 실시간 데이터 기반 가치평가 · 참고용이며 투자 결정의 책임은 투자자 본인에게 있습니다 · <a href="https://github.com/dicacros-gif/claudes" target="_blank">GitHub</a></footer>
+<footer>S-RIM Terminal · RIM + 실시간 데이터 기반 가치평가 · 참고용이며 투자 결정의 책임은 투자자 본인에게 있습니다 · <a href="https://github.com/dicacros-gif/claudes" target="_blank">GitHub</a></footer>
 
 <script>
 // ════════════════════════════════════════════════════
@@ -507,11 +501,12 @@ const G = {
   usRankExch:'ALL',
 };
 
-// ── 시계 ──
-setInterval(()=>{
-  const n=new Date(), p=v=>String(v).padStart(2,'0');
-  document.getElementById('clk').textContent=`${p(n.getHours())}:${p(n.getMinutes())}:${p(n.getSeconds())}`;
-},1000);
+// ── 업데이트 시간 표시 ──
+function setUpdTime(dt){
+  const el=document.getElementById('clk');
+  if(!el)return;
+  el.textContent=dt?'업데이트: '+dt:'--';
+}
 
 // ── 다크/라이트 토글 ──
 function toggleTheme(){
@@ -632,6 +627,7 @@ window.addEventListener('DOMContentLoaded',()=>{
     G.kospi =(kr.KOSPI ||[]).map(enrichKr).sort((a,b)=>a.gap-b.gap);
     G.kosdaq=(kr.KOSDAQ||[]).map(enrichKr).sort((a,b)=>a.gap-b.gap);
     document.getElementById('upd-kr').textContent='KR '+kr.updated;
+    setUpdTime(kr.updated);
     ['kospi','kosdaq'].forEach(m=>{buildKrSecGrid(m);renderStats(m);renderKr(m,G[m]);});
     buildRankings();
     if(us){
