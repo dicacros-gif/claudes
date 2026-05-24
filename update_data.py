@@ -17,6 +17,7 @@ KR_SECTOR_MAP = {
     "000660": "AI 칩 & 반도체",    # SK하이닉스 (HBM1위)
     "042700": "AI 칩 & 반도체",    # 한미반도체 (TC본더)
     "058470": "AI 칩 & 반도체",    # 리노공업 (반도체 소켓)
+    "000990": "AI 칩 & 반도체",    # DB하이텍
     # ── AI 인프라 (소재·장비) ──
     "357780": "AI 인프라 소재·장비",# 솔브레인 (식각액)
     "240810": "AI 인프라 소재·장비",# 원익IPS (CVD장비)
@@ -27,6 +28,16 @@ KR_SECTOR_MAP = {
     "382800": "AI 인프라 소재·장비",# 코리아써키트 (기판)
     "011070": "AI 인프라 소재·장비",# LG이노텍 (FC-BGA)
     "066570": "AI 인프라 소재·장비",# LG전자 (전장·서버)
+    "011790": "AI 인프라 소재·장비",# SKC
+    "007660": "AI 인프라 소재·장비",# 이수페타시스
+    "222800": "AI 인프라 소재·장비",# 심텍
+    "056190": "AI 인프라 소재·장비",# 에스에프에이
+    "281820": "AI 인프라 소재·장비",# 케이씨텍
+    "036930": "AI 인프라 소재·장비",# 주성엔지니어링
+    "005290": "AI 인프라 소재·장비",# 동진쎄미켐
+    "095340": "AI 인프라 소재·장비",# ISC
+    "067310": "AI 인프라 소재·장비",# 하나마이크론
+    "195870": "AI 인프라 소재·장비",# 해성디에스
     # ── AI 소프트웨어 & 플랫폼 ──
     "035420": "AI SW & 플랫폼",    # NAVER (HyperCLOVA)
     "035720": "AI SW & 플랫폼",    # 카카오 (KoGPT)
@@ -37,6 +48,9 @@ KR_SECTOR_MAP = {
     "086520": "이차전지",           # 에코프로
     "247540": "이차전지",           # 에코프로비엠
     "078600": "이차전지",           # 대주전자재료
+    "003670": "이차전지",           # 포스코퓨처엠
+    "066970": "이차전지",           # 엘앤에프
+    "361610": "이차전지",           # SK아이이테크놀로지
     # ── 자동차 & 모빌리티 ──
     "005380": "자동차 & 모빌리티",  # 현대차
     "000270": "자동차 & 모빌리티",  # 기아
@@ -49,13 +63,19 @@ KR_SECTOR_MAP = {
     # ── 조선 ──
     "329180": "조선",               # HD현대중공업
     "042660": "조선",               # 한화오션
+    "009540": "조선",               # HD한국조선해양
+    "010140": "조선",               # 삼성중공업
     # ── 전력 & 에너지 ──
     "015760": "전력 & 에너지",      # 한국전력
     "036460": "전력 & 에너지",      # 한국가스공사
+    # ── 원자력 & 에너지 ──
+    "034020": "원자력 & 에너지",    # 두산에너빌리티
     # ── 정유 & 화학 ──
     "010950": "정유 & 화학",        # S-Oil
     "096770": "정유 & 화학",        # SK이노베이션
     "011170": "정유 & 화학",        # 롯데케미칼
+    # ── 클린에너지 & 태양광 ──
+    "009830": "클린에너지 & 태양광",# 한화솔루션
     # ── 바이오 & 제약 ──
     "068270": "바이오 & 제약",      # 셀트리온
     "207940": "바이오 & 제약",      # 삼성바이오로직스
@@ -64,14 +84,18 @@ KR_SECTOR_MAP = {
     "185750": "바이오 & 제약",      # 종근당
     "196170": "바이오 & 제약",      # 알테오젠
     "028300": "바이오 & 제약",      # HLB
-    "141080": "바이오 & 제약",      # 레고켐바이오
+    "141080": "바이오 & 제약",      # 리가켐바이오 (구 레고켐바이오)
     "068760": "바이오 & 제약",      # 셀트리온헬스케어
     "091990": "바이오 & 제약",      # 셀트리온제약
     "900290": "바이오 & 제약",      # 이수앱지스
+    "067630": "바이오 & 제약",      # HLB생명과학
     # ── 의료기기 & 뷰티테크 ──
     "150900": "의료기기 & 뷰티테크",# 바디텍메드
     "214150": "의료기기 & 뷰티테크",# 클래시스 (리프팅)
     "090430": "의료기기 & 뷰티테크",# 아모레퍼시픽
+    "214450": "의료기기 & 뷰티테크",# 파마리서치
+    "041830": "의료기기 & 뷰티테크",# 인바디
+    "287410": "의료기기 & 뷰티테크",# 제이시스메디칼
     # ── 금융 ──
     "105560": "금융",               # KB금융
     "055550": "금융",               # 신한지주
@@ -80,6 +104,13 @@ KR_SECTOR_MAP = {
     "138040": "금융",               # 메리츠금융지주
     "032830": "금융",               # 삼성생명
     "000810": "금융",               # 삼성화재
+    "323410": "금융",               # 카카오뱅크
+    "071050": "금융",               # 한국금융지주
+    "005830": "금융",               # DB손해보험
+    "006800": "금융",               # 미래에셋증권
+    "001450": "금융",               # 현대해상
+    "175330": "금융",               # JB금융지주
+    "138930": "금융",               # BNK금융지주
     # ── 통신 ──
     "017670": "통신",               # SK텔레콤
     "030200": "통신",               # KT
@@ -93,6 +124,7 @@ KR_SECTOR_MAP = {
     # ── 철강 & 소재 ──
     "005490": "철강 & 소재",        # POSCO홀딩스
     "004020": "철강 & 소재",        # 현대제철
+    "010130": "철강 & 소재",        # 고려아연
     # ── 게임 ──
     "259960": "게임",               # 크래프톤
     "251270": "게임",               # 넷마블
@@ -101,6 +133,8 @@ KR_SECTOR_MAP = {
     "293490": "게임",               # 카카오게임즈
     "112040": "게임",               # 위메이드
     "263750": "게임",               # 펄어비스
+    "225570": "게임",               # 넥슨게임즈
+    "093190": "게임",               # 위메이드맥스
     # ── 엔터 & K-POP ──
     "352820": "엔터 & K-POP",       # HYBE
     "122870": "엔터 & K-POP",       # 와이지엔터테인먼트
@@ -117,57 +151,78 @@ KR_SECTOR_MAP = {
     "000080": "음식료품",           # 하이트진로
     # ── 로봇 ──
     "089980": "로봇",               # 알파로보틱스
+    "277810": "로봇",               # 레인보우로보틱스
+    "454910": "로봇",               # 두산로보틱스
+    # ── 산업재 & 물류 ──
+    "086280": "산업재 & 물류",      # 현대글로비스
     # ── 지주회사 ──
     "003550": "지주회사",           # LG
     "034730": "지주회사",           # SK
-    "HD현대": "지주회사",           # HD현대
+    "267250": "지주회사",           # HD현대
 }
 
 # ──────────────────────────────────────────────────────
-# 미국 섹터 정의 (세분화)
+# 미국 섹터 정의 (35개 섹터, 450+ 유니크 종목)
 # ──────────────────────────────────────────────────────
 US_SECTORS = {
-    # AI / 기술
-    "AI 인프라 & GPU":    ["NVDA","AMD","SMCI","DELL","HPE","VRT","ETN","MRVL","ANET","AAPL"],
-    "AI 에이전트 & LLM":  ["MSFT","GOOGL","META","PLTR","AI","PATH","GOOG","AMZN","ORCL"],
-    "AI 응용 소프트웨어": ["SOUN","BBAI","CRCL","APP","TTD","MGNI","RBLX","U"],
-    "클라우드 & SaaS":    ["AMZN","MSFT","ORCL","SNOW","MDB","DDOG","NET","CFLT","HUBS","ZI"],
-    "엔터프라이즈 SW":    ["ORCL","ADBE","NOW","INTU","CRM","WDAY","TEAM","VEEV","ANSS","PTC"],
-    "사이버보안":         ["CRWD","PANW","FTNT","ZS","S","OKTA","CYBR","NET","TENB","SAIL"],
-    # 반도체
-    "메모리 & AI칩":      ["NVDA","AMD","MU","MRVL","ARM","INTC","AVGO","QCOM"],
-    "반도체 소재·장비":   ["AMAT","LRCX","KLAC","ASML","TER","ONTO","ACLS","CAMT","FORM","MPWR"],
-    "네트워킹 & 광통신":  ["ANET","CIEN","CSCO","LITE","COHR","VIAV","JNPR","SMCI","FFIV","INFN"],
-    "반도체 부품 & 팹리스":["AVGO","QCOM","TXN","ON","SWKS","MCHP","NXPI","ADI","QRVO"],
-    # 에너지
-    "전력 & 전력인프라":  ["VRT","ETN","PWR","EMR","ROK","PH","AYI","EATON","URI","WMS"],
-    "원자력 & 신규에너지":["CEG","VST","TLN","CCJ","NNE","OKLO","SMR","NRG","BW","LEU"],
-    "클린에너지 & 태양광":["ENPH","FSLR","SEDG","RUN","NEE","AES","BEP","BEPC","ORA","CWEN"],
-    "석유 & 가스":        ["XOM","CVX","COP","SLB","EOG","OXY","HAL","MPC","PSX","DVN"],
-    # 금융
-    "대형 은행":          ["JPM","BAC","WFC","C","GS","MS","USB","PNC","TFC","CFG"],
-    "핀테크 & 결제":      ["V","MA","AXP","PYPL","SQ","AFRM","UPST","SOFI","NU","COIN","HOOD"],
-    "자산운용 & 거래소":  ["BLK","SCHW","SPGI","MCO","ICE","CME","CBOE","MSCI","MKTX"],
-    # 헬스케어
-    "대형 제약":          ["JNJ","PFE","MRK","ABBV","LLY","BMY","AMGN","GILD","AZN","GSK"],
-    "바이오텍":           ["MRNA","BNTX","BIIB","REGN","VRTX","ARGX","ALNY","SRPT","BMRN","EXEL"],
-    "의료기기 & 헬스IT":  ["ISRG","MDT","ABT","BSX","SYK","EW","DXCM","RMD","INSP","NVCR"],
-    # 소비재
-    "필수소비재":         ["WMT","COST","PG","KO","PEP","CL","GIS","MKC","CLX","KMB"],
-    "임의소비재":         ["AMZN","NKE","MCD","SBUX","HD","LOW","TJX","ULTA","DPZ","LULU"],
-    "전기차 & 자율주행":  ["TSLA","RIVN","NIO","XPEV","LI","GM","F","STLA","MBLY","LAZR"],
-    # 미디어 & 통신
-    "미디어 & 스트리밍":  ["NFLX","DIS","WBD","CMCSA","PARA","SPOT","RBLX","IMAX"],
-    "소셜 & 광고":        ["META","GOOGL","SNAP","PINS","RDDT","TTD","MGNI"],
-    "통신사":             ["T","VZ","TMUS","LUMN","CHTR"],
-    # 산업재
-    "항공우주 & 방산":    ["LMT","RTX","NOC","GD","BA","HII","LDOS","SAIC","L","KTOS"],
-    "산업재 & 물류":      ["CAT","DE","HON","GE","UPS","FDX","ETN","EMR","ROK","PH"],
-    "로봇 & 자동화":      ["ISRG","ABB","ROK","PH","HON","EMR","FANUC","IRBT","BRZE","AZTA"],
-    "우주 & 위성통신":    ["RKLB","ASTS","SPCE","LUNR","KTOS","HII","SAIC","BA","NOC","LMT"],
-    # 부동산
-    "데이터센터 리츠":    ["AMT","EQIX","DLR","CCI","IRM","CONE"],
-    "리츠 & 부동산":      ["PLD","SPG","O","VICI","AVB","EXR","WY","NNN","WELL"],
+    # ─── AI & 빅테크 ───
+    "AI 인프라 & GPU":          ["NVDA","AMD","SMCI","DELL","HPE","VRT","ETN","MRVL","ANET","MSFT","AMZN","GOOG","META","AAPL","GEV"],
+    "AI 에이전트 & LLM":        ["PLTR","AI","ORCL","IBM","SNOW","GOOGL","PATH","BBAI"],
+    "AI 응용 소프트웨어":        ["APP","SOUN","TTD","RBLX","U","MGNI","CRCL","KVYO","SPRK","DUOL"],
+    "클라우드 & SaaS":           ["MDB","DDOG","NET","HUBS","CFLT","GTLB","WIX","BILL","DOCN","ZI","ESTC","TENB","ZM","TWLO","FIVN"],
+    "엔터프라이즈 SW":           ["ADBE","NOW","INTU","CRM","WDAY","TEAM","VEEV","ANSS","PTC","CDNS","SNPS","SAP","PAYC","SMAR"],
+    "사이버보안":                ["CRWD","PANW","FTNT","ZS","S","OKTA","CYBR","VRNS","RPD","QLYS","TPVG"],
+    "IT 서비스 & 컨설팅":        ["ACN","CTSH","INFY","EPAM","GLOB","DXC","IT","SSNC","EXLS","VRNT","MAN","NLOK"],
+
+    # ─── 반도체 ───
+    "AI 칩 & 팹리스":            ["AVGO","ARM","INTC","QCOM","TXN","ON","MCHP","NXPI","ADI","SWKS","QRVO","WOLF","LSCC","FORM"],
+    "메모리 & 스토리지":         ["MU","WDC","STX","NTAP","PSTG","IONQ"],
+    "반도체 장비·소재":          ["AMAT","LRCX","KLAC","ASML","TER","MPWR","ONTO","ACLS","CAMT","ENTG","MKSI","UCTT"],
+    "네트워킹 & 광통신칩":       ["CSCO","JNPR","FFIV","CIEN","COHR","VIAV","INFN","LITE","AAON","CALX"],
+    "PC & 서버 하드웨어":        ["HPQ","NTNX","CRDO","AMKR","LOGI"],
+
+    # ─── 에너지 ───
+    "전력 & 전력인프라":         ["PWR","ROK","PH","AYI","URI","EMR","AMPS","HUBB","POWL"],
+    "원자력 & 소형원자로":       ["CEG","VST","CCJ","NNE","OKLO","SMR","NRG","TLN","LEU","BWX","BWXT"],
+    "신재생 & 태양광":           ["ENPH","FSLR","SEDG","RUN","NEE","AES","BEP","BEPC","ORA","ARRY","NOVA","CWEN"],
+    "석유 & 가스":               ["XOM","CVX","COP","SLB","EOG","OXY","HAL","MPC","PSX","DVN","HES","VLO","PXD","BKR","WMB","KMI","LNG"],
+
+    # ─── 금융 ───
+    "대형 은행":                 ["JPM","BAC","WFC","C","GS","MS","USB","PNC","TFC","COF","KEY","RF","FITB","ALLY","CFG","HBAN"],
+    "핀테크 & 결제":             ["V","MA","AXP","PYPL","SQ","AFRM","UPST","SOFI","NU","COIN","HOOD","CPNG","FOUR","GPN","FIS","FI"],
+    "보험":                      ["BRK-B","PGR","ALL","CB","TRV","MET","PRU","AFL","HIG","L","AIG","RE","RNR","ERIE"],
+    "자산운용 & 거래소":         ["BLK","SCHW","SPGI","MCO","ICE","CME","CBOE","MSCI","APO","KKR","BX","CG","ARES","BAM","TROW","STT"],
+
+    # ─── 헬스케어 ───
+    "대형 제약":                 ["JNJ","PFE","MRK","ABBV","LLY","BMY","AMGN","GILD","AZN","NVO","GSK","SNY","TAK","BAYRY"],
+    "바이오텍":                  ["MRNA","BNTX","BIIB","REGN","VRTX","ALNY","SRPT","ARGX","BMRN","INCY","EXEL","ROIV","KYMR","DAWN"],
+    "의료기기 & 진단":           ["ISRG","MDT","ABT","BSX","SYK","EW","DXCM","RMD","INSP","IDXX","IRTC","NVCR","SWAV","ICLR","MEDP"],
+    "매니지드케어 & 헬스서비스": ["UNH","CVS","CI","HUM","CNC","ELV","MOH","HCA","DVA","ENSG","ACCD"],
+
+    # ─── 소비재 ───
+    "필수소비재":                ["WMT","COST","PG","KO","PEP","CL","GIS","MKC","KHC","MDLZ","CHD","PM","MO","STZ","TAP","EL","COTY"],
+    "임의소비재 & 리테일":       ["HD","MCD","NKE","SBUX","LOW","TJX","LULU","ULTA","DPZ","TSCO","RH","BBY","ETSY","RVLV","FIVE","RL"],
+    "전기차 & 자율주행":         ["TSLA","RIVN","NIO","XPEV","LI","GM","F","MBLY","LAZR","LCID","FSR","GOEV","CHPT"],
+    "여행 & 레저":               ["BKNG","ABNB","EXPE","MAR","HLT","UAL","DAL","LUV","CCL","RCL","LYFT","UBER","DKNG","MGM","WYNN"],
+
+    # ─── 미디어 & 통신 ───
+    "미디어 & 스트리밍":         ["NFLX","DIS","WBD","CMCSA","PARA","SPOT","IMAX","AMC","LGF-A","FOXA"],
+    "소셜 & 디지털 광고":        ["SNAP","PINS","RDDT","PUBM","CRTO","DV","IAS"],
+    "통신사":                    ["T","VZ","TMUS","CHTR","LUMN","DISH","USM"],
+
+    # ─── 산업재 ───
+    "항공우주 & 방산":           ["LMT","RTX","NOC","GD","BA","HII","KTOS","AXON","TDG","HEI","MOOG","HAYW","SPR","WWD"],
+    "산업기계 & 제조":           ["CAT","DE","HON","GE","ITW","CMI","AME","ROP","OTIS","IR","XYL","DHR","FTV","GNRC","ALLE","IEX"],
+    "물류 & 운송":               ["UPS","FDX","ODFL","XPO","JBHT","CSX","NSC","UNP","CHRW","EXPD","ROAD","SAIA","ARCB","ECHO"],
+    "로봇 & 자동화":             ["ABB","AZTA","BRZE","RRX","ROCK","NOVT","TRMB","KEYS"],
+    "우주 & 위성통신":           ["RKLB","ASTS","LUNR","MNTS","SATL","SPIR"],
+
+    # ─── 부동산 ───
+    "데이터센터 리츠":           ["AMT","EQIX","DLR","CCI","IRM","CONE","QTS","SBAC","UNIT"],
+    "리츠 & 부동산":             ["PLD","SPG","O","VICI","AVB","EXR","WELL","WY","NNN","EQR","ARE","KIM","REG","BXP","AIV","UDR","CPT","ESS","MAA","NLY","AGNC"],
+
+    # ─── 소재 & 광업 ───
+    "소재 & 광업":               ["NEM","FCX","GOLD","AA","NUE","CF","MOS","ALB","SQM","MP","VALE","RIO","SCCO","WPM","AEM","AGI","HL","CLF","X","RS","VMC","MLM","APD","LIN","ECL","PPG","SHW"],
 }
 
 # 거래소 매핑 (NMS/NGM → NASDAQ, NYQ/NYSE → NYSE)
@@ -479,7 +534,8 @@ def fetch_korean():
                 eps_now = safe(r.get("EPS"))
                 div    = round(safe(r.get("DIV")), 2)
 
-            if bps <= 0: continue
+            # Use max(0, bps) so stocks with bps<=0 still appear
+            bps = max(0, bps)
 
             eps_prev = safe(fund_prev.loc[code,"EPS"]) if code in fund_prev.index else 0
             eps_g    = round((eps_now-eps_prev)/abs(eps_prev)*100,1) if eps_prev else 0.0
