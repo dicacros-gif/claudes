@@ -142,17 +142,26 @@ body{font-family:'SF Mono','Fira Code','JetBrains Mono',Consolas,'Pretendard Var
 .sec-grid{display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;
   gap:5px;padding:8px 14px;background:var(--bg1);border-bottom:1px solid var(--border);}
 .sec-grid::-webkit-scrollbar{display:none;}
-.sec-btn{flex-shrink:0;white-space:nowrap;display:inline-flex;align-items:center;gap:5px;
-  padding:5px 14px;border:1px solid var(--border);border-radius:16px;cursor:pointer;
-  background:transparent;color:var(--t1);font-size:11px;font-weight:600;
+.sec-btn{flex-shrink:0;white-space:nowrap;display:inline-flex;align-items:center;gap:4px;
+  padding:4px 10px;border:1px solid var(--border);border-radius:16px;cursor:pointer;
+  background:transparent;color:var(--t1);font-size:10px;font-weight:600;
   transition:all .15s;font-family:inherit;}
 .sec-btn:hover{border-color:var(--cyan);color:var(--t0);background:var(--bg2);}
 .sec-btn.active{background:var(--cyan2);border-color:var(--cyan);color:#ffffff;font-weight:700;}
 [data-theme="light"] .sec-btn.active{color:#ffffff;}
 .sec-btn .sbn{font-weight:inherit;}
-.sec-btn .sbc{font-size:9px;padding:1px 6px;border-radius:9px;
+.sec-btn .sbc{font-size:9px;padding:1px 5px;border-radius:9px;
   background:var(--bg3);color:var(--t2);}
 .sec-btn.active .sbc{background:rgba(0,0,0,.25);color:rgba(255,255,255,.75);}
+.load-more{display:block;width:100%;padding:10px;text-align:center;color:var(--cyan);
+  font-size:11px;cursor:pointer;border:none;border-top:1px solid var(--border);
+  background:var(--bg1);font-family:inherit;font-weight:600;letter-spacing:.3px;}
+.load-more:hover{background:var(--hover);color:var(--t0);}
+.urk-sec-sel{background:var(--bg2);color:var(--t0);border:1px solid var(--border);
+  border-radius:3px;padding:3px 8px;font-size:10px;font-family:inherit;cursor:pointer;
+  flex-shrink:0;margin-left:8px;}
+.urk-sec-sel:focus{outline:none;border-color:var(--cyan);}
+[data-theme="light"] .urk-sec-sel{background:#f4f8ff;color:#030c1a;border-color:#aac2dc;}
 
 /* ── Toolbar / search ── */
 .toolbar{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;align-items:center;}
@@ -444,11 +453,14 @@ footer a:hover{color:var(--cyan);}
 
 <!-- ══ US 저평가 ══ -->
 <div id="tab-usrank" class="panel">
-<div class="sec-grid" style="align-items:center;">
+<div class="sec-grid" style="align-items:center;flex-wrap:wrap;gap:6px;">
   <span class="exch-lbl">거래소</span>
   <button class="exch-btn active" onclick="setUSRankExch('ALL',this)">전체</button>
   <button class="exch-btn nq"     onclick="setUSRankExch('NASDAQ',this)">NASDAQ</button>
   <button class="exch-btn ny"     onclick="setUSRankExch('NYSE',this)">NYSE</button>
+  <select id="urk-sec-select" class="urk-sec-sel" onchange="filterUSRank()">
+    <option value="">전체 섹터</option>
+  </select>
 </div>
 <div class="wrap">
   <input class="urk-search" id="urk-search" type="text" placeholder="티커 / 종목명 검색..." oninput="filterUSRank()">
@@ -584,16 +596,21 @@ function rim(bps,roe,k,yrs){
   return{v:bps+pv,pv,rows};
 }
 function enrichKr(s){
-  const roe=s[5]/100,k=G.rf+G.erp;
-  const mx=rimInf(s[4],roe,k),fr=rim(s[4],roe,k,10),mn=rim(s[4],roe,k,5);
-  const gap=fr.v>0?(s[3]-fr.v)/fr.v*100:0;
-  return{c:s[0],n:s[1],sec:s[2],p:s[3],b:s[4],r:s[5],per:s[6],pbr:s[7],m:s[8],eg:s[9]||0,div:s[10]||0,
+  const bps=s[4]||0,roe=s[5]/100,k=G.rf+G.erp;
+  let vMax=null,vFair=null,vMin=null,gap=null;
+  if(bps>0&&roe>0){
+    const mx=rimInf(bps,roe,k),fr=rim(bps,roe,k,10),mn=rim(bps,roe,k,5);
+    vMax=mx.v;vFair=fr.v;vMin=mn.v;
+    gap=fr.v>0?(s[3]-fr.v)/fr.v*100:null;
+  }
+  return{c:s[0],n:s[1],sec:s[2],p:s[3],b:bps,r:s[5],per:s[6],pbr:s[7],m:s[8],eg:s[9]||0,div:s[10]||0,
     rqoq:s[11]??null,iqoq:s[12]??null,ryoy:s[13]??null,iyoy:s[14]??null,frg:s[15]??null,feg:s[16]??null,
-    roe,k,vMax:mx.v,vFair:fr.v,vMin:mn.v,gap};
+    roe,k,vMax,vFair,vMin,gap};
 }
 
 // ── 한국 신호 ──
 function krSig(p,mn,fr,mx){
+  if(mn==null||fr==null||mx==null)return{lbl:'N/A',cls:'cH',msg:'⚪ S-RIM 미산출 — BPS 데이터 없음'};
   if(p<mn*.9) return{lbl:'강력매수',cls:'cB2',msg:'🚀 강력 매수 — 최소가치의 90% 미만'};
   if(p<mn)    return{lbl:'매수',    cls:'cB1',msg:'✅ 매수 — 현재주가 ≤ 최소가치'};
   if(p<fr)    return{lbl:'매수고려',cls:'cB1',msg:'🟢 매수 고려 — 현재주가 ≤ 적정가치'};
@@ -634,8 +651,9 @@ window.addEventListener('DOMContentLoaded',()=>{
     fetch('us_stocks.json?t='+Date.now()).then(r=>r.json()).catch(()=>null)
   ]).then(([kr,us])=>{
     G.rf=kr.rf??0.031; G.erp=kr.erp??0.055;
-    G.kospi =(kr.KOSPI ||[]).map(enrichKr).sort((a,b)=>a.gap-b.gap);
-    G.kosdaq=(kr.KOSDAQ||[]).map(enrichKr).sort((a,b)=>a.gap-b.gap);
+    const sortByGap=(a,b)=>{if(a.gap==null&&b.gap==null)return 0;if(a.gap==null)return 1;if(b.gap==null)return -1;return a.gap-b.gap;};
+    G.kospi =(kr.KOSPI ||[]).map(enrichKr).sort(sortByGap);
+    G.kosdaq=(kr.KOSDAQ||[]).map(enrichKr).sort(sortByGap);
     document.getElementById('upd-kr').textContent='KR '+kr.updated;
     setUpdTime(kr.updated);
     ['kospi','kosdaq'].forEach(m=>{buildKrSecGrid(m);renderStats(m);renderKr(m,G[m]);});
@@ -644,6 +662,9 @@ window.addEventListener('DOMContentLoaded',()=>{
       G.us=us.sectors||{};
       document.getElementById('upd-us').textContent='US '+us.updated;
       buildUSSectors();
+      // US 저평가 섹터 드롭다운 채우기
+      const sel=document.getElementById('urk-sec-select');
+      if(sel){sel.innerHTML='<option value="">전체 섹터</option>'+Object.keys(G.us).map(s=>`<option value="${s}">${s}</option>`).join('');}
       buildUSRankTab();
     } else {
       document.getElementById('upd-us').textContent='US N/A';
@@ -701,13 +722,14 @@ function filterKr(mkt){
 }
 function renderStats(mkt){
   const list=G[mkt];
-  const buy=list.filter(s=>s.gap<0).length;
-  const medGap=(list[Math.floor(list.length/2)]||{gap:0}).gap;
+  const buy=list.filter(s=>s.gap!=null&&s.gap<0).length;
+  const withGap=list.filter(s=>s.gap!=null);
+  const medGap=withGap.length?withGap[Math.floor(withGap.length/2)].gap:null;
   const avgRoe=(list.reduce((a,s)=>a+s.r,0)/list.length).toFixed(1);
   document.getElementById('stats-'+mkt).innerHTML=`
     <div class="st"><div class="st-l">종목수</div><div class="st-v neu">${list.length}</div></div>
     <div class="st"><div class="st-l">저평가</div><div class="st-v pos">${buy}</div></div>
-    <div class="st"><div class="st-l">중간 괴리율</div><div class="st-v ${medGap<0?'pos':'neg'}">${medGap>0?'+':''}${medGap.toFixed(1)}%</div></div>
+    <div class="st"><div class="st-l">중간 괴리율</div><div class="st-v ${medGap!=null&&medGap<0?'pos':'neg'}">${medGap!=null?(medGap>0?'+':'')+medGap.toFixed(1)+'%':'--'}</div></div>
     <div class="st"><div class="st-l">평균 ROE</div><div class="st-v neu">${avgRoe}%</div></div>
     <div class="st"><div class="st-l">요구수익률(k)</div><div class="st-v neu">${((G.rf+G.erp)*100).toFixed(2)}%</div></div>`;
 }
@@ -718,30 +740,43 @@ function renderKr(mkt,stocks,targetId){
   const list=document.getElementById(listId);if(!list)return;
   list.innerHTML='';
   if(!stocks.length){list.innerHTML='<div style="padding:20px;text-align:center;color:var(--t2)">검색 결과 없음</div>';return;}
-  stocks.forEach((s,i)=>{
-    const sg=krSig(s.p,s.vMin,s.vFair,s.vMax);
-    const gc=gapColor(s.gap,35);
-    const id=(targetId?'rk-':'')+realMkt+'-'+s.c;
-    const row=document.createElement('div');
-    row.className='tr kg';row.id='row-'+id;
-    row.innerHTML=`
-      <span>${i+1}</span>
-      <span><span class="nm">${s.n}</span><br><span class="cd">${s.c}</span></span>
-      <span>${fmt(s.p)}</span>
-      <span class="kh-gr kh-gr-cell">${pctHtml(s.rqoq,false,50)}</span>
-      <span class="kh-gr kh-gr-cell">${pctHtml(s.iqoq,false,80)}</span>
-      <span class="kh-gry kh-gry-cell">${pctHtml(s.ryoy,false,50)}</span>
-      <span class="kh-gry kh-gry-cell">${pctHtml(s.iyoy,false,80)}</span>
-      <span class="kh-gry kh-gry-cell">${pctHtml(s.frg,false,50)}</span>
-      <span class="kh-gry kh-gry-cell">${pctHtml(s.feg,false,80)}</span>
-      <span>${fmt(s.vFair)}</span>
-      <span style="color:${gc}">${s.gap>0?'+':''}${s.gap.toFixed(1)}%</span>
-      <span><span class="chip ${sg.cls}">${sg.lbl}</span></span>`;
-    const pan=document.createElement('div');
-    pan.className='exp';pan.id='exp-'+id;
-    row.addEventListener('click',()=>toggleKr(id,realMkt,s));
-    list.appendChild(row);list.appendChild(pan);
-  });
+  const LIMIT=200;
+  const appendRows=(arr,offset)=>{
+    arr.forEach((s,i)=>{
+      const sg=krSig(s.p,s.vMin,s.vFair,s.vMax);
+      const gc=gapColor(s.gap,35);
+      const id=(targetId?'rk-':'')+realMkt+'-'+s.c;
+      const row=document.createElement('div');
+      row.className='tr kg';row.id='row-'+id;
+      row.innerHTML=`
+        <span>${offset+i+1}</span>
+        <span><span class="nm">${s.n}</span><br><span class="cd">${s.c}</span></span>
+        <span>${fmt(s.p)}</span>
+        <span class="kh-gr kh-gr-cell">${pctHtml(s.rqoq,false,50)}</span>
+        <span class="kh-gr kh-gr-cell">${pctHtml(s.iqoq,false,80)}</span>
+        <span class="kh-gry kh-gry-cell">${pctHtml(s.ryoy,false,50)}</span>
+        <span class="kh-gry kh-gry-cell">${pctHtml(s.iyoy,false,80)}</span>
+        <span class="kh-gry kh-gry-cell">${pctHtml(s.frg,false,50)}</span>
+        <span class="kh-gry kh-gry-cell">${pctHtml(s.feg,false,80)}</span>
+        <span>${s.vFair!=null?fmt(s.vFair):'--'}</span>
+        <span style="color:${gc}">${s.gap!=null?(s.gap>0?'+':'')+s.gap.toFixed(1)+'%':'--'}</span>
+        <span><span class="chip ${sg.cls}">${sg.lbl}</span></span>`;
+      const pan=document.createElement('div');
+      pan.className='exp';pan.id='exp-'+id;
+      row.addEventListener('click',()=>toggleKr(id,realMkt,s));
+      list.appendChild(row);list.appendChild(pan);
+    });
+  };
+  if(!targetId&&stocks.length>LIMIT){
+    appendRows(stocks.slice(0,LIMIT),0);
+    const btn=document.createElement('button');
+    btn.className='load-more';
+    btn.textContent=`더 보기 (${stocks.length-LIMIT}종목 더)`;
+    btn.onclick=()=>{btn.remove();appendRows(stocks.slice(LIMIT),LIMIT);};
+    list.appendChild(btn);
+  }else{
+    appendRows(stocks,0);
+  }
 }
 
 function toggleKr(id,mkt,s){
@@ -1074,7 +1109,9 @@ function buildUSPanel(s,peers){
 function buildUSRankTab(){
   const wrap=document.getElementById('us-rank-content');
   const q=(document.getElementById('urk-search')||{}).value||'';
-  const secs=Object.entries(G.us);
+  const selSec=(document.getElementById('urk-sec-select')||{}).value||'';
+  let secs=Object.entries(G.us);
+  if(selSec)secs=secs.filter(([sec])=>sec===selSec);
   if(!secs.length){wrap.innerHTML='<div style="padding:20px;text-align:center;color:var(--t2)">US 데이터 없음</div>';return;}
   let html='';
   secs.forEach(([sec,allStocks])=>{
