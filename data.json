@@ -2,17 +2,74 @@
   "updated": "2026-05-24",
   "stocks": [
     {
-      "code": "005930",
-      "name": "삼성전자",
-      "price": 55800,
-      "equity_billion": 3032543,
-      "shares_common": 5969782550,
-      "shares_preferred": 822886700,
-      "roe_annual": 0.1355,
-      "roe_quarter": 0.1045,
-      "risk_free": 0.025,
-      "erp": 0.055,
-      "bps": 44643
+      "code": "005930", "name": "삼성전자",
+      "price": 55800,  "bps": 44643,
+      "roe_annual": 0.1355, "roe_quarter": 0.1045,
+      "risk_free": 0.031,  "erp": 0.055,
+      "equity_billion": 3032543, "shares_common": 5969782550, "shares_preferred": 822886700
+    },
+    {
+      "code": "000660", "name": "SK하이닉스",
+      "price": 190000, "bps": 98500,
+      "roe_annual": 0.185, "roe_quarter": 0.210,
+      "risk_free": 0.031,  "erp": 0.055,
+      "equity_billion": 726000, "shares_common": 728002365, "shares_preferred": 0
+    },
+    {
+      "code": "005380", "name": "현대차",
+      "price": 255000, "bps": 248000,
+      "roe_annual": 0.115, "roe_quarter": 0.108,
+      "risk_free": 0.031,  "erp": 0.055,
+      "equity_billion": 599000, "shares_common": 213668187, "shares_preferred": 18217640
+    },
+    {
+      "code": "105560", "name": "KB금융",
+      "price": 82000,  "bps": 92500,
+      "roe_annual": 0.118, "roe_quarter": 0.112,
+      "risk_free": 0.031,  "erp": 0.055,
+      "equity_billion": 453000, "shares_common": 407700000, "shares_preferred": 0
+    },
+    {
+      "code": "055550", "name": "신한지주",
+      "price": 55000,  "bps": 62000,
+      "roe_annual": 0.095, "roe_quarter": 0.090,
+      "risk_free": 0.031,  "erp": 0.055,
+      "equity_billion": 302000, "shares_common": 474900000, "shares_preferred": 0
+    },
+    {
+      "code": "005490", "name": "POSCO홀딩스",
+      "price": 315000, "bps": 468000,
+      "roe_annual": 0.060, "roe_quarter": 0.052,
+      "risk_free": 0.031,  "erp": 0.055,
+      "equity_billion": 397000, "shares_common": 84571230, "shares_preferred": 0
+    },
+    {
+      "code": "012330", "name": "현대모비스",
+      "price": 230000, "bps": 282000,
+      "roe_annual": 0.085, "roe_quarter": 0.079,
+      "risk_free": 0.031,  "erp": 0.055,
+      "equity_billion": 268000, "shares_common": 94889073, "shares_preferred": 0
+    },
+    {
+      "code": "035420", "name": "NAVER",
+      "price": 185000, "bps": 63000,
+      "roe_annual": 0.115, "roe_quarter": 0.098,
+      "risk_free": 0.031,  "erp": 0.055,
+      "equity_billion": 104000, "shares_common": 164263395, "shares_preferred": 0
+    },
+    {
+      "code": "035720", "name": "카카오",
+      "price": 42000,  "bps": 24000,
+      "roe_annual": 0.042, "roe_quarter": 0.038,
+      "risk_free": 0.031,  "erp": 0.055,
+      "equity_billion": 104000, "shares_common": 447050000, "shares_preferred": 0
+    },
+    {
+      "code": "006400", "name": "삼성SDI",
+      "price": 185000, "bps": 193000,
+      "roe_annual": 0.072, "roe_quarter": 0.060,
+      "risk_free": 0.031,  "erp": 0.055,
+      "equity_billion": 137000, "shares_common": 70700000, "shares_preferred": 0
     }
   ]
 }

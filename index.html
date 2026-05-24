@@ -17,240 +17,174 @@
     --text:    #1c2833;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; }
+  body { font-family: 'Apple SD Gothic Neo','Noto Sans KR',sans-serif; background:var(--bg); color:var(--text); font-size:14px; }
 
-  header {
-    background: var(--primary);
-    color: #fff;
-    padding: 14px 20px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; }
-  header .subtitle { font-size: 12px; opacity: 0.75; margin-top: 2px; }
-  #updated-badge {
-    margin-left: auto;
-    font-size: 11px;
-    background: rgba(255,255,255,0.15);
-    padding: 4px 10px;
-    border-radius: 20px;
-  }
+  /* ── Header ── */
+  header { background:var(--primary); color:#fff; padding:12px 20px; display:flex; align-items:center; gap:12px; }
+  header h1 { font-size:19px; font-weight:700; }
+  header .sub { font-size:11px; opacity:.7; margin-top:2px; }
+  #updated-badge { margin-left:auto; font-size:11px; background:rgba(255,255,255,.15); padding:4px 10px; border-radius:20px; }
 
-  .container { max-width: 1000px; margin: 0 auto; padding: 20px 16px; }
+  /* ── Tab nav ── */
+  .tab-nav { display:flex; background:#fff; border-bottom:2px solid var(--border); padding:0 20px; }
+  .tab-btn {
+    padding:12px 24px; font-size:14px; font-weight:600; cursor:pointer; color:#777;
+    border:none; background:none; border-bottom:3px solid transparent; margin-bottom:-2px;
+    transition:color .15s, border-color .15s;
+  }
+  .tab-btn:hover { color:var(--accent); }
+  .tab-btn.active { color:var(--primary); border-bottom-color:var(--primary); }
 
-  .card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 18px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-  }
-  .card h2 {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--primary);
-    margin-bottom: 16px;
-    padding-bottom: 8px;
-    border-bottom: 2px solid var(--primary);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
+  /* ── Tab panels ── */
+  .tab-panel { display:none; }
+  .tab-panel.active { display:block; }
 
-  /* ── Stock search bar ── */
-  .search-row {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 16px;
-  }
-  .search-row input {
-    flex: 1;
-    padding: 9px 12px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    font-size: 14px;
-  }
-  .search-row input:focus { outline: none; border-color: var(--accent); }
-  .btn {
-    padding: 9px 18px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 600;
-    transition: opacity .15s;
-  }
-  .btn:hover { opacity: 0.85; }
-  .btn-primary { background: var(--accent); color: #fff; }
-  .btn-calc    { background: var(--primary); color: #fff; font-size: 15px; padding: 12px 32px; width: 100%; margin-top: 8px; }
+  /* ── Container ── */
+  .container { max-width:1040px; margin:0 auto; padding:20px 16px; }
 
-  /* ── Input grid ── */
-  .input-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 12px;
-  }
-  .input-group label {
-    display: block;
-    font-size: 12px;
-    color: #555;
-    margin-bottom: 4px;
-    font-weight: 600;
-  }
-  .input-group input, .input-group select {
-    width: 100%;
-    padding: 8px 10px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    font-size: 14px;
-    background: #fff;
-  }
-  .input-group input:focus, .input-group select:focus { outline: none; border-color: var(--accent); }
-  .input-group .hint { font-size: 11px; color: #888; margin-top: 3px; }
+  /* ── Card ── */
+  .card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:20px; margin-bottom:18px; box-shadow:0 1px 4px rgba(0,0,0,.06); }
+  .card h2 { font-size:14px; font-weight:700; color:var(--primary); margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid var(--primary); display:flex; align-items:center; gap:6px; }
 
-  .toggle-row {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 14px;
-  }
-  .toggle-btn {
-    padding: 5px 14px;
-    border: 1px solid var(--accent);
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 12px;
-    color: var(--accent);
-    background: #fff;
-    transition: all .15s;
-  }
-  .toggle-btn.active { background: var(--accent); color: #fff; }
+  /* ── Inputs ── */
+  .search-row { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+  .search-row input { flex:1; min-width:120px; padding:9px 12px; border:1px solid var(--border); border-radius:6px; font-size:14px; }
+  .search-row input:focus { outline:none; border-color:var(--accent); }
+  .btn { padding:9px 18px; border:none; border-radius:6px; cursor:pointer; font-size:13px; font-weight:600; transition:opacity .15s; }
+  .btn:hover { opacity:.85; }
+  .btn-primary { background:var(--accent); color:#fff; }
+  .btn-calc { background:var(--primary); color:#fff; font-size:15px; padding:12px 32px; width:100%; margin-top:8px; }
 
-  .rate-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 8px;
-  }
-  .rate-row span { font-size: 12px; color: #666; }
-  .rate-row input { width: 80px; padding: 6px 8px; border: 1px solid var(--border); border-radius: 4px; font-size: 13px; }
-  .rate-row .plus { font-weight: 700; font-size: 16px; color: #999; }
-  .rate-row .eq   { font-weight: 700; font-size: 16px; color: var(--accent); }
-  #k-display { font-weight: 700; color: var(--accent); font-size: 15px; }
+  .input-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:12px; }
+  .input-group label { display:block; font-size:12px; color:#555; margin-bottom:4px; font-weight:600; }
+  .input-group input { width:100%; padding:8px 10px; border:1px solid var(--border); border-radius:6px; font-size:14px; }
+  .input-group input:focus { outline:none; border-color:var(--accent); }
+  .input-group .hint { font-size:11px; color:#888; margin-top:3px; }
 
-  /* ── Results ── */
-  #results { display: none; }
+  .toggle-row { display:flex; gap:6px; margin-bottom:14px; align-items:center; }
+  .toggle-btn { padding:5px 14px; border:1px solid var(--accent); border-radius:20px; cursor:pointer; font-size:12px; color:var(--accent); background:#fff; transition:all .15s; }
+  .toggle-btn.active { background:var(--accent); color:#fff; }
 
-  .result-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-bottom: 16px;
-  }
-  @media (max-width: 600px) { .result-cards { grid-template-columns: 1fr; } }
+  .rate-row { display:flex; align-items:center; gap:8px; margin-top:8px; flex-wrap:wrap; }
+  .rate-row span { font-size:12px; color:#666; }
+  .rate-row input { width:72px; padding:6px 8px; border:1px solid var(--border); border-radius:4px; font-size:13px; }
+  #k-display { font-weight:700; color:var(--accent); font-size:15px; }
 
-  .val-card {
-    border-radius: 10px;
-    padding: 16px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .val-card.max  { background: #eaf4fb; border: 2px solid var(--accent); }
-  .val-card.fair { background: #eafaf1; border: 2px solid var(--green);  }
-  .val-card.min  { background: #fef9e7; border: 2px solid var(--orange); }
+  /* ── Calculator results ── */
+  #calc-results { display:none; }
 
-  .val-card .label { font-size: 12px; font-weight: 700; color: #555; margin-bottom: 6px; }
-  .val-card .value { font-size: 28px; font-weight: 800; }
-  .val-card.max  .value { color: var(--accent); }
-  .val-card.fair .value { color: var(--green);  }
-  .val-card.min  .value { color: var(--orange); }
-  .val-card .gap  { font-size: 12px; margin-top: 4px; }
-  .val-card .desc { font-size: 11px; color: #777; margin-top: 4px; }
+  /* ── 3-value cards ── */
+  .result-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:16px; }
+  @media(max-width:600px){ .result-cards { grid-template-columns:1fr; } }
+  .val-card { border-radius:10px; padding:16px; text-align:center; }
+  .val-card.max  { background:#eaf4fb; border:2px solid var(--accent); }
+  .val-card.fair { background:#eafaf1; border:2px solid var(--green); }
+  .val-card.min  { background:#fef9e7; border:2px solid var(--orange); }
+  .val-card .label { font-size:12px; font-weight:700; color:#555; margin-bottom:6px; }
+  .val-card .value { font-size:26px; font-weight:800; }
+  .val-card.max  .value { color:var(--accent); }
+  .val-card.fair .value { color:var(--green); }
+  .val-card.min  .value { color:var(--orange); }
+  .val-card .gap  { font-size:12px; margin-top:4px; }
+  .val-card .desc { font-size:11px; color:#777; margin-top:4px; }
 
-  /* ── Signal banner ── */
-  #signal-bar {
-    padding: 14px 20px;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 16px;
-    letter-spacing: 0.5px;
-  }
-  .signal-strong-buy  { background: #1e8449; color: #fff; }
-  .signal-buy         { background: #27ae60; color: #fff; }
-  .signal-hold        { background: #f39c12; color: #fff; }
-  .signal-sell        { background: #e74c3c; color: #fff; }
-  .signal-overvalued  { background: #c0392b; color: #fff; }
+  /* ── Signal ── */
+  .signal-bar { padding:13px 20px; border-radius:8px; font-size:15px; font-weight:700; text-align:center; margin-bottom:16px; }
+  .sig-strong-buy { background:#1e8449; color:#fff; }
+  .sig-buy        { background:#27ae60; color:#fff; }
+  .sig-hold       { background:#f39c12; color:#fff; }
+  .sig-sell       { background:#e74c3c; color:#fff; }
+  .sig-over       { background:#c0392b; color:#fff; }
 
   /* ── Bar chart ── */
-  .chart-wrap { margin: 12px 0 0; }
-  .chart-title { font-size: 12px; color: #666; margin-bottom: 8px; }
-  .bar-track {
-    position: relative;
-    height: 36px;
-    background: #eee;
-    border-radius: 6px;
-    overflow: visible;
-  }
-  .bar-segment {
-    position: absolute;
-    top: 0; bottom: 0;
-    border-radius: 4px;
-  }
-  .bar-min  { background: #f39c12; }
-  .bar-fair { background: #27ae60; }
-  .bar-max  { background: #2980b9; }
-  .price-marker {
-    position: absolute;
-    top: -6px;
-    width: 3px;
-    bottom: -6px;
-    background: #c0392b;
-    border-radius: 2px;
-    z-index: 10;
-  }
-  .price-label {
-    position: absolute;
-    top: -20px;
-    transform: translateX(-50%);
-    font-size: 11px;
-    font-weight: 700;
-    color: #c0392b;
-    white-space: nowrap;
-  }
-  .bar-labels {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 6px;
-    font-size: 11px;
-    color: #777;
-  }
+  .bar-track { position:relative; height:34px; background:#eee; border-radius:6px; overflow:visible; }
+  .bar-seg { position:absolute; top:0; bottom:0; border-radius:4px; }
+  .bar-min  { background:#f39c12; }
+  .bar-fair { background:#27ae60; }
+  .bar-max  { background:#2980b9; }
+  .price-mark { position:absolute; top:-6px; width:3px; bottom:-6px; background:#c0392b; border-radius:2px; z-index:10; }
+  .price-lbl  { position:absolute; top:-20px; transform:translateX(-50%); font-size:11px; font-weight:700; color:#c0392b; white-space:nowrap; }
+  .bar-labels { display:flex; justify-content:space-between; margin-top:6px; font-size:11px; color:#777; }
+  .legend { margin-top:10px; display:flex; gap:14px; font-size:12px; flex-wrap:wrap; }
+  .legend span { display:flex; align-items:center; gap:4px; }
+  .leg-dot { width:12px; height:12px; border-radius:2px; }
 
   /* ── Detail table ── */
-  .detail-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
-  .detail-table th, .detail-table td {
-    padding: 8px 12px;
-    text-align: right;
-    font-size: 13px;
-    border-bottom: 1px solid var(--border);
+  .dtable { width:100%; border-collapse:collapse; margin-top:12px; }
+  .dtable th,.dtable td { padding:8px 12px; text-align:right; font-size:13px; border-bottom:1px solid var(--border); }
+  .dtable th { background:#f4f6f8; font-weight:700; text-align:center; }
+  .dtable td:first-child { text-align:left; }
+  .dtable .hl { font-weight:700; color:var(--primary); }
+
+  /* ── Projection table ── */
+  .ptable { width:100%; border-collapse:collapse; font-size:12px; }
+  .ptable th,.ptable td { padding:5px 8px; border:1px solid #e0e0e0; text-align:center; white-space:nowrap; }
+  .ptable th { background:#eaf0fb; font-weight:700; }
+  .pos { color:var(--green); } .neg { color:var(--red); }
+
+  /* ══════════════════════════════════════════
+     저평가 랭킹 탭
+  ══════════════════════════════════════════ */
+  .rank-header {
+    display:grid;
+    grid-template-columns: 36px 1fr 90px 90px 90px 90px 90px 76px;
+    gap:4px; padding:10px 14px; background:#1a5276; color:#fff;
+    border-radius:8px 8px 0 0; font-size:12px; font-weight:700;
+    align-items:center; cursor:pointer; user-select:none;
   }
-  .detail-table th { background: #f4f6f8; font-weight: 700; text-align: center; }
-  .detail-table td:first-child { text-align: left; }
-  .detail-table tr:hover td { background: #f8f9fa; }
-  .detail-table .highlight { font-weight: 700; color: var(--primary); }
+  .rank-header span { text-align:right; }
+  .rank-header span:first-child { text-align:center; }
+  .rank-header span:nth-child(2) { text-align:left; }
 
-  /* ── ROE projection table ── */
-  .proj-table { width: 100%; border-collapse: collapse; font-size: 12px; overflow-x: auto; display: block; }
-  .proj-table th, .proj-table td { padding: 5px 8px; border: 1px solid #e0e0e0; text-align: center; white-space: nowrap; }
-  .proj-table th { background: #eaf0fb; font-weight: 700; }
-  .proj-table .ri-positive { color: var(--green); }
-  .proj-table .ri-negative { color: var(--red); }
+  .rank-row-wrap { border-left:1px solid var(--border); border-right:1px solid var(--border); }
+  .rank-row-wrap:last-child { border-radius:0 0 8px 8px; border-bottom:1px solid var(--border); }
 
-  footer { text-align: center; padding: 24px; font-size: 11px; color: #aaa; }
-  footer a { color: #aaa; }
+  .rank-row {
+    display:grid;
+    grid-template-columns: 36px 1fr 90px 90px 90px 90px 90px 76px;
+    gap:4px; padding:11px 14px; background:#fff; font-size:13px;
+    align-items:center; cursor:pointer; transition:background .12s;
+    border-bottom:1px solid #f0f0f0;
+  }
+  .rank-row:hover { background:#f0f7ff; }
+  .rank-row.expanded { background:#eaf4fb; }
+  .rank-row .num { text-align:center; font-weight:700; color:#999; }
+  .rank-row .name { font-weight:700; }
+  .rank-row .code { font-size:11px; color:#aaa; }
+  .rank-row .money { text-align:right; font-variant-numeric:tabular-nums; }
+  .rank-row .sig-chip {
+    text-align:center; font-size:11px; font-weight:700; padding:3px 6px;
+    border-radius:20px;
+  }
+  .rank-row .gap-cell { text-align:right; font-weight:700; }
+
+  /* 확장 패널 */
+  .detail-panel { display:none; padding:20px; background:#f8fbff; border-bottom:1px solid var(--border); }
+  .detail-panel.open { display:block; }
+  .detail-panel .inner-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:14px; }
+  @media(max-width:620px){ .detail-panel .inner-cards { grid-template-columns:1fr; } }
+  .mini-card { border-radius:8px; padding:12px; text-align:center; }
+  .mini-card.max  { background:#eaf4fb; border:2px solid var(--accent); }
+  .mini-card.fair { background:#eafaf1; border:2px solid var(--green); }
+  .mini-card.min  { background:#fef9e7; border:2px solid var(--orange); }
+  .mini-card .lbl { font-size:11px; font-weight:700; color:#555; margin-bottom:4px; }
+  .mini-card .val { font-size:20px; font-weight:800; }
+  .mini-card.max  .val { color:var(--accent); }
+  .mini-card.fair .val { color:var(--green); }
+  .mini-card.min  .val { color:var(--orange); }
+  .mini-card .g   { font-size:11px; margin-top:3px; }
+  .open-calc-btn { float:right; padding:6px 14px; background:var(--primary); color:#fff; border:none; border-radius:6px; cursor:pointer; font-size:12px; font-weight:600; margin-bottom:10px; }
+  .open-calc-btn:hover { opacity:.85; }
+
+  @media(max-width:720px){
+    .rank-header, .rank-row { grid-template-columns: 28px 1fr 72px 72px 72px 60px; }
+    .rank-header span:nth-child(4),
+    .rank-header span:nth-child(5),
+    .rank-row .hide-sm { display:none; }
+  }
+
+  footer { text-align:center; padding:24px; font-size:11px; color:#aaa; }
+  footer a { color:#aaa; }
 </style>
 </head>
 <body>
@@ -258,25 +192,34 @@
 <header>
   <div>
     <h1>📊 S-RIM 마법사 Plus</h1>
-    <div class="subtitle">잔여이익모델(RIM) 기반 주식 내재가치 계산기</div>
+    <div class="sub">잔여이익모델(RIM) 기반 주식 내재가치 계산기</div>
   </div>
   <span id="updated-badge">데이터 로딩 중...</span>
 </header>
 
+<!-- ── Tab 네비게이션 ── -->
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('calc')">🧮 계산기</button>
+  <button class="tab-btn"        onclick="switchTab('rank')">📉 저평가 순위</button>
+</div>
+
+<!-- ════════════════════════════════════════
+     탭 1: 계산기
+════════════════════════════════════════ -->
+<div id="tab-calc" class="tab-panel active">
 <div class="container">
 
-  <!-- ── 입력 카드 ── -->
   <div class="card">
     <h2>📋 종목 및 입력 정보</h2>
 
     <div class="search-row">
-      <input id="inp-code" type="text" placeholder="종목코드 (예: 005930)" maxlength="10" style="max-width:160px;">
-      <input id="inp-name" type="text" placeholder="회사명" style="max-width:200px;">
+      <input id="inp-code"  type="text"   placeholder="종목코드 (예: 005930)" maxlength="10" style="max-width:150px;">
+      <input id="inp-name"  type="text"   placeholder="회사명" style="max-width:180px;">
       <button class="btn btn-primary" onclick="loadPreset()">기본값 불러오기</button>
     </div>
 
     <div class="toggle-row" id="roe-toggle">
-      <span style="font-size:12px;color:#555;margin-right:4px;">ROE 기준:</span>
+      <span style="font-size:12px;color:#555;">ROE 기준:</span>
       <button class="toggle-btn active" onclick="setRoeMode('annual')">1년후 기준</button>
       <button class="toggle-btn"        onclick="setRoeMode('quarter')">최근분기 기준</button>
     </div>
@@ -284,23 +227,23 @@
     <div class="input-grid">
       <div class="input-group">
         <label>현재주가 (원)</label>
-        <input id="inp-price" type="number" value="55800" min="0">
+        <input id="inp-price"  type="number" value="55800" min="0">
       </div>
       <div class="input-group">
         <label>BPS — 주당자기자본 (원)</label>
-        <input id="inp-bps" type="number" value="44643" min="0">
+        <input id="inp-bps"    type="number" value="44643" min="0">
         <div class="hint">= 자기자본(억원)×1억 ÷ 총주식수</div>
       </div>
       <div class="input-group">
         <label>ROE (%)</label>
-        <input id="inp-roe" type="number" value="13.55" step="0.01" min="0">
+        <input id="inp-roe"    type="number" value="13.55" step="0.01" min="0">
       </div>
       <div class="input-group">
-        <label>자기자본 (억원) <small style="color:#aaa;">선택</small></label>
+        <label>자기자본 (억원) <small style="color:#aaa">선택</small></label>
         <input id="inp-equity" type="number" value="3032543" min="0" oninput="recalcBps()">
       </div>
       <div class="input-group">
-        <label>총주식수 <small style="color:#aaa;">선택</small></label>
+        <label>총주식수 <small style="color:#aaa">선택</small></label>
         <input id="inp-shares" type="number" value="6792669250" min="1" oninput="recalcBps()">
         <div class="hint">보통주 + 우선주</div>
       </div>
@@ -310,104 +253,139 @@
       <label style="font-size:12px;font-weight:700;color:#555;display:block;margin-bottom:6px;">요구수익률 (k)</label>
       <div class="rate-row">
         <span>무위험수익률</span>
-        <input id="inp-rf" type="number" value="2.5" step="0.1" oninput="recalcK()"> %
-        <span class="plus">+</span>
-        <span>ERP (리스크프리미엄)</span>
+        <input id="inp-rf"  type="number" value="3.1" step="0.1" oninput="recalcK()"> %
+        <span style="font-weight:700;font-size:16px;color:#999;">+</span>
+        <span>ERP</span>
         <input id="inp-erp" type="number" value="5.5" step="0.1" oninput="recalcK()"> %
-        <span class="eq">=</span>
-        <span id="k-display">8.00%</span>
+        <span style="font-weight:700;font-size:16px;color:var(--accent);">=</span>
+        <span id="k-display">8.60%</span>
       </div>
     </div>
 
     <button class="btn btn-calc" onclick="calculate()">계산하기</button>
   </div>
 
-  <!-- ── 결과 카드 ── -->
-  <div id="results">
-
-    <div id="signal-bar">--</div>
+  <div id="calc-results">
+    <div id="signal-bar" class="signal-bar">--</div>
 
     <div class="result-cards">
       <div class="val-card max">
         <div class="label">🔵 최대가치 (초과이익 무한)</div>
         <div class="value" id="v-max">--</div>
-        <div class="gap"  id="g-max"></div>
-        <div class="desc">ROE가 영구히 유지될 경우</div>
+        <div class="gap"   id="g-max"></div>
+        <div class="desc">ROE 영구 유지 시 상한</div>
       </div>
       <div class="val-card fair">
         <div class="label">🟢 적정가치 (10년 수렴)</div>
         <div class="value" id="v-fair">--</div>
-        <div class="gap"  id="g-fair"></div>
+        <div class="gap"   id="g-fair"></div>
         <div class="desc">ROE → k 10년 선형 수렴</div>
       </div>
       <div class="val-card min">
         <div class="label">🟡 최소가치 (5년 수렴)</div>
         <div class="value" id="v-min">--</div>
-        <div class="gap"  id="g-min"></div>
+        <div class="gap"   id="g-min"></div>
         <div class="desc">ROE → k 5년 선형 수렴</div>
       </div>
     </div>
 
-    <!-- 바 차트 -->
     <div class="card">
       <h2>📈 가치 범위 vs 현재주가</h2>
-      <div class="chart-wrap">
-        <div class="bar-track" id="bar-track">
-          <div class="bar-segment bar-min"  id="bar-min"></div>
-          <div class="bar-segment bar-fair" id="bar-fair"></div>
-          <div class="bar-segment bar-max"  id="bar-max"></div>
-          <div class="price-marker" id="price-marker">
-            <span class="price-label" id="price-label"></span>
-          </div>
-        </div>
-        <div class="bar-labels">
-          <span id="bl-0"></span>
-          <span id="bl-max"></span>
+      <div class="bar-track" id="bar-track">
+        <div class="bar-seg bar-min"  id="bar-min"></div>
+        <div class="bar-seg bar-fair" id="bar-fair-seg"></div>
+        <div class="bar-seg bar-max"  id="bar-max-seg"></div>
+        <div class="price-mark" id="price-mark">
+          <span class="price-lbl" id="price-lbl"></span>
         </div>
       </div>
-      <div style="margin-top:12px;display:flex;gap:16px;font-size:12px;">
-        <span><span style="display:inline-block;width:12px;height:12px;background:#2980b9;border-radius:2px;margin-right:4px;"></span>최대가치</span>
-        <span><span style="display:inline-block;width:12px;height:12px;background:#27ae60;border-radius:2px;margin-right:4px;"></span>적정가치</span>
-        <span><span style="display:inline-block;width:12px;height:12px;background:#f39c12;border-radius:2px;margin-right:4px;"></span>최소가치</span>
-        <span><span style="display:inline-block;width:12px;height:12px;background:#c0392b;border-radius:2px;margin-right:4px;"></span>현재주가</span>
+      <div class="bar-labels"><span id="bl-0"></span><span id="bl-max"></span></div>
+      <div class="legend">
+        <span><span class="leg-dot" style="background:#2980b9"></span>최대가치</span>
+        <span><span class="leg-dot" style="background:#27ae60"></span>적정가치</span>
+        <span><span class="leg-dot" style="background:#f39c12"></span>최소가치</span>
+        <span><span class="leg-dot" style="background:#c0392b"></span>현재주가</span>
       </div>
     </div>
 
-    <!-- 상세 수치 -->
     <div class="card">
       <h2>📊 상세 수치</h2>
-      <table class="detail-table">
-        <thead>
-          <tr><th>항목</th><th>최대 (무한)</th><th>적정 (10년)</th><th>최소 (5년)</th></tr>
-        </thead>
+      <table class="dtable">
+        <thead><tr><th>항목</th><th>최대 (무한)</th><th>적정 (10년)</th><th>최소 (5년)</th></tr></thead>
         <tbody id="detail-tbody"></tbody>
       </table>
     </div>
 
-    <!-- ROE 수렴 프로젝션 -->
     <div class="card">
       <h2>📅 ROE 수렴 프로젝션 (10년)</h2>
       <div style="overflow-x:auto;">
-        <table class="proj-table" id="proj-table"></table>
+        <table class="ptable" id="proj-table"></table>
       </div>
     </div>
+  </div>
 
-  </div><!-- /results -->
+</div>
+</div><!-- /tab-calc -->
 
-</div><!-- /container -->
+<!-- ════════════════════════════════════════
+     탭 2: 저평가 순위
+════════════════════════════════════════ -->
+<div id="tab-rank" class="tab-panel">
+<div class="container">
+
+  <div class="card" style="padding-bottom:0; overflow:hidden;">
+    <h2 style="padding:0 0 8px 0; margin-bottom:0;">
+      📉 저평가 순위
+      <span style="font-size:11px;color:#999;font-weight:400;margin-left:8px;">적정가치(10년) 기준 괴리율 순 정렬 · 클릭하면 상세 보기</span>
+    </h2>
+    <div style="padding:10px 0;">
+      <div class="rank-header">
+        <span>순위</span>
+        <span style="text-align:left;">종목명</span>
+        <span>현재주가</span>
+        <span>최소가치</span>
+        <span>적정가치</span>
+        <span class="hide-sm">최대가치</span>
+        <span>괴리율(적정)</span>
+        <span>신호</span>
+      </div>
+      <div id="rank-list"></div>
+    </div>
+    <div id="rank-empty" style="display:none; padding:24px; text-align:center; color:#aaa; font-size:13px;">
+      데이터를 불러오는 중입니다...
+    </div>
+  </div>
+
+</div>
+</div><!-- /tab-rank -->
 
 <footer>
   S-RIM 마법사 Plus · 잔여이익모델(Residual Income Model) 기반 가치평가<br>
-  데이터는 참고용이며 투자 결정의 책임은 투자자 본인에게 있습니다.
+  본 계산기는 참고용이며 투자 결정의 책임은 투자자 본인에게 있습니다.
   <br><a href="https://github.com/dicacros-gif/claudes" target="_blank">GitHub</a>
 </footer>
 
 <script>
-// ── 전역 상태 ──────────────────────────────────────────────────
-let roeMode = 'annual';
+// ══════════════════════════════════════════
+//  전역 상태
+// ══════════════════════════════════════════
+let roeMode  = 'annual';
 let stockData = null;
+let expandedCode = null;   // 현재 열린 종목
 
-// ── 초기화 ────────────────────────────────────────────────────
+// ══════════════════════════════════════════
+//  탭 전환
+// ══════════════════════════════════════════
+function switchTab(tab) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.querySelector(`.tab-btn[onclick="switchTab('${tab}')"]`).classList.add('active');
+}
+
+// ══════════════════════════════════════════
+//  초기화
+// ══════════════════════════════════════════
 window.addEventListener('DOMContentLoaded', () => {
   recalcK();
   fetchData();
@@ -421,6 +399,7 @@ function fetchData() {
       document.getElementById('updated-badge').textContent = '데이터 기준: ' + d.updated;
       loadPreset();
       calculate();
+      buildRanking();
     })
     .catch(() => {
       document.getElementById('updated-badge').textContent = '기본값 사용 중';
@@ -428,51 +407,54 @@ function fetchData() {
     });
 }
 
-// ── 프리셋 불러오기 ───────────────────────────────────────────
-function loadPreset() {
-  if (!stockData || !stockData.stocks || !stockData.stocks.length) return;
-
-  const code = document.getElementById('inp-code').value.trim();
-  let s = stockData.stocks.find(x => x.code === code);
-  if (!s) s = stockData.stocks[0];
+// ══════════════════════════════════════════
+//  계산기 탭 - 프리셋 & 입력
+// ══════════════════════════════════════════
+function loadPreset(code) {
+  if (!stockData || !stockData.stocks.length) return;
+  const s = code
+    ? (stockData.stocks.find(x => x.code === code) || stockData.stocks[0])
+    : (() => {
+        const c = document.getElementById('inp-code').value.trim();
+        return stockData.stocks.find(x => x.code === c) || stockData.stocks[0];
+      })();
 
   document.getElementById('inp-code').value    = s.code;
   document.getElementById('inp-name').value    = s.name;
   document.getElementById('inp-price').value   = s.price;
-  document.getElementById('inp-equity').value  = s.equity_billion;
-  document.getElementById('inp-shares').value  = (s.shares_common || 0) + (s.shares_preferred || 0);
+  document.getElementById('inp-equity').value  = s.equity_billion || '';
+  document.getElementById('inp-shares').value  = (s.shares_common || 0) + (s.shares_preferred || 0) || '';
   document.getElementById('inp-rf').value      = +(s.risk_free * 100).toFixed(2);
   document.getElementById('inp-erp').value     = +(s.erp * 100).toFixed(2);
   recalcK();
-
-  if (roeMode === 'annual') {
-    document.getElementById('inp-roe').value = +(s.roe_annual * 100).toFixed(2);
+  document.getElementById('inp-roe').value = roeMode === 'annual'
+    ? +(s.roe_annual * 100).toFixed(2)
+    : +(s.roe_quarter * 100).toFixed(2);
+  if (s.bps) {
+    document.getElementById('inp-bps').value = s.bps;
   } else {
-    document.getElementById('inp-roe').value = +(s.roe_quarter * 100).toFixed(2);
+    recalcBps();
   }
-  recalcBps();
 }
 
 function setRoeMode(mode) {
   roeMode = mode;
   document.querySelectorAll('#roe-toggle .toggle-btn').forEach((b, i) => {
-    b.classList.toggle('active', (mode === 'annual' && i === 0) || (mode === 'quarter' && i === 1));
+    b.classList.toggle('active', (mode==='annual'&&i===0)||(mode==='quarter'&&i===1));
   });
-  if (stockData && stockData.stocks && stockData.stocks.length) {
-    const s = stockData.stocks[0];
-    document.getElementById('inp-roe').value = roeMode === 'annual'
-      ? +(s.roe_annual * 100).toFixed(2)
-      : +(s.roe_quarter * 100).toFixed(2);
+  if (stockData) {
+    const code = document.getElementById('inp-code').value.trim();
+    const s = stockData.stocks.find(x => x.code === code) || stockData.stocks[0];
+    if (s) document.getElementById('inp-roe').value = roeMode === 'annual'
+      ? +(s.roe_annual*100).toFixed(2)
+      : +(s.roe_quarter*100).toFixed(2);
   }
 }
 
-// ── 보조 계산 ─────────────────────────────────────────────────
 function recalcBps() {
-  const eq  = parseFloat(document.getElementById('inp-equity').value) || 0;
-  const sh  = parseFloat(document.getElementById('inp-shares').value) || 1;
-  if (eq > 0 && sh > 0) {
-    document.getElementById('inp-bps').value = Math.round(eq * 1e8 / sh);
-  }
+  const eq = parseFloat(document.getElementById('inp-equity').value) || 0;
+  const sh = parseFloat(document.getElementById('inp-shares').value) || 1;
+  if (eq > 0 && sh > 0) document.getElementById('inp-bps').value = Math.round(eq * 1e8 / sh);
 }
 
 function recalcK() {
@@ -482,179 +464,284 @@ function recalcK() {
 }
 
 function getK() {
-  const rf  = parseFloat(document.getElementById('inp-rf').value)  || 0;
-  const erp = parseFloat(document.getElementById('inp-erp').value) || 0;
-  return (rf + erp) / 100;
+  return ((parseFloat(document.getElementById('inp-rf').value)||0) +
+          (parseFloat(document.getElementById('inp-erp').value)||0)) / 100;
 }
 
-// ── 핵심 RIM 계산 함수 ────────────────────────────────────────
-/**
- * calcRIM: ROE가 years년에 걸쳐 선형으로 k로 수렴하는 시나리오
- * @param {number} bps   - 주당자기자본 (원)
- * @param {number} roe   - 자기자본이익률 (소수)
- * @param {number} k     - 요구수익률 (소수)
- * @param {number} years - 수렴 연수 (5 or 10)
- * @returns {object} { value, rows }
- */
-function calcRIM(bps, roe, k, years) {
-  let equity = bps;
-  let pvRI   = 0;
-  const rows = [];
-
-  for (let t = 1; t <= years; t++) {
-    const weight = (years - t) / years;
-    const roe_t  = roe * weight + k * (1 - weight);
-    const ri     = equity * (roe_t - k);
-    const pv     = ri / Math.pow(1 + k, t);
-    pvRI += pv;
-    rows.push({ t, roe_t, equity, ri, pv, cumPv: pvRI });
-    equity = equity * (1 + roe_t);
-  }
-
-  return { value: bps + pvRI, pvRI, rows };
-}
-
-/**
- * calcInfinite: ROE가 영구히 유지 (Gordon growth-like perpetuity)
- * 기업이 초과이익을 무한히 창출한다고 가정.
- * 단, 자기자본 성장분은 재투자되며, 적정가치 상한선으로 사용.
- * 실무적으로는 10년 명시적 + 잔존가치(perpetuity) 방식 사용.
- */
-/**
- * calcInfinite: 초과이익이 영구히 유지되는 시나리오
- * V = BPS + BPS×(ROE-k)/k = BPS×ROE/k  (Gordon perpetuity, 자기자본 성장 미반영)
- * ROE projection table은 10년 상수 ROE로 표시
- */
+// ══════════════════════════════════════════
+//  핵심 RIM 계산 함수
+// ══════════════════════════════════════════
 function calcInfinite(bps, roe, k) {
-  if (roe <= k) {
-    return { value: bps, pvRI: 0, rows: [] };
-  }
-  // 단순 영구연금: PV(RI) = BPS × Spread / k
+  if (roe <= k) return { value: bps, pvRI: 0, rows: [] };
   const pvRI = bps * (roe - k) / k;
-
-  // 프로젝션 테이블용 (표시용, 실제 PV 합산에는 미사용)
-  let equity = bps;
+  let eq = bps;
   const rows = [];
   for (let t = 1; t <= 10; t++) {
-    const ri = equity * (roe - k);
-    const pv = ri / Math.pow(1 + k, t);
-    rows.push({ t, roe_t: roe, equity, ri, pv, cumPv: 0 });
-    equity *= (1 + roe);
+    const ri = eq * (roe - k);
+    rows.push({ t, roe_t: roe, equity: eq, ri, pv: ri / Math.pow(1+k,t), cumPv: 0 });
+    eq *= (1 + roe);
   }
-
   return { value: bps + pvRI, pvRI, rows };
 }
 
-// ── 메인 계산 ─────────────────────────────────────────────────
+function calcRIM(bps, roe, k, years) {
+  let eq = bps, pvRI = 0;
+  const rows = [];
+  for (let t = 1; t <= years; t++) {
+    const w     = (years - t) / years;
+    const roe_t = roe * w + k * (1 - w);
+    const ri    = eq * (roe_t - k);
+    const pv    = ri / Math.pow(1 + k, t);
+    pvRI += pv;
+    rows.push({ t, roe_t, equity: eq, ri, pv, cumPv: pvRI });
+    eq *= (1 + roe_t);
+  }
+  return { value: bps + pvRI, pvRI, rows };
+}
+
+// ══════════════════════════════════════════
+//  계산기 탭 - 결과 렌더
+// ══════════════════════════════════════════
 function calculate() {
   const price = parseFloat(document.getElementById('inp-price').value) || 0;
   const bps   = parseFloat(document.getElementById('inp-bps').value)   || 0;
-  const roe   = parseFloat(document.getElementById('inp-roe').value) / 100;
+  const roe   = parseFloat(document.getElementById('inp-roe').value)   / 100;
   const k     = getK();
-
   if (!bps || !roe || !k) return;
 
-  const maxResult  = calcInfinite(bps, roe, k);
-  const fairResult = calcRIM(bps, roe, k, 10);
-  const minResult  = calcRIM(bps, roe, k, 5);
+  const mr = calcInfinite(bps, roe, k);
+  const fr = calcRIM(bps, roe, k, 10);
+  const nr = calcRIM(bps, roe, k, 5);
 
-  const vMax  = maxResult.value;
-  const vFair = fairResult.value;
-  const vMin  = minResult.value;
+  renderCalcResults(price, bps, roe, k, mr, fr, nr);
+}
 
-  const fmt = v => Math.round(v).toLocaleString('ko-KR') + '원';
-  const gap = (v, p) => {
+function renderCalcResults(price, bps, roe, k, mr, fr, nr) {
+  const vMax = mr.value, vFair = fr.value, vMin = nr.value;
+  const fmt  = v => Math.round(v).toLocaleString('ko-KR') + '원';
+  const gapHtml = (v, p) => {
     if (!p) return '';
     const g = ((p - v) / v * 100).toFixed(1);
-    const sign = g > 0 ? '+' : '';
-    const cls  = g > 0 ? 'color:#c0392b' : 'color:#27ae60';
-    return `<span style="${cls}">현재주가 괴리율: ${sign}${g}%</span>`;
+    return `<span style="color:${+g>0?'#c0392b':'#27ae60'}">${+g>0?'+':''}${g}%</span>`;
   };
 
   document.getElementById('v-max').textContent  = fmt(vMax);
   document.getElementById('v-fair').textContent = fmt(vFair);
   document.getElementById('v-min').textContent  = fmt(vMin);
-  document.getElementById('g-max').innerHTML    = gap(vMax,  price);
-  document.getElementById('g-fair').innerHTML   = gap(vFair, price);
-  document.getElementById('g-min').innerHTML    = gap(vMin,  price);
+  document.getElementById('g-max').innerHTML    = gapHtml(vMax,  price);
+  document.getElementById('g-fair').innerHTML   = gapHtml(vFair, price);
+  document.getElementById('g-min').innerHTML    = gapHtml(vMin,  price);
 
-  // ── 신호 배너
-  const signalEl = document.getElementById('signal-bar');
-  signalEl.className = '';
-  if (price < vMin * 0.9) {
-    signalEl.className = 'signal-strong-buy';
-    signalEl.textContent = '🚀 강력 매수 — 현재주가가 최소가치보다 10% 이상 저평가';
-  } else if (price < vMin) {
-    signalEl.className = 'signal-buy';
-    signalEl.textContent = '✅ 매수 구간 — 현재주가가 최소가치 이하';
-  } else if (price < vFair) {
-    signalEl.className = 'signal-buy';
-    signalEl.textContent = '🟢 매수 고려 — 현재주가가 적정가치 이하';
-  } else if (price < vMax) {
-    signalEl.className = 'signal-hold';
-    signalEl.textContent = '🟡 보유 / 관망 — 현재주가가 적정~최대 가치 사이';
-  } else {
-    signalEl.className = 'signal-overvalued';
-    signalEl.textContent = '🔴 고평가 주의 — 현재주가가 최대가치 초과';
-  }
+  const sb  = document.getElementById('signal-bar');
+  const sig = getSignal(price, vMin, vFair, vMax);
+  sb.className = 'signal-bar ' + sig.cls;
+  sb.textContent = sig.msg;
 
-  // ── 바 차트
-  const chartMax = Math.max(vMax, price) * 1.1;
-  const pct = v => (v / chartMax * 100).toFixed(2) + '%';
-  document.getElementById('bar-min').style.cssText  = `left:0; width:${pct(vMin)}`;
-  document.getElementById('bar-fair').style.cssText = `left:0; width:${pct(vFair)}`;
-  document.getElementById('bar-max').style.cssText  = `left:0; width:${pct(vMax)}`;
-  const pm = document.getElementById('price-marker');
+  const cMax = Math.max(vMax, price) * 1.1;
+  const pct  = v => (v / cMax * 100).toFixed(2) + '%';
+  document.getElementById('bar-min').style.cssText      = `left:0;width:${pct(vMin)}`;
+  document.getElementById('bar-fair-seg').style.cssText = `left:0;width:${pct(vFair)}`;
+  document.getElementById('bar-max-seg').style.cssText  = `left:0;width:${pct(vMax)}`;
+  const pm = document.getElementById('price-mark');
   pm.style.left = pct(price);
-  document.getElementById('price-label').textContent = price.toLocaleString('ko-KR') + '원';
+  document.getElementById('price-lbl').textContent = price.toLocaleString('ko-KR') + '원';
   document.getElementById('bl-0').textContent   = '0원';
-  document.getElementById('bl-max').textContent = Math.round(chartMax).toLocaleString('ko-KR') + '원';
+  document.getElementById('bl-max').textContent = Math.round(cMax).toLocaleString('ko-KR') + '원';
 
-  // ── 상세 테이블
   const spread = (roe - k) * 100;
-  const tbody  = document.getElementById('detail-tbody');
-  tbody.innerHTML = [
-    ['BPS (주당자기자본)',       fmt(bps),            '',                ''],
-    ['ROE',                    (roe*100).toFixed(2)+'%',  '',            ''],
-    ['요구수익률 (k)',           (k*100).toFixed(2)+'%',   '',            ''],
-    ['ROE-k (Spread)',          spread.toFixed(2)+'%',     '',            ''],
-    ['잔여이익 현재가치 (PV·RI)', fmt(maxResult.pvRI), fmt(fairResult.pvRI), fmt(minResult.pvRI)],
-    ['내재가치 (BPS + PV·RI)',   fmt(vMax),           fmt(vFair),           fmt(vMin)],
-    ['현재주가 대비 괴리율',
-      gapNum(vMax, price), gapNum(vFair, price), gapNum(vMin, price)],
-  ].map(([lbl, a, b, c]) =>
-    `<tr><td>${lbl}</td><td class="highlight">${a}</td><td>${b}</td><td>${c}</td></tr>`
-  ).join('');
+  document.getElementById('detail-tbody').innerHTML = [
+    ['BPS (주당자기자본)', fmt(bps), '', ''],
+    ['ROE', (roe*100).toFixed(2)+'%', '', ''],
+    ['요구수익률 (k)', (k*100).toFixed(2)+'%', '', ''],
+    ['ROE-k (Spread)', spread.toFixed(2)+'%', '', ''],
+    ['PV(잔여이익)', fmt(mr.pvRI), fmt(fr.pvRI), fmt(nr.pvRI)],
+    ['내재가치', fmt(vMax), fmt(vFair), fmt(vMin)],
+    ['현재주가 괴리율', gapHtml(vMax,price), gapHtml(vFair,price), gapHtml(vMin,price)],
+  ].map(([l,a,b,c]) => `<tr><td>${l}</td><td class="hl">${a}</td><td>${b}</td><td>${c}</td></tr>`).join('');
 
-  // ── ROE 수렴 프로젝션 (10년)
-  const fairRows = fairResult.rows;
-  const maxRows  = maxResult.rows.slice(0, 10);
-  let tHead = '<tr><th>연도</th><th>무한 ROE</th><th>무한 RI</th><th>10년 ROE</th><th>10년 RI</th><th>PV(10년)</th><th>누적 PV</th></tr>';
-  let tBody = '';
+  const maxRows = mr.rows.slice(0,10), fairRows = fr.rows;
+  let th = '<tr><th>연도</th><th>무한 ROE</th><th>무한 RI</th><th>10년 ROE</th><th>10년 RI</th><th>PV(10년)</th><th>누적 PV</th></tr>';
+  let tb = '';
   for (let i = 0; i < 10; i++) {
-    const mr = maxRows[i]  || {};
-    const fr = fairRows[i] || {};
-    const ri_cls = (fr.ri || 0) >= 0 ? 'ri-positive' : 'ri-negative';
-    tBody += `<tr>
+    const m = maxRows[i]||{}, f = fairRows[i]||{};
+    const cls = (f.ri||0) >= 0 ? 'pos' : 'neg';
+    tb += `<tr>
       <td>+${i+1}년</td>
-      <td>${((mr.roe_t||0)*100).toFixed(2)}%</td>
-      <td class="${ri_cls}">${Math.round(mr.ri||0).toLocaleString()}</td>
-      <td>${((fr.roe_t||0)*100).toFixed(2)}%</td>
-      <td class="${ri_cls}">${Math.round(fr.ri||0).toLocaleString()}</td>
-      <td>${Math.round(fr.pv||0).toLocaleString()}</td>
-      <td>${Math.round(fr.cumPv||0).toLocaleString()}</td>
-    </tr>`;
+      <td>${((m.roe_t||0)*100).toFixed(2)}%</td>
+      <td class="${cls}">${Math.round(m.ri||0).toLocaleString()}</td>
+      <td>${((f.roe_t||0)*100).toFixed(2)}%</td>
+      <td class="${cls}">${Math.round(f.ri||0).toLocaleString()}</td>
+      <td>${Math.round(f.pv||0).toLocaleString()}</td>
+      <td>${Math.round(f.cumPv||0).toLocaleString()}</td></tr>`;
   }
-  document.getElementById('proj-table').innerHTML = tHead + tBody;
+  document.getElementById('proj-table').innerHTML = th + tb;
+  document.getElementById('calc-results').style.display = 'block';
+}
 
-  document.getElementById('results').style.display = 'block';
+// ══════════════════════════════════════════
+//  신호 분류
+// ══════════════════════════════════════════
+function getSignal(price, vMin, vFair, vMax) {
+  if (price < vMin * 0.9)   return { cls:'sig-strong-buy', msg:'🚀 강력 매수 — 현재주가가 최소가치보다 10% 이상 저평가' };
+  if (price < vMin)         return { cls:'sig-buy',        msg:'✅ 매수 구간 — 현재주가 ≤ 최소가치' };
+  if (price < vFair)        return { cls:'sig-buy',        msg:'🟢 매수 고려 — 현재주가 ≤ 적정가치' };
+  if (price < vMax)         return { cls:'sig-hold',       msg:'🟡 보유 / 관망 — 현재주가가 적정~최대가치 사이' };
+  return                           { cls:'sig-over',       msg:'🔴 고평가 주의 — 현재주가 > 최대가치' };
 }
 
 function gapNum(v, p) {
   if (!p) return '';
   const g = ((p - v) / v * 100).toFixed(1);
-  const color = g > 0 ? '#c0392b' : '#27ae60';
-  return `<span style="color:${color}">${g > 0 ? '+' : ''}${g}%</span>`;
+  return `<span style="color:${+g>0?'#c0392b':'#27ae60'}">${+g>0?'+':''}${g}%</span>`;
+}
+
+// ══════════════════════════════════════════
+//  저평가 순위 탭
+// ══════════════════════════════════════════
+function buildRanking() {
+  if (!stockData || !stockData.stocks.length) {
+    document.getElementById('rank-empty').style.display = 'block';
+    return;
+  }
+
+  const k_default = 0.086;   // 기본 요구수익률 (각 종목의 risk_free+erp 사용)
+
+  const enriched = stockData.stocks.map(s => {
+    const bps  = s.bps || (s.equity_billion > 0
+      ? Math.round(s.equity_billion * 1e8 / ((s.shares_common||0) + (s.shares_preferred||0)))
+      : 0);
+    const roe  = s.roe_annual || 0;
+    const k    = (s.risk_free || 0.031) + (s.erp || 0.055);
+    const mr   = calcInfinite(bps, roe, k);
+    const fr   = calcRIM(bps, roe, k, 10);
+    const nr   = calcRIM(bps, roe, k, 5);
+    const gap  = fr.value > 0 ? (s.price - fr.value) / fr.value * 100 : 0;
+    return { ...s, bps, k, vMax: mr.value, vFair: fr.value, vMin: nr.value, gap };
+  });
+
+  // 괴리율 오름차순 (가장 저평가 먼저)
+  enriched.sort((a, b) => a.gap - b.gap);
+
+  const list = document.getElementById('rank-list');
+  list.innerHTML = '';
+
+  enriched.forEach((s, idx) => {
+    const sig   = getSignal(s.price, s.vMin, s.vFair, s.vMax);
+    const sigBg = { 'sig-strong-buy':'#1e8449', 'sig-buy':'#27ae60', 'sig-hold':'#f39c12', 'sig-sell':'#e74c3c', 'sig-over':'#c0392b' }[sig.cls] || '#aaa';
+    const gapStr = s.gap.toFixed(1);
+    const gapClr = s.gap < 0 ? '#27ae60' : '#c0392b';
+    const fmt    = v => Math.round(v).toLocaleString('ko-KR');
+
+    const wrap = document.createElement('div');
+    wrap.className = 'rank-row-wrap';
+
+    const row = document.createElement('div');
+    row.className = 'rank-row';
+    row.dataset.code = s.code;
+    row.innerHTML = `
+      <span class="num">${idx + 1}</span>
+      <span><span class="name">${s.name}</span><br><span class="code">${s.code}</span></span>
+      <span class="money">${fmt(s.price)}</span>
+      <span class="money">${fmt(s.vMin)}</span>
+      <span class="money">${fmt(s.vFair)}</span>
+      <span class="money hide-sm">${fmt(s.vMax)}</span>
+      <span class="gap-cell" style="color:${gapClr}">${s.gap > 0 ? '+' : ''}${gapStr}%</span>
+      <span class="sig-chip" style="background:${sigBg};color:#fff;">${sigLabel(sig.cls)}</span>`;
+
+    const panel = document.createElement('div');
+    panel.className = 'detail-panel';
+    panel.innerHTML = buildDetailHtml(s);
+
+    row.addEventListener('click', () => toggleDetail(s.code, wrap, row, panel, s));
+
+    wrap.appendChild(row);
+    wrap.appendChild(panel);
+    list.appendChild(wrap);
+  });
+}
+
+function sigLabel(cls) {
+  return { 'sig-strong-buy':'강력매수', 'sig-buy':'매수', 'sig-hold':'보유', 'sig-sell':'매도', 'sig-over':'고평가' }[cls] || '';
+}
+
+function buildDetailHtml(s) {
+  const fmt = v => Math.round(v).toLocaleString('ko-KR') + '원';
+  const g   = (v, p) => {
+    if (!p) return '';
+    const pct = ((p - v) / v * 100).toFixed(1);
+    return `<span style="color:${+pct>0?'#c0392b':'#27ae60'}">${+pct>0?'+':''}${pct}%</span>`;
+  };
+
+  return `
+  <button class="open-calc-btn" onclick="openInCalc('${s.code}')">계산기로 열기 ↗</button>
+  <div class="inner-cards">
+    <div class="mini-card max">
+      <div class="lbl">🔵 최대가치 (무한)</div>
+      <div class="val">${fmt(s.vMax)}</div>
+      <div class="g">${g(s.vMax, s.price)}</div>
+    </div>
+    <div class="mini-card fair">
+      <div class="lbl">🟢 적정가치 (10년)</div>
+      <div class="val">${fmt(s.vFair)}</div>
+      <div class="g">${g(s.vFair, s.price)}</div>
+    </div>
+    <div class="mini-card min">
+      <div class="lbl">🟡 최소가치 (5년)</div>
+      <div class="val">${fmt(s.vMin)}</div>
+      <div class="g">${g(s.vMin, s.price)}</div>
+    </div>
+  </div>
+  ${buildMiniBar(s)}
+  <table class="dtable" style="margin-top:0;">
+    <thead><tr><th>항목</th><th>값</th><th>항목</th><th>값</th></tr></thead>
+    <tbody>
+      <tr><td>BPS</td><td class="hl">${Math.round(s.bps).toLocaleString()}원</td>
+          <td>ROE</td><td>${(s.roe_annual*100).toFixed(2)}%</td></tr>
+      <tr><td>요구수익률(k)</td><td class="hl">${(s.k*100).toFixed(2)}%</td>
+          <td>Spread</td><td>${((s.roe_annual-s.k)*100).toFixed(2)}%</td></tr>
+      <tr><td>현재주가</td><td class="hl">${s.price.toLocaleString()}원</td>
+          <td>적정가치 괴리율</td><td>${s.gap.toFixed(1)}%</td></tr>
+    </tbody>
+  </table>`;
+}
+
+function buildMiniBar(s) {
+  const cMax = Math.max(s.vMax, s.price) * 1.1;
+  const pct  = v => (v / cMax * 100).toFixed(2) + '%';
+  return `
+  <div style="margin:12px 0 14px;">
+    <div class="bar-track" style="height:26px;">
+      <div class="bar-seg bar-min"  style="left:0;width:${pct(s.vMin)}"></div>
+      <div class="bar-seg bar-fair" style="left:0;width:${pct(s.vFair)}"></div>
+      <div class="bar-seg bar-max"  style="left:0;width:${pct(s.vMax)}"></div>
+      <div class="price-mark" style="left:${pct(s.price)}">
+        <span class="price-lbl">${s.price.toLocaleString()}원</span>
+      </div>
+    </div>
+    <div class="bar-labels"><span>0원</span><span>${Math.round(cMax).toLocaleString()}원</span></div>
+  </div>`;
+}
+
+function toggleDetail(code, wrap, row, panel, s) {
+  const isOpen = panel.classList.contains('open');
+  // 모든 패널 닫기
+  document.querySelectorAll('.detail-panel.open').forEach(p => p.classList.remove('open'));
+  document.querySelectorAll('.rank-row.expanded').forEach(r => r.classList.remove('expanded'));
+  expandedCode = null;
+
+  if (!isOpen) {
+    panel.classList.add('open');
+    row.classList.add('expanded');
+    expandedCode = code;
+    wrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+}
+
+function openInCalc(code) {
+  loadPreset(code);
+  calculate();
+  switchTab('calc');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 </script>
 </body>
