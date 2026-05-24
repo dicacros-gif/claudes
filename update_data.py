@@ -366,7 +366,23 @@ def fetch_korean():
             mktcap   = int(cap.loc[code,"시가총액"]/1e8) if code in cap.index else 0
             roe_pct  = round(eps_now/bps*100, 2) if bps > 0 and eps_now else 0.0
 
-            stocks.append([code, name, sector, price, bps, roe_pct, per, pbr, mktcap, eps_g, div])
+            # Try yfinance quarterly data (XXXXXX.KS or XXXXXX.KQ)
+            sfx = "KS" if market == "KOSPI" else "KQ"
+            qg = {}
+            try:
+                import yfinance as yf
+                t_yf = yf.Ticker(f"{code}.{sfx}")
+                qg = get_quarterly(t_yf)
+            except Exception:
+                pass
+            rqoq = qg.get('rev_qoq')
+            iqoq = qg.get('ni_qoq')
+            ryoy = qg.get('rev_yoy_q')
+            iyoy = qg.get('ni_yoy_q')
+
+            stocks.append([code, name, sector, price, bps, roe_pct, per, pbr, mktcap, eps_g, div,
+                           rqoq, iqoq, ryoy, iyoy, None, None])
+            time.sleep(0.2)
 
         stocks.sort(key=lambda x: x[8], reverse=True)
         results[market] = stocks
@@ -386,7 +402,7 @@ def main():
     if kospi or kosdaq:
         kr_data = {
             "updated": today, "rf": DEFAULT_RF, "erp": DEFAULT_ERP,
-            "f": ["c","n","s","p","b","r","per","pbr","m","eg","div"],
+            "f": ["c","n","s","p","b","r","per","pbr","m","eg","div","rqoq","iqoq","ryoy","iyoy","frg","feg"],
             "KOSPI": kospi, "KOSDAQ": kosdaq,
         }
         with open("stocks.json","w",encoding="utf-8") as f:

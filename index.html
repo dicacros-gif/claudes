@@ -21,35 +21,81 @@
 }
 /* ── Light theme ── */
 [data-theme="light"]{
-  --bg0:#f0f5fc;--bg1:#e2eaf6;--bg2:#d4dff0;--bg3:#c4d2e8;
-  --border:#9ab0cc;--bord2:#7a98be;
-  --t0:#0a1828;--t1:#2a4060;--t2:#6888aa;
-  --cyan:#0077cc;--cyan2:#005599;
-  --green:#007a38;--green2:#005528;
-  --red:#cc1830;--red2:#880f20;
-  --orange:#c06000;--yellow:#987000;
-  --hover:#c8d8f0;--hover-border:#0077cc55;
-  --exp-bg:#dae6f8;
-  --shadow:rgba(0,50,100,.15);
+  --bg0:#ffffff;--bg1:#f4f8ff;--bg2:#e8f0fb;--bg3:#d8e6f6;
+  --border:#aac2dc;--bord2:#88aac8;
+  --t0:#030c1a;--t1:#18385a;--t2:#3a6080;
+  --cyan:#0048c8;--cyan2:#0034a0;
+  --green:#005220;--green2:#003814;
+  --red:#b80018;--red2:#820010;
+  --orange:#9c3e00;--yellow:#6a5000;
+  --purple:#5020b0;
+  --hover:#cfe0fa;--hover-border:#0048c855;
+  --exp-bg:#e4efff;
+  --shadow:rgba(0,20,60,.18);
 }
-[data-theme="light"] .hdr{background:linear-gradient(90deg,#c0d0e8,#d8e8f8);}
-[data-theme="light"] .logo{color:var(--cyan);}
-[data-theme="light"] .cB2{background:#c8f0dc;color:var(--green);}
-[data-theme="light"] .cB1{background:#d8f5e4;color:#006830;}
-[data-theme="light"] .cH{background:#fff0cc;color:var(--orange);}
-[data-theme="light"] .cO{background:#ffe0e4;color:var(--red);}
-[data-theme="light"] .sB2{background:#c0eedc;color:var(--green);border-color:var(--green2);}
-[data-theme="light"] .sB1{background:#cef0e0;color:#006830;border-color:#40a060;}
-[data-theme="light"] .sH{background:#fff0cc;color:var(--orange);border-color:#c08020;}
-[data-theme="light"] .sO{background:#ffe4e8;color:var(--red);border-color:#cc2040;}
+[data-theme="light"] .hdr{background:linear-gradient(90deg,#1a3050,#1e3c68);}
+[data-theme="light"] .hdr .t0,.hdr .t1{color:#dce8ff;}
+[data-theme="light"] .logo{color:#60b0ff;}
+[data-theme="light"] .badge{color:#90b8e0;border-color:#3a6090;}
+[data-theme="light"] .badge.live{color:#40e880;border-color:#20805a;}
+[data-theme="light"] #clk{color:#80a8d0;}
+[data-theme="light"] .theme-btn{background:#253a58;border-color:#3a5a7a;}
+[data-theme="light"] .tabs{background:#f4f8ff;}
+[data-theme="light"] .tb{color:#4a6888;}
+[data-theme="light"] .tb:hover{color:#18385a;background:#e0eaf8;}
+[data-theme="light"] .tb.active{color:#0048c8;border-bottom-color:#0048c8;}
+[data-theme="light"] .th{background:#d8e6f6;color:#1a3858;}
+[data-theme="light"] .phead{background:#d8e6f6;color:#1a3858;}
+[data-theme="light"] .sec-btn{background:#e8f0fb;color:#1a3858;}
+[data-theme="light"] .sec-btn:hover{background:#d0dff5;border-color:#0048c8;}
+[data-theme="light"] .sec-btn.active{background:#c0d5f0;border-color:#0048c8;}
+[data-theme="light"] .sec-btn .sbc{color:#3a6080;}
+[data-theme="light"] .stb{color:#3a6080;}
+[data-theme="light"] .stb:hover{color:#18385a;background:#e0eaf8;}
+[data-theme="light"] .stb.active{color:#0048c8;border-bottom-color:#0048c8;}
+[data-theme="light"] .exch-btn{background:#e8f0fb;color:#1a3858;border-color:#aac2dc;}
+[data-theme="light"] .exch-btn.active{background:#c0d8f8;border-color:#0048c8;color:#0034a0;}
+[data-theme="light"] .exch-btn.nq.active{background:#c0e8ff;border-color:#008ace;color:#005a9c;}
+[data-theme="light"] .exch-btn.ny.active{background:#e8d0ff;border-color:#7030c0;color:#4a1090;}
+[data-theme="light"] .srch{background:#f4f8ff;color:#030c1a;border-color:#aac2dc;}
+[data-theme="light"] .srch:focus{border-color:#0048c8;}
+[data-theme="light"] .srch::placeholder{color:#6888a8;}
+[data-theme="light"] .stats-row{background:#e8f0fb;border-color:#aac2dc;}
+[data-theme="light"] .st-l{color:#3a6080;}
+[data-theme="light"] .um{background:#f0f6ff;border-color:#b8cce0;}
+[data-theme="light"] .um:hover{background:#e4eeff;border-color:#0048c8;}
+[data-theme="light"] .um .uml{color:#3a6080;}
+[data-theme="light"] .um-sec{background:#d8e6f6;border-color:#aac2dc;color:#0048c8;}
+[data-theme="light"] .sectitle{background:#d8e6f6;border-color:#aac2dc;color:#0048c8;}
+[data-theme="light"] .urk-title{background:#d8e6f6;border-color:#aac2dc;color:#0048c8;}
+[data-theme="light"] .urk-title .cnt{color:#3a6080;}
+[data-theme="light"] .cB2{background:#74e89c;color:#002a0c;border:1px solid #15804a;}
+[data-theme="light"] .cB1{background:#9cf0b8;color:#003614;border:1px solid #20904c;}
+[data-theme="light"] .cH{background:#ffe060;color:#5c2800;border:1px solid #c07000;}
+[data-theme="light"] .cO{background:#ff8898;color:#600010;border:1px solid #c01828;}
+[data-theme="light"] .sB2{background:#5ce090;color:#00200a;border-color:#108040;}
+[data-theme="light"] .sB1{background:#80ecca;color:#002818;border-color:#18986a;}
+[data-theme="light"] .sH{background:#ffd840;color:#4a2000;border-color:#b06000;}
+[data-theme="light"] .sO{background:#ff6878;color:#500010;border-color:#b81028;}
 [data-theme="light"] .exp{background:var(--exp-bg);}
-[data-theme="light"] .btrack{background:#b0c8e0;}
-[data-theme="light"] .vmx{background:#daeeff;border-color:#5090c0;}
-[data-theme="light"] .vfr{background:#d8f5e8;border-color:#40a060;}
-[data-theme="light"] .vmn{background:#fff3d0;border-color:#c08020;}
-[data-theme="light"] .vmx .vv{color:#0068aa;}
-[data-theme="light"] .vfr .vv{color:#006830;}
-[data-theme="light"] .vmn .vv{color:#c06000;}
+[data-theme="light"] .btrack{background:#b0c8dc;}
+[data-theme="light"] .vmx{background:#c8e8ff;border-color:#4080c0;}
+[data-theme="light"] .vfr{background:#c0f0d8;border-color:#28884a;}
+[data-theme="light"] .vmn{background:#fff0a8;border-color:#b07000;}
+[data-theme="light"] .vmx .vv{color:#0048c8;}
+[data-theme="light"] .vfr .vv{color:#005220;}
+[data-theme="light"] .vmn .vv{color:#9c3e00;}
+[data-theme="light"] .ctrl{background:#e8f0fb;border-color:#aac2dc;}
+[data-theme="light"] .cg input{background:#f4f8ff;color:#030c1a;border-color:#aac2dc;}
+[data-theme="light"] .tbl-wrap{background:#f4f8ff;border-color:#aac2dc;}
+[data-theme="light"] .tr{border-bottom-color:#c8daea;}
+[data-theme="light"] .tr:hover{background:#cfe0fa;}
+[data-theme="light"] .tr:hover .nm{color:#0048c8;}
+[data-theme="light"] .prow{background:#eef4ff;border-bottom-color:#c8daea;}
+[data-theme="light"] .prow:hover{background:#cfe0fa;}
+[data-theme="light"] .prow.cur{background:#d0e0f8;border-left-color:#9c3e00;}
+[data-theme="light"] .ptbl th{background:#d8e6f6;color:#18385a;}
+[data-theme="light"] .dt th{background:#d8e6f6;color:#18385a;}
 
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{background:var(--bg0);color:var(--t0);font-size:13px;min-height:100vh;transition:background .25s,color .25s;}
@@ -118,7 +164,7 @@ body{font-family:'SF Mono','Fira Code','JetBrains Mono',Consolas,'Apple SD Gothi
 
 /* ── Table ── */
 .tbl-wrap{background:var(--bg1);border:1px solid var(--border);border-radius:4px;overflow:hidden;overflow-x:auto;}
-.kg{display:grid;grid-template-columns:30px minmax(120px,1fr) 80px 88px 52px 55px 88px 88px 76px 64px;align-items:center;}
+.kg{display:grid;grid-template-columns:24px minmax(115px,1fr) 72px 54px 54px 56px 56px 54px 54px 84px 64px 52px;align-items:center;}
 .ug{display:grid;grid-template-columns:58px minmax(120px,1fr) 48px 80px 52px 52px 46px 62px 62px 76px 68px 62px;align-items:center;}
 .th{padding:7px 10px;background:var(--bg3);font-size:9px;font-weight:700;color:var(--t2);
   letter-spacing:.6px;text-transform:uppercase;border-bottom:1px solid var(--border);}
@@ -275,16 +321,21 @@ body{font-family:'SF Mono','Fira Code','JetBrains Mono',Consolas,'Apple SD Gothi
 .urk-search:focus{outline:none;border-color:var(--cyan);}
 
 /* ── Responsive ── */
+@media(max-width:1100px){
+  .kh-gry,.kh-gry-cell{display:none!important;}
+  .kg{grid-template-columns:22px minmax(110px,1fr) 70px 52px 52px 82px 62px 50px;}
+}
 @media(max-width:900px){
-  .kg{grid-template-columns:26px minmax(100px,1fr) 78px 52px 82px 76px 64px;}
+  .kg{grid-template-columns:20px minmax(100px,1fr) 68px 50px 50px 78px 60px 48px;}
   .kh-s,.kh-s-cell,.kh-pbr{display:none!important;}
   .ug{grid-template-columns:52px minmax(100px,1fr) 76px 50px 50px 70px 62px;}
   .uh-s{display:none!important;}
   .upg{grid-template-columns:50px 1fr 72px 48px 68px 62px 56px;}
   .uph-s{display:none!important;}
 }
-@media(max-width:620px){
-  .kg{grid-template-columns:22px 1fr 72px 78px 68px 56px;}
+@media(max-width:700px){
+  .kh-gr,.kh-gr-cell{display:none!important;}
+  .kg{grid-template-columns:18px minmax(95px,1fr) 66px 80px 60px 46px;}
   .kh-sm,.kh-sm-cell{display:none!important;}
   .pg{grid-template-columns:1fr 68px 80px 60px 56px;}
   .ph-sm{display:none!important;}
@@ -313,9 +364,9 @@ footer a:hover{color:var(--cyan);}
 <div class="tabs">
   <button class="tb active" onclick="switchTab('kospi')">🏛 KOSPI</button>
   <button class="tb"        onclick="switchTab('kosdaq')">📈 KOSDAQ</button>
+  <button class="tb"        onclick="switchTab('rank')">📊 저평가 순위</button>
   <button class="tb"        onclick="switchTab('us')">🇺🇸 US STOCKS</button>
   <button class="tb"        onclick="switchTab('usrank')">🎯 US 저평가</button>
-  <button class="tb"        onclick="switchTab('rank')">📊 저평가 순위</button>
 </div>
 
 <!-- ══ KOSPI ══ -->
@@ -328,10 +379,12 @@ footer a:hover{color:var(--cyan);}
   <div class="stats-row" id="stats-kospi"></div>
   <div class="tbl-wrap">
     <div class="th kg">
-      <span>순위</span><span>종목명</span><span class="kh-s">업종</span>
-      <span>현재주가</span><span class="kh-sm">PER</span><span class="kh-sm">ROE</span>
-      <span>적정가치</span><span class="kh-s">최소가치</span>
-      <span>괴리율</span><span>신호</span>
+      <span>순위</span><span>종목명</span>
+      <span>현재가</span>
+      <span class="kh-gr">매출QoQ</span><span class="kh-gr">이익QoQ</span>
+      <span class="kh-gry">매출YoY</span><span class="kh-gry">이익YoY</span>
+      <span class="kh-gry">Fwd매출</span><span class="kh-gry">FwdEPS</span>
+      <span>적정가치</span><span>괴리율</span><span>신호</span>
     </div>
     <div id="list-kospi"></div>
   </div>
@@ -348,10 +401,12 @@ footer a:hover{color:var(--cyan);}
   <div class="stats-row" id="stats-kosdaq"></div>
   <div class="tbl-wrap">
     <div class="th kg">
-      <span>순위</span><span>종목명</span><span class="kh-s">업종</span>
-      <span>현재주가</span><span class="kh-sm">PER</span><span class="kh-sm">ROE</span>
-      <span>적정가치</span><span class="kh-s">최소가치</span>
-      <span>괴리율</span><span>신호</span>
+      <span>순위</span><span>종목명</span>
+      <span>현재가</span>
+      <span class="kh-gr">매출QoQ</span><span class="kh-gr">이익QoQ</span>
+      <span class="kh-gry">매출YoY</span><span class="kh-gry">이익YoY</span>
+      <span class="kh-gry">Fwd매출</span><span class="kh-gry">FwdEPS</span>
+      <span>적정가치</span><span>괴리율</span><span>신호</span>
     </div>
     <div id="list-kosdaq"></div>
   </div>
@@ -409,10 +464,12 @@ footer a:hover{color:var(--cyan);}
     <div class="tbl-wrap">
       <div class="sectitle">🏆 KOSPI 저평가 TOP 100 — 적정가치(RIM 10년) 대비 괴리율 순</div>
       <div class="th kg">
-        <span>순위</span><span>종목명</span><span class="kh-s">업종</span>
-        <span>현재주가</span><span class="kh-sm">PER</span><span class="kh-sm">ROE</span>
-        <span>적정가치</span><span class="kh-s">최소가치</span>
-        <span>괴리율</span><span>신호</span>
+        <span>순위</span><span>종목명</span>
+        <span>현재가</span>
+        <span class="kh-gr">매출QoQ</span><span class="kh-gr">이익QoQ</span>
+        <span class="kh-gry">매출YoY</span><span class="kh-gry">이익YoY</span>
+        <span class="kh-gry">Fwd매출</span><span class="kh-gry">FwdEPS</span>
+        <span>적정가치</span><span>괴리율</span><span>신호</span>
       </div>
       <div id="rk-list-kospi"></div>
     </div>
@@ -422,10 +479,12 @@ footer a:hover{color:var(--cyan);}
     <div class="tbl-wrap">
       <div class="sectitle">🏆 KOSDAQ 저평가 TOP 100 — 적정가치(RIM 10년) 대비 괴리율 순</div>
       <div class="th kg">
-        <span>순위</span><span>종목명</span><span class="kh-s">업종</span>
-        <span>현재주가</span><span class="kh-sm">PER</span><span class="kh-sm">ROE</span>
-        <span>적정가치</span><span class="kh-s">최소가치</span>
-        <span>괴리율</span><span>신호</span>
+        <span>순위</span><span>종목명</span>
+        <span>현재가</span>
+        <span class="kh-gr">매출QoQ</span><span class="kh-gr">이익QoQ</span>
+        <span class="kh-gry">매출YoY</span><span class="kh-gry">이익YoY</span>
+        <span class="kh-gry">Fwd매출</span><span class="kh-gry">FwdEPS</span>
+        <span>적정가치</span><span>괴리율</span><span>신호</span>
       </div>
       <div id="rk-list-kosdaq"></div>
     </div>
@@ -524,6 +583,7 @@ function enrichKr(s){
   const mx=rimInf(s[4],roe,k),fr=rim(s[4],roe,k,10),mn=rim(s[4],roe,k,5);
   const gap=fr.v>0?(s[3]-fr.v)/fr.v*100:0;
   return{c:s[0],n:s[1],sec:s[2],p:s[3],b:s[4],r:s[5],per:s[6],pbr:s[7],m:s[8],eg:s[9]||0,div:s[10]||0,
+    rqoq:s[11]??null,iqoq:s[12]??null,ryoy:s[13]??null,iyoy:s[14]??null,frg:s[15]??null,feg:s[16]??null,
     roe,k,vMax:mx.v,vFair:fr.v,vMin:mn.v,gap};
 }
 
@@ -661,12 +721,14 @@ function renderKr(mkt,stocks,targetId){
     row.innerHTML=`
       <span>${i+1}</span>
       <span><span class="nm">${s.n}</span><br><span class="cd">${s.c}</span></span>
-      <span class="kh-s kh-s-cell">${s.sec}</span>
       <span>${fmt(s.p)}</span>
-      <span class="kh-sm kh-sm-cell">${s.per>0?s.per.toFixed(1):'--'}</span>
-      <span class="kh-sm kh-sm-cell">${s.r.toFixed(1)}%</span>
+      <span class="kh-gr kh-gr-cell">${pctHtml(s.rqoq,false,50)}</span>
+      <span class="kh-gr kh-gr-cell">${pctHtml(s.iqoq,false,80)}</span>
+      <span class="kh-gry kh-gry-cell">${pctHtml(s.ryoy,false,50)}</span>
+      <span class="kh-gry kh-gry-cell">${pctHtml(s.iyoy,false,80)}</span>
+      <span class="kh-gry kh-gry-cell">${pctHtml(s.frg,false,50)}</span>
+      <span class="kh-gry kh-gry-cell">${pctHtml(s.feg,false,80)}</span>
       <span>${fmt(s.vFair)}</span>
-      <span class="kh-s kh-s-cell">${fmt(s.vMin)}</span>
       <span style="color:${gc}">${s.gap>0?'+':''}${s.gap.toFixed(1)}%</span>
       <span><span class="chip ${sg.cls}">${sg.lbl}</span></span>`;
     const pan=document.createElement('div');
@@ -749,6 +811,12 @@ function krResHtml(s){
       <tr><td>Spread (ROE−k)</td><td colspan="3"><span style="color:${gradColor(+spread,+spread>0,10)}">${spread}%</span></td></tr>
       <tr><td>PER / PBR</td><td class="hl" colspan="3">${s.per>0?s.per.toFixed(1):'--'}× / ${s.pbr>0?s.pbr.toFixed(2):'--'}×</td></tr>
       <tr><td>EPS 성장(YoY)</td><td colspan="3">${pctHtml(s.eg)}</td></tr>
+      <tr><td>매출 QoQ</td><td colspan="3">${pctHtml(s.rqoq,false,50)}</td></tr>
+      <tr><td>순이익 QoQ</td><td colspan="3">${pctHtml(s.iqoq,false,80)}</td></tr>
+      <tr><td>매출 YoY(분기)</td><td colspan="3">${pctHtml(s.ryoy,false,50)}</td></tr>
+      <tr><td>순이익 YoY(분기)</td><td colspan="3">${pctHtml(s.iyoy,false,80)}</td></tr>
+      <tr><td>Fwd 매출성장</td><td colspan="3">${pctHtml(s.frg,false,50)}</td></tr>
+      <tr><td>Fwd EPS성장</td><td colspan="3">${pctHtml(s.feg,false,80)}</td></tr>
       ${s.div>0?`<tr><td>배당수익률</td><td colspan="3"><span style="color:${gradColor(s.div,true,8)}">${s.div.toFixed(2)}%</span></td></tr>`:''}
       <tr><td>내재가치</td><td class="hl">${fmtW(s.vMax)}</td><td class="hl">${fmtW(s.vFair)}</td><td class="hl">${fmtW(s.vMin)}</td></tr>
       <tr><td>괴리율</td><td>${gapHtml(s.vMax,s.p)}</td><td>${gapHtml(s.vFair,s.p)}</td><td>${gapHtml(s.vMin,s.p)}</td></tr>
