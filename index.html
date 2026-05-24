@@ -23,81 +23,110 @@
 }
 /* ── Light theme ── */
 [data-theme="light"]{
-  --bg0:#ffffff;--bg1:#f4f8ff;--bg2:#e8f0fb;--bg3:#d8e6f6;
-  --border:#aac2dc;--bord2:#88aac8;
-  --t0:#030c1a;--t1:#18385a;--t2:#3a6080;
-  --cyan:#0048c8;--cyan2:#0034a0;
-  --green:#005220;--green2:#003814;
-  --red:#b80018;--red2:#820010;
-  --orange:#9c3e00;--yellow:#6a5000;
-  --purple:#5020b0;
-  --hover:#cfe0fa;--hover-border:#0048c855;
-  --exp-bg:#e4efff;
-  --shadow:rgba(0,20,60,.18);
+  --bg0:#f5f7fa;--bg1:#ffffff;--bg2:#edf2f8;--bg3:#dce6f5;
+  --border:#bccfd8;--bord2:#96b2c8;
+  --t0:#0c1828;--t1:#1c3a5e;--t2:#4a6880;
+  --cyan:#0055cc;--cyan2:#0040a0;
+  --green:#007a28;--green2:#005018;
+  --red:#cc0822;--red2:#8c0015;
+  --orange:#c44000;--yellow:#8a6000;
+  --purple:#6600cc;
+  --hover:#ddeeff;--hover-border:#0055cc44;
+  --exp-bg:#edf5ff;
+  --shadow:rgba(0,15,40,.15);
 }
-[data-theme="light"] .hdr{background:linear-gradient(90deg,#1a3050,#1e3c68);}
-[data-theme="light"] .hdr .t0,.hdr .t1{color:#dce8ff;}
-[data-theme="light"] .logo{color:#60b0ff;}
-[data-theme="light"] .badge{color:#90b8e0;border-color:#3a6090;}
-[data-theme="light"] .badge.live{color:#40e880;border-color:#20805a;}
-[data-theme="light"] #clk{color:#80a8d0;}
-[data-theme="light"] .theme-btn{background:#253a58;border-color:#3a5a7a;}
-[data-theme="light"] .tabs{background:#f4f8ff;}
+/* ── Light: Header stays dark navy for contrast ── */
+[data-theme="light"] .hdr{background:linear-gradient(90deg,#0e2040,#163258);}
+[data-theme="light"] .logo{color:#70baff;}
+[data-theme="light"] .badge{color:#7aacd8;border-color:#2a5080;}
+[data-theme="light"] .badge.live{color:#33dd6f;border-color:#157a3a;}
+[data-theme="light"] #clk{color:#88b0d8;}
+[data-theme="light"] .theme-btn{background:#1a3050;border-color:#2a4870;}
+/* ── Light: Tabs ── */
+[data-theme="light"] .tabs{background:#ffffff;border-bottom:1px solid #bccfd8;}
 [data-theme="light"] .tb{color:#4a6888;}
-[data-theme="light"] .tb:hover{color:#18385a;background:#e0eaf8;}
-[data-theme="light"] .tb.active{color:#0048c8;border-bottom-color:#0048c8;}
-[data-theme="light"] .th{background:#d8e6f6;color:#1a3858;}
-[data-theme="light"] .phead{background:#d8e6f6;color:#1a3858;}
-[data-theme="light"] .sec-btn{background:#e8f0fb;color:#1a3858;}
-[data-theme="light"] .sec-btn:hover{background:#d0dff5;border-color:#0048c8;}
-[data-theme="light"] .sec-btn.active{background:#c0d5f0;border-color:#0048c8;}
-[data-theme="light"] .sec-btn .sbc{color:#3a6080;}
-[data-theme="light"] .stb{color:#3a6080;}
-[data-theme="light"] .stb:hover{color:#18385a;background:#e0eaf8;}
-[data-theme="light"] .stb.active{color:#0048c8;border-bottom-color:#0048c8;}
-[data-theme="light"] .exch-btn{background:#e8f0fb;color:#1a3858;border-color:#aac2dc;}
-[data-theme="light"] .exch-btn.active{background:#c0d8f8;border-color:#0048c8;color:#0034a0;}
-[data-theme="light"] .exch-btn.nq.active{background:#c0e8ff;border-color:#008ace;color:#005a9c;}
-[data-theme="light"] .exch-btn.ny.active{background:#e8d0ff;border-color:#7030c0;color:#4a1090;}
-[data-theme="light"] .srch{background:#f4f8ff;color:#030c1a;border-color:#aac2dc;}
-[data-theme="light"] .srch:focus{border-color:#0048c8;}
-[data-theme="light"] .srch::placeholder{color:#6888a8;}
-[data-theme="light"] .stats-row{background:#e8f0fb;border-color:#aac2dc;}
-[data-theme="light"] .st-l{color:#3a6080;}
-[data-theme="light"] .um{background:#f0f6ff;border-color:#b8cce0;}
-[data-theme="light"] .um:hover{background:#e4eeff;border-color:#0048c8;}
-[data-theme="light"] .um .uml{color:#3a6080;}
-[data-theme="light"] .um-sec{background:#d8e6f6;border-color:#aac2dc;color:#0048c8;}
-[data-theme="light"] .sectitle{background:#d8e6f6;border-color:#aac2dc;color:#0048c8;}
-[data-theme="light"] .urk-title{background:#d8e6f6;border-color:#aac2dc;color:#0048c8;}
-[data-theme="light"] .urk-title .cnt{color:#3a6080;}
-[data-theme="light"] .cB2{background:#74e89c;color:#002a0c;border:1px solid #15804a;}
-[data-theme="light"] .cB1{background:#9cf0b8;color:#003614;border:1px solid #20904c;}
-[data-theme="light"] .cH{background:#ffe060;color:#5c2800;border:1px solid #c07000;}
-[data-theme="light"] .cO{background:#ff8898;color:#600010;border:1px solid #c01828;}
-[data-theme="light"] .sB2{background:#5ce090;color:#00200a;border-color:#108040;}
-[data-theme="light"] .sB1{background:#80ecca;color:#002818;border-color:#18986a;}
-[data-theme="light"] .sH{background:#ffd840;color:#4a2000;border-color:#b06000;}
-[data-theme="light"] .sO{background:#ff6878;color:#500010;border-color:#b81028;}
-[data-theme="light"] .exp{background:var(--exp-bg);}
-[data-theme="light"] .btrack{background:#b0c8dc;}
-[data-theme="light"] .vmx{background:#c8e8ff;border-color:#4080c0;}
-[data-theme="light"] .vfr{background:#c0f0d8;border-color:#28884a;}
-[data-theme="light"] .vmn{background:#fff0a8;border-color:#b07000;}
-[data-theme="light"] .vmx .vv{color:#0048c8;}
-[data-theme="light"] .vfr .vv{color:#005220;}
-[data-theme="light"] .vmn .vv{color:#9c3e00;}
-[data-theme="light"] .ctrl{background:#e8f0fb;border-color:#aac2dc;}
-[data-theme="light"] .cg input{background:#f4f8ff;color:#030c1a;border-color:#aac2dc;}
-[data-theme="light"] .tbl-wrap{background:#f4f8ff;border-color:#aac2dc;}
-[data-theme="light"] .tr{border-bottom-color:#c8daea;}
-[data-theme="light"] .tr:hover{background:#cfe0fa;}
-[data-theme="light"] .tr:hover .nm{color:#0048c8;}
-[data-theme="light"] .prow{background:#eef4ff;border-bottom-color:#c8daea;}
-[data-theme="light"] .prow:hover{background:#cfe0fa;}
-[data-theme="light"] .prow.cur{background:#d0e0f8;border-left-color:#9c3e00;}
-[data-theme="light"] .ptbl th{background:#d8e6f6;color:#18385a;}
-[data-theme="light"] .dt th{background:#d8e6f6;color:#18385a;}
+[data-theme="light"] .tb:hover{color:#0c1828;background:#edf2f8;}
+[data-theme="light"] .tb.active{color:#0055cc;border-bottom-color:#0055cc;background:#f0f7ff;}
+/* ── Light: Sector pills ── */
+[data-theme="light"] .sec-btn{background:#f0f5ff;color:#1c3a5e;border-color:#bccfd8;}
+[data-theme="light"] .sec-btn:hover{background:#ddeeff;border-color:#0055cc;color:#0c1828;}
+[data-theme="light"] .sec-btn.active{background:linear-gradient(135deg,#0055cc,#003fa0);border-color:#003fa0;color:#fff;font-weight:700;}
+[data-theme="light"] .sec-btn .sbc{color:#4a6880;background:#dce6f5;}
+[data-theme="light"] .sec-btn.active .sbc{background:rgba(255,255,255,.22);color:rgba(255,255,255,.88);}
+/* ── Light: Subtabs ── */
+[data-theme="light"] .stb{color:#4a6880;}
+[data-theme="light"] .stb:hover{color:#0c1828;background:#edf2f8;}
+[data-theme="light"] .stb.active{color:#0055cc;border-bottom-color:#0055cc;}
+/* ── Light: Exchange buttons ── */
+[data-theme="light"] .exch-btn{background:#f0f5ff;color:#1c3a5e;border-color:#bccfd8;}
+[data-theme="light"] .exch-btn:hover{border-color:#0055cc;color:#0055cc;}
+[data-theme="light"] .exch-btn.active{background:#0055cc;border-color:#0040a0;color:#fff;}
+[data-theme="light"] .exch-btn.nq.active{background:#0088bb;border-color:#006699;color:#fff;}
+[data-theme="light"] .exch-btn.ny.active{background:#7700cc;border-color:#5500a0;color:#fff;}
+/* ── Light: Search ── */
+[data-theme="light"] .srch{background:#fff;color:#0c1828;border-color:#bccfd8;}
+[data-theme="light"] .srch:focus{border-color:#0055cc;}
+[data-theme="light"] .srch::placeholder{color:#7090a8;}
+/* ── Light: Stats row ── */
+[data-theme="light"] .stats-row{background:#fff;border-color:#bccfd8;border-left:3px solid #0055cc;}
+[data-theme="light"] .st-l{color:#4a6880;}
+[data-theme="light"] .pos{color:#007a28;font-weight:700;}
+[data-theme="light"] .neg{color:#cc0822;font-weight:700;}
+/* ── Light: Table header (dark for max contrast) ── */
+[data-theme="light"] .th{background:linear-gradient(90deg,#0e2040,#163258);color:#c8dcf0;}
+[data-theme="light"] .tbl-wrap{background:#fff;border-color:#bccfd8;}
+[data-theme="light"] .tr{border-bottom-color:#dce8f2;}
+[data-theme="light"] .tr:hover{background:#ddeeff;}
+[data-theme="light"] .tr:hover .nm{color:#0055cc;font-weight:700;}
+/* ── Light: Expanded panel ── */
+[data-theme="light"] .exp{background:#f5f9ff;border-bottom-color:#c8d8ee;}
+/* ── Light: US detail metric cards ── */
+[data-theme="light"] .um{background:#fff;border-color:#c8d8e8;box-shadow:0 1px 4px rgba(0,20,60,.06);}
+[data-theme="light"] .um:hover{background:#edf5ff;border-color:#0055cc;box-shadow:0 2px 8px rgba(0,40,120,.1);}
+[data-theme="light"] .um .uml{color:#4a6880;}
+/* ── Light: Section sub-headers (color-coded by type) ── */
+[data-theme="light"] .um-sec{background:#eef4ff;border:none;border-left:4px solid #0055cc;color:#0055cc;font-weight:700;letter-spacing:.5px;}
+[data-theme="light"] .sectitle{background:#fff3e8;border-color:#c44000;border-left:4px solid #c44000;color:#c44000;}
+[data-theme="light"] .urk-title{background:#f5eeff;border-color:#c8a0f0;border-left:4px solid #6600cc;color:#6600cc;}
+[data-theme="light"] .urk-title .cnt{color:#4a6880;}
+/* ── Light: Signal chips (vivid & high-contrast) ── */
+[data-theme="light"] .cB2{background:#00c853;color:#001808;border:1px solid #00a040;}
+[data-theme="light"] .cB1{background:#4dd984;color:#001208;border:1px solid #18a850;}
+[data-theme="light"] .cH{background:#ffb300;color:#281400;border:1px solid #d08000;}
+[data-theme="light"] .cO{background:#ff3c5a;color:#380008;border:1px solid #cc1030;}
+/* ── Light: Signal banners ── */
+[data-theme="light"] .sB2{background:#d4fce4;color:#003a14;border:1px solid #00a040;}
+[data-theme="light"] .sB1{background:#e0faf0;color:#003020;border:1px solid #18a060;}
+[data-theme="light"] .sH{background:#fff3cc;color:#3a1c00;border:1px solid #d09000;}
+[data-theme="light"] .sO{background:#ffe0e8;color:#3a0010;border:1px solid #cc1040;}
+/* ── Light: RIM value bar ── */
+[data-theme="light"] .btrack{background:#c0d4e8;}
+/* ── Light: Value cards (color-coded: blue/green/orange) ── */
+[data-theme="light"] .vmx{background:#e8f2ff;border:1px solid #0055cc;border-left:4px solid #0055cc;}
+[data-theme="light"] .vfr{background:#eafff2;border:1px solid #007a28;border-left:4px solid #007a28;}
+[data-theme="light"] .vmn{background:#fff8e0;border:1px solid #c44000;border-left:4px solid #c44000;}
+[data-theme="light"] .vmx .vv{color:#0055cc;}
+[data-theme="light"] .vfr .vv{color:#007a28;}
+[data-theme="light"] .vmn .vv{color:#c44000;}
+/* ── Light: Peer comparison ── */
+[data-theme="light"] .phead{background:#dce6f5;color:#0c1828;}
+[data-theme="light"] .prow{background:#f8fbff;border-bottom-color:#d8e4f0;}
+[data-theme="light"] .prow:hover{background:#ddeeff;}
+[data-theme="light"] .prow.cur{background:#e0eeff;border-left-color:#0055cc;}
+[data-theme="light"] .ptbl th{background:#dce6f5;color:#0c1828;}
+[data-theme="light"] .dt th{background:#dce6f5;color:#0c1828;}
+/* ── Light: RIM input controls ── */
+[data-theme="light"] .ctrl{background:#edf2f8;border-color:#bccfd8;}
+[data-theme="light"] .cg input{background:#fff;color:#0c1828;border-color:#bccfd8;}
+/* ── Light: Load more / dropdown ── */
+[data-theme="light"] .load-more{background:#f0f5ff;color:#0055cc;border-top-color:#bccfd8;}
+[data-theme="light"] .load-more:hover{background:#ddeeff;}
+[data-theme="light"] .urk-sec-sel{background:#fff;color:#0c1828;border-color:#bccfd8;}
+/* ── Light: Exchange tag inline colors → more readable on white ── */
+[data-theme="light"] .exch-nq{color:#0070a8 !important;}
+[data-theme="light"] .exch-ny{color:#7700cc !important;}
+/* ── Light: gradColor value cells — ensure min contrast ── */
+[data-theme="light"] .umv[style*="rgb(1"],[data-theme="light"] .umv[style*="rgb(0"]{font-weight:600;}
 
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{background:var(--bg0);color:var(--t0);font-size:13px;min-height:100vh;transition:background .25s,color .25s;}
@@ -555,13 +584,42 @@ const fmtW = v => fmt(v)+'원';
 
 function gradColor(n, isGood, cap=40){
   const t=Math.min(Math.abs(n)/cap,1.0);
+  const light=document.documentElement.getAttribute('data-theme')==='light';
   if(isGood){
-    const r=Math.round(18*(1-t)), g=Math.round(55+157*t), b=Math.round(36+86*t);
+    if(light){
+      // light: soft green (t=0) → deep vivid green (t=1)
+      const r=Math.round(150-150*t),g=Math.round(175-47*t),b=Math.round(130-90*t);
+      return`rgb(${r},${g},${b})`;
+    }
+    const r=Math.round(18*(1-t)),g=Math.round(55+157*t),b=Math.round(36+86*t);
     return`rgb(${r},${g},${b})`;
   } else {
-    const r=Math.round(90+165*t), g=Math.round(22+36*t), b=Math.round(28+46*t);
+    if(light){
+      // light: muted pink-red (t=0) → vivid dark red (t=1)
+      const r=Math.round(210-10*t),g=Math.round(150-150*t),b=Math.round(150-150*t);
+      return`rgb(${r},${g},${b})`;
+    }
+    const r=Math.round(90+165*t),g=Math.round(22+36*t),b=Math.round(28+46*t);
     return`rgb(${r},${g},${b})`;
   }
+}
+// P/E 배수 색상: 낮을수록 초록(저평가), 높을수록 빨강(고평가)
+function peColor(pe){
+  if(!pe||pe<=0)return'var(--t2)';
+  if(pe<12)return gradColor(40,true,40);
+  if(pe<18)return gradColor(20,true,40);
+  if(pe<28)return'var(--t1)';
+  if(pe<45)return gradColor(15,false,40);
+  return gradColor(35,false,40);
+}
+// PEG 색상: <1 깊은초록, 1~1.5 연초록, 1.5~2.5 중립, >2.5 빨강
+function pegColor(peg){
+  if(!peg||peg<=0||peg>20)return'var(--t2)';
+  if(peg<1)return gradColor(38,true,40);
+  if(peg<1.5)return gradColor(22,true,40);
+  if(peg<2.5)return'var(--t1)';
+  if(peg<5)return gradColor(12,false,40);
+  return gradColor(30,false,40);
 }
 function gapHtml(v,p){
   const g=(p-v)/v*100;
@@ -966,13 +1024,13 @@ function renderUS(stocks){
       <span><span class="nm">${s.n}</span></span>
       <span class="uh-s" style="color:${ec};font-size:9px">${s.exch||'--'}</span>
       <span>$${s.p.toFixed(2)}</span>
-      <span>${s.per>0?s.per.toFixed(1)+'×':'--'}</span>
-      <span>${s.fper>0?s.fper.toFixed(1)+'×':'--'}</span>
-      <span class="uh-sm">${s.peg>0&&s.peg<20?s.peg.toFixed(2):'--'}</span>
+      <span style="color:${s.per>0?peColor(s.per):'var(--t2)'}">${s.per>0?s.per.toFixed(1)+'×':'--'}</span>
+      <span style="color:${s.fper>0?peColor(s.fper):'var(--t2)'}">${s.fper>0?s.fper.toFixed(1)+'×':'--'}</span>
+      <span class="uh-sm" style="color:${s.peg>0&&s.peg<20?pegColor(s.peg):'var(--t2)'}">${s.peg>0&&s.peg<20?s.peg.toFixed(2):'--'}</span>
       <span class="uh-s">${pctHtml(s.rev_qoq)}</span>
       <span class="uh-s">${pctHtml(s.ni_qoq)}</span>
-      <span>${s.tgt?'$'+s.tgt.toFixed(2):'--'}</span>
-      <span style="color:${gc}">${s.gap!=null?(s.gap>0?'+':'')+s.gap.toFixed(1)+'%':'--'}</span>
+      <span style="color:${gc}">${s.tgt?'$'+s.tgt.toFixed(2):'--'}</span>
+      <span style="color:${gc};font-weight:${s.gap!=null&&Math.abs(s.gap)>15?700:400}">${s.gap!=null?(s.gap>0?'+':'')+s.gap.toFixed(1)+'%':'--'}</span>
       <span><span class="chip ${sg.cls}">${sg.lbl}</span></span>`;
     const pan=document.createElement('div');pan.className='exp';pan.id='exp-'+id;
     row.addEventListener('click',()=>toggleUS(id,s,stocks));
@@ -1011,11 +1069,11 @@ function buildUSPanel(s,peers){
         <span><b>${p.t}</b> <span style="font-size:9px;color:var(--t2)">${p.n}</span></span>
         <span style="color:${ec};font-size:9px">${p.exch||'--'}</span>
         <span>$${p.p.toFixed(2)}</span>
-        <span>${p.per>0?p.per.toFixed(1)+'×':'--'}</span>
-        <span>${p.fper>0?p.fper.toFixed(1)+'×':'--'}</span>
+        <span style="color:${p.per>0?peColor(p.per):'var(--t2)'}">${p.per>0?p.per.toFixed(1)+'×':'--'}</span>
+        <span style="color:${p.fper>0?peColor(p.fper):'var(--t2)'}">${p.fper>0?p.fper.toFixed(1)+'×':'--'}</span>
         <span>${pctHtml(p.rev_qoq)}</span><span>${pctHtml(p.ni_qoq)}</span>
-        <span>${p.tgt?'$'+p.tgt.toFixed(2):'--'}</span>
-        <span style="color:${gc}">${p.gap!=null?(p.gap>0?'+':'')+p.gap.toFixed(1)+'%':'--'}</span>
+        <span style="color:${gc}">${p.tgt?'$'+p.tgt.toFixed(2):'--'}</span>
+        <span style="color:${gc};font-weight:${p.gap!=null&&Math.abs(p.gap)>15?700:400}">${p.gap!=null?(p.gap>0?'+':'')+p.gap.toFixed(1)+'%':'--'}</span>
         <span><span class="chip ${ps.cls}">${ps.lbl}</span></span>
       </div>`;
     }).join('')}`;
@@ -1146,13 +1204,13 @@ function buildUSRankTab(){
         <span><b>${s.t}</b></span><span><span class="nm">${s.n}</span></span>
         <span class="uh-s" style="color:${ec};font-size:9px">${s.exch||'--'}</span>
         <span>$${s.p.toFixed(2)}</span>
-        <span>${s.per>0?s.per.toFixed(1)+'×':'--'}</span>
-        <span>${s.fper>0?s.fper.toFixed(1)+'×':'--'}</span>
-        <span class="uh-sm">${s.peg>0&&s.peg<20?s.peg.toFixed(2):'--'}</span>
+        <span style="color:${s.per>0?peColor(s.per):'var(--t2)'}">${s.per>0?s.per.toFixed(1)+'×':'--'}</span>
+        <span style="color:${s.fper>0?peColor(s.fper):'var(--t2)'}">${s.fper>0?s.fper.toFixed(1)+'×':'--'}</span>
+        <span class="uh-sm" style="color:${s.peg>0&&s.peg<20?pegColor(s.peg):'var(--t2)'}">${s.peg>0&&s.peg<20?s.peg.toFixed(2):'--'}</span>
         <span class="uh-s">${pctHtml(s.rev_qoq)}</span>
         <span class="uh-s">${pctHtml(s.ni_qoq)}</span>
-        <span>${s.tgt?'$'+s.tgt.toFixed(2):'--'}</span>
-        <span style="color:${gc}">${s.gap!=null?(s.gap>0?'+':'')+s.gap.toFixed(1)+'%':'--'}</span>
+        <span style="color:${gc}">${s.tgt?'$'+s.tgt.toFixed(2):'--'}</span>
+        <span style="color:${gc};font-weight:${s.gap!=null&&Math.abs(s.gap)>15?700:400}">${s.gap!=null?(s.gap>0?'+':'')+s.gap.toFixed(1)+'%':'--'}</span>
         <span><span class="chip ${sg.cls}">${sg.lbl}</span></span>`;
       const panId='urk-exp-'+s.t;
       const pan=document.createElement('div');pan.className='exp';pan.id=panId;

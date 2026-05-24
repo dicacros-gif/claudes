@@ -338,8 +338,8 @@ def get_forward_estimates(t_obj):
 def fetch_us_stock(ticker, yf, include_quarterly=True):
     try:
         t     = yf.Ticker(ticker)
-        info  = t.info
-        price = safe(info.get('currentPrice') or info.get('regularMarketPrice'))
+        info  = t.info or {}
+        price = safe(info.get('currentPrice') or info.get('regularMarketPrice') or info.get('ask') or info.get('bid'))
         if not price: return None
 
         target = safe(info.get('targetMeanPrice')) or None

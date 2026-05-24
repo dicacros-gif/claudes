@@ -2,7 +2,7 @@ name: Daily Stock Data Update
 
 on:
   schedule:
-    - cron: '0 0 * * 1-5'   # UTC 00:00 = KST 09:00, 평일만
+    - cron: '0 0 * * *'     # UTC 00:00 = KST 09:00, 매일 실행
   workflow_dispatch:          # 수동 실행 허용
 
 permissions:
