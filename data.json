@@ -1,0 +1,18 @@
+{
+  "updated": "2026-05-24",
+  "stocks": [
+    {
+      "code": "005930",
+      "name": "삼성전자",
+      "price": 55800,
+      "equity_billion": 3032543,
+      "shares_common": 5969782550,
+      "shares_preferred": 822886700,
+      "roe_annual": 0.1355,
+      "roe_quarter": 0.1045,
+      "risk_free": 0.025,
+      "erp": 0.055,
+      "bps": 44643
+    }
+  ]
+}

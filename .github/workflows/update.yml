@@ -1,0 +1,36 @@
+name: Daily Stock Data Update
+
+on:
+  schedule:
+    - cron: '0 0 * * 1-5'   # UTC 00:00 = KST 09:00, 평일만
+  workflow_dispatch:          # 수동 실행 허용
+
+permissions:
+  contents: write
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pykrx requests
+
+      - name: Run update script
+        run: python update_data.py
+
+      - name: Commit and push data.json
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git add data.json
+          git diff --staged --quiet || git commit -m "chore: update stock data $(date +'%Y-%m-%d')"
+          git push

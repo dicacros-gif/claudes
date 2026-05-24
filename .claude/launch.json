@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "s-rim-site",
+      "runtimeExecutable": "py",
+      "runtimeArgs": ["-3", "-m", "http.server", "8787"],
+      "port": 8787,
+      "cwd": "C:/Users/user/Documents/claudes-site"
+    }
+  ]
+}
