@@ -5,6 +5,12 @@ GitHub Actions 전용 데이터 갱신 스크립트 (매일 KST 09:00 자동 실
 """
 import json, datetime, sys, time, os
 
+# ── 서버 전용 가드: GitHub Actions에서만 실행 ──
+if not os.environ.get('GITHUB_ACTIONS') and not os.environ.get('FORCE_LOCAL'):
+    print("⚠️  이 스크립트는 GitHub Actions 전용입니다.")
+    print("   로컬 강제 실행: FORCE_LOCAL=1 python update_data.py")
+    sys.exit(0)
+
 DEFAULT_RF  = 0.031
 DEFAULT_ERP = 0.055
 
