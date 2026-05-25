@@ -717,6 +717,9 @@ def fetch_us_stock(ticker, yf, include_quarterly=True):
             'fwd_rev_g2': fwd.get('fwd_rev_g2'),
             'fwd_eps_g':  fwd.get('fwd_eps_g'),
             'fwd_eps':    r2(info.get('forwardEps')),
+            # Trailing EPS & Volume
+            'eps':        r2(info.get('trailingEps')),
+            'vol':        int(safe(info.get('volume') or info.get('averageVolume'))),
             # Margins
             'gm':  pct(info.get('grossMargins')),
             'om':  pct(info.get('operatingMargins')),
@@ -919,6 +922,12 @@ def fetch_korean():
             eps_now = eps_t if (eps_t is not None) else 0.0
             div     = round(safe(f.get('div')), 2)
             bps     = max(0, bps)
+            # 거래량 (FDR Volume)
+            volume  = int(safe(row.get('Volume', 0)))
+            # EPS 표시값 (음수 포함, None은 0)
+            eps_disp = int(round(eps_t)) if eps_t is not None else 0
+            # forward EPS 표시값
+            feps_disp = int(round(eps_f)) if eps_f is not None else 0
             # 컨센서스 forward EPS growth: (forward - trailing) / |trailing|
             if eps_f is not None and eps_t is not None and eps_t != 0:
                 eps_g = round((eps_f - eps_t) / abs(eps_t) * 100, 1)
@@ -954,7 +963,7 @@ def fetch_korean():
                     pass
 
             stocks.append([code, name, sector, price, bps, roe_pct, per, pbr, mktcap, eps_g, div,
-                           rqoq, iqoq, ryoy, iyoy, None, feg])
+                           rqoq, iqoq, ryoy, iyoy, None, feg, eps_disp, feps_disp, volume])
 
         stocks.sort(key=lambda x: x[8], reverse=True)
         results[market] = stocks
@@ -977,7 +986,7 @@ def main():
     if len(kospi) >= 100 or len(kosdaq) >= 100:
         kr_data = {
             "updated": ts, "rf": DEFAULT_RF, "erp": DEFAULT_ERP,
-            "f": ["c","n","s","p","b","r","per","pbr","m","eg","div","rqoq","iqoq","ryoy","iyoy","frg","feg"],
+            "f": ["c","n","s","p","b","r","per","pbr","m","eg","div","rqoq","iqoq","ryoy","iyoy","frg","feg","eps","feps","vol"],
             "KOSPI": kospi, "KOSDAQ": kosdaq,
         }
         with open("stocks.json","w",encoding="utf-8") as f:

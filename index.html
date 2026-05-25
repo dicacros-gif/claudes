@@ -210,7 +210,7 @@ body{font-family:'SF Mono','Fira Code','JetBrains Mono',Consolas,'Pretendard Var
 
 /* ── Table ── */
 .tbl-wrap{background:var(--bg1);border:1px solid var(--border);border-radius:4px;overflow:hidden;overflow-x:auto;}
-.kg{display:grid;grid-template-columns:24px minmax(115px,1fr) 72px 54px 54px 56px 56px 54px 54px 84px 64px 52px;align-items:center;}
+.kg{display:grid;grid-template-columns:32px minmax(140px,1.4fr) 80px 62px 56px 52px 78px 62px 62px 62px 62px 62px 62px 78px 80px 60px 56px;align-items:center;min-width:1280px;}
 .ug{display:grid;grid-template-columns:58px minmax(120px,1fr) 48px 80px 52px 52px 46px 62px 62px 76px 68px 62px;align-items:center;}
 .th{padding:7px 10px;background:var(--bg3);font-size:9px;font-weight:700;color:var(--t2);
   letter-spacing:.6px;text-transform:uppercase;border-bottom:1px solid var(--border);}
@@ -257,97 +257,83 @@ body{font-family:'SF Mono','Fira Code','JetBrains Mono',Consolas,'Pretendard Var
 .cg input:focus{outline:none;border-color:var(--cyan);}
 .kd{font-weight:700;color:var(--cyan);font-size:14px;padding-bottom:4px;}
 
-/* ────────────────── Light theme: 셀별 다채색 가독성 향상 ────────────────── */
+/* ────────────────── Heat coloring (codexs-style) — 양/음 셀별 다채색 ────────────────── */
+.heat{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:48px;padding:2px 6px;border-radius:5px;font-weight:700;
+  background:var(--heat-bg,transparent);
+  color:var(--heat-fg, var(--t1));
+  border:1px solid var(--heat-bd, transparent);
+  transition:filter .12s;
+}
+[data-theme="light"] .heat{color:var(--heat-fg,#1c3a5e);}
+:root .heat{color:var(--heat-fgd, var(--heat-fg, #c8dcf0));}
+[data-theme="light"] .heat-empty{color:#9eb3c8;background:#f5f9fc;}
+:root .heat-empty{color:#4a6680;background:#0e1825;}
+.heat-zero{color:var(--t2);background:transparent;}
+.heat-neg{color:var(--red);background:rgba(220,38,38,.06);border:1px dashed var(--red);}
+.tr:hover .heat{filter:brightness(1.08) saturate(1.1);}
+
+/* 셀별 배경 톤 (heat이 아닌 정보 셀) */
+[data-theme="light"] .cell-rank{color:#6b8aa8;font-weight:700;background:#eef3f8;}
+[data-theme="light"] .cell-name .nm{color:#0c1828;font-weight:600;}
+[data-theme="light"] .cell-name .cd{color:#7090b0;font-weight:500;}
+[data-theme="light"] .cell-price{color:#102b56;font-weight:700;background:#e3f0ff;}
+[data-theme="light"] .cell-eps{color:#28528c;background:#eaf3ff;font-weight:700;}
+[data-theme="light"] .cell-mcap{color:#6600cc;background:#f5ebff;font-weight:700;}
+[data-theme="light"] .cell-vol{color:#5a6280;background:#f0f0f5;font-weight:600;}
+[data-theme="light"] .cell-fair{color:#5500a0;background:#f8eeff;font-weight:600;}
+[data-theme="light"] .cell-sig{background:#fdf6e3;}
+[data-theme="light"] .mcap-l{color:#a00080;font-weight:800;}
+[data-theme="light"] .mcap-m{color:#5500a0;font-weight:700;}
+
+/* Dark mode 보조 */
+:root .cell-rank{color:#7a90b0;background:#0d1825;}
+:root .cell-name .nm{color:#dde6f5;font-weight:600;}
+:root .cell-name .cd{color:#7a90b0;}
+:root .cell-price{color:#a8d5ff;background:#0a1830;font-weight:700;}
+:root .cell-eps{color:#82c8ff;background:#091a2c;font-weight:700;}
+:root .cell-mcap{color:#c890ff;background:#1a0c2a;font-weight:700;}
+:root .cell-vol{color:#a8b5cc;background:#0d1220;}
+:root .cell-fair{color:#cc99ff;background:#15082a;}
+:root .cell-sig{background:#1c1505;}
+
+/* 헤더 */
+[data-theme="light"] .th{font-weight:700;letter-spacing:.4px;
+  background:linear-gradient(180deg,#0e2040,#1c3760)!important;color:#dde6f5!important;}
+
 /* Zebra striping */
-[data-theme="light"] .tbl-wrap > div > .tr:nth-of-type(odd){background:#fafcff;}
-[data-theme="light"] .tbl-wrap > div > .tr:nth-of-type(even){background:#f1f6fc;}
-[data-theme="light"] .tr:hover{background:#dbeaff !important;box-shadow:inset 3px 0 0 #0055cc;}
-[data-theme="light"] .tr.expanded{background:#cbe0ff !important;box-shadow:inset 3px 0 0 #0040a0;}
+[data-theme="light"] .tbl-wrap > div > .tr:nth-of-type(odd){background:#fdfeff;}
+[data-theme="light"] .tbl-wrap > div > .tr:nth-of-type(even){background:#f4f8fc;}
+[data-theme="light"] .tr:hover{background:#cce0ff !important;box-shadow:inset 3px 0 0 #0055cc;}
+[data-theme="light"] .tr.expanded{background:#b8d2ff !important;box-shadow:inset 3px 0 0 #0040a0;}
 
-/* 한국 표 (.kg) — 12열 컬럼 분류별 색조 */
-[data-theme="light"] .kg > span:nth-child(1){color:#6b8aa8;font-weight:600;}
-[data-theme="light"] .kg > span:nth-child(2) .nm{color:#0c1828;font-weight:600;}
-[data-theme="light"] .kg > span:nth-child(2) .cd{color:#7090b0;font-weight:500;}
-[data-theme="light"] .kg > span:nth-child(3){color:#102b56;font-weight:700;background:#f0f6ff;}
-[data-theme="light"] .kg > span:nth-child(4),
-[data-theme="light"] .kg > span:nth-child(5){background:#fff8ec;}
-[data-theme="light"] .kg > span:nth-child(6),
-[data-theme="light"] .kg > span:nth-child(7){background:#fff3e6;}
-[data-theme="light"] .kg > span:nth-child(8),
-[data-theme="light"] .kg > span:nth-child(9){background:#f5ffeb;}
-[data-theme="light"] .kg > span:nth-child(10){color:#5500a0;font-weight:600;background:#f8f0ff;}
-[data-theme="light"] .kg > span:nth-child(11){font-weight:700;background:#fffbe0;}
-[data-theme="light"] .kg > span:nth-child(12){background:#eef5ff;}
-
-/* 미국 표 (.ug) — 12열 */
-[data-theme="light"] .ug > span:nth-child(1){color:#0055cc;font-weight:700;letter-spacing:.3px;}
-[data-theme="light"] .ug > span:nth-child(2) .nm{color:#0c1828;font-weight:600;}
-[data-theme="light"] .ug > span:nth-child(3){font-size:9px;font-weight:600;letter-spacing:.5px;}
-[data-theme="light"] .ug > span:nth-child(4){color:#102b56;font-weight:700;background:#f0f6ff;}
-[data-theme="light"] .ug > span:nth-child(5),
-[data-theme="light"] .ug > span:nth-child(6){background:#fff8ec;font-weight:600;}
-[data-theme="light"] .ug > span:nth-child(7){background:#f5ffeb;font-weight:600;}
-[data-theme="light"] .ug > span:nth-child(8),
-[data-theme="light"] .ug > span:nth-child(9){background:#fff3e6;}
-[data-theme="light"] .ug > span:nth-child(10){color:#5500a0;font-weight:600;background:#f8f0ff;}
-[data-theme="light"] .ug > span:nth-child(11){font-weight:700;background:#fffbe0;}
-[data-theme="light"] .ug > span:nth-child(12){background:#eef5ff;}
-
-/* US 저평가 순위 (.upg) — 11열 */
-[data-theme="light"] .upg > span:nth-child(1){color:#6b8aa8;font-weight:600;}
-[data-theme="light"] .upg > span:nth-child(2) .nm{color:#0c1828;font-weight:600;}
-[data-theme="light"] .upg > span:nth-child(3){font-size:9px;font-weight:600;}
-[data-theme="light"] .upg > span:nth-child(4){color:#102b56;font-weight:700;background:#f0f6ff;}
-[data-theme="light"] .upg > span:nth-child(5),
-[data-theme="light"] .upg > span:nth-child(6){background:#fff8ec;font-weight:600;}
-[data-theme="light"] .upg > span:nth-child(7){background:#f5ffeb;font-weight:600;}
-[data-theme="light"] .upg > span:nth-child(8),
-[data-theme="light"] .upg > span:nth-child(9){background:#fff3e6;}
-[data-theme="light"] .upg > span:nth-child(10){font-weight:700;background:#fffbe0;}
-[data-theme="light"] .upg > span:nth-child(11){background:#eef5ff;}
-
-/* 한국 순위 (.pg) — 7열 */
-[data-theme="light"] .pg > span:nth-child(1){color:#6b8aa8;font-weight:600;}
-[data-theme="light"] .pg > span:nth-child(2){color:#0c1828;font-weight:600;}
-[data-theme="light"] .pg > span:nth-child(3){background:#f0f6ff;font-weight:700;}
-[data-theme="light"] .pg > span:nth-child(4){background:#f8f0ff;font-weight:600;}
-[data-theme="light"] .pg > span:nth-child(5){background:#fffbe0;font-weight:700;}
-[data-theme="light"] .pg > span:nth-child(6){background:#eef5ff;}
-
-/* 시그널 chip 라이트 모드 — 강한 색대비 */
+/* 시그널 chip 라이트 모드 강조 */
 [data-theme="light"] .chip{padding:3px 7px;font-weight:800;border-radius:4px;letter-spacing:.4px;
   box-shadow:0 1px 2px rgba(0,30,60,.12);}
 [data-theme="light"] .cB2{background:linear-gradient(135deg,#00a050,#007030);color:#fff;border:1px solid #005020;}
 [data-theme="light"] .cB1{background:linear-gradient(135deg,#28b070,#1a8050);color:#fff;border:1px solid #0d5530;}
 [data-theme="light"] .cH{background:linear-gradient(135deg,#f0a020,#c47800);color:#fff;border:1px solid #8a5500;}
 [data-theme="light"] .cO{background:linear-gradient(135deg,#dc1234,#a00820);color:#fff;border:1px solid #700014;}
-[data-theme="light"] .tr:hover .chip{filter:brightness(1.08) saturate(1.15);transform:scale(1.04);}
+[data-theme="light"] .tr:hover .chip{filter:brightness(1.08) saturate(1.15);}
 
-/* 종목명/코드 */
-[data-theme="light"] .cd{color:#7090b0;font-size:9px;letter-spacing:.5px;}
-[data-theme="light"] .nm{color:#0c1828;}
+/* muted */
+.muted{color:var(--t2);font-weight:400;}
 
-/* 거래소 색상 */
-[data-theme="light"] .uh-s{color:#005588;}
-
-/* 헤더 */
-[data-theme="light"] .th{font-weight:700;letter-spacing:.4px;text-transform:uppercase;
-  background:linear-gradient(180deg,#0e2040,#1c3760)!important;color:#dde6f5!important;}
-
-/* 표 격자 강화 */
+/* 표 격자 */
 [data-theme="light"] .tr{border-bottom:1px solid #d8e4ee !important;}
-[data-theme="light"] .tr > span{padding:0 4px;border-right:1px solid rgba(190,210,230,.45);}
-[data-theme="light"] .tr > span:last-child{border-right:none;}
-
-/* 표 외곽 */
 [data-theme="light"] .tbl-wrap{border:1px solid #a8c0d8;box-shadow:0 2px 8px rgba(0,20,60,.08);
-  border-radius:6px;overflow:hidden;}
+  border-radius:6px;overflow-x:auto;}
 
 /* 확장 패널 */
 [data-theme="light"] .exp{background:linear-gradient(180deg,#e8f1ff,#dde8f8) !important;
   border-bottom:2px solid #88a8d0 !important;}
 [data-theme="light"] .exp .um{background:#fff;border:1px solid #b8ccdd;}
 [data-theme="light"] .exp .um:hover{border-color:#0055cc;box-shadow:0 2px 10px rgba(0,90,200,.18);}
+
+/* 표 전체 가로 스크롤 (17 컬럼) */
+.tbl-wrap{overflow-x:auto;}
+.tbl-wrap .tr,.tbl-wrap .th{min-width:1280px;}
 
 /* ── Value cards ── */
 .vcards{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px;}
@@ -513,9 +499,12 @@ footer a:hover{color:var(--cyan);}
     <div class="th kg">
       <span>순위</span><span>종목명</span>
       <span>현재가</span>
-      <span class="kh-gr">매출QoQ</span><span class="kh-gr">이익QoQ</span>
-      <span class="kh-gry">매출YoY</span><span class="kh-gry">이익YoY</span>
+      <span class="kh-num">EPS</span><span class="kh-num">ROE</span>
+      <span class="kh-num">PER</span><span class="kh-num">시가총액</span>
+      <span class="kh-gry">매출YoY</span><span class="kh-gr">매출QoQ</span>
+      <span class="kh-gry">이익YoY</span><span class="kh-gr">이익QoQ</span>
       <span class="kh-gry">Fwd매출</span><span class="kh-gry">FwdEPS</span>
+      <span class="kh-num">거래량</span>
       <span>적정가치</span><span>괴리율</span><span>신호</span>
     </div>
     <div id="list-kospi"></div>
@@ -535,9 +524,12 @@ footer a:hover{color:var(--cyan);}
     <div class="th kg">
       <span>순위</span><span>종목명</span>
       <span>현재가</span>
-      <span class="kh-gr">매출QoQ</span><span class="kh-gr">이익QoQ</span>
-      <span class="kh-gry">매출YoY</span><span class="kh-gry">이익YoY</span>
+      <span class="kh-num">EPS</span><span class="kh-num">ROE</span>
+      <span class="kh-num">PER</span><span class="kh-num">시가총액</span>
+      <span class="kh-gry">매출YoY</span><span class="kh-gr">매출QoQ</span>
+      <span class="kh-gry">이익YoY</span><span class="kh-gr">이익QoQ</span>
       <span class="kh-gry">Fwd매출</span><span class="kh-gry">FwdEPS</span>
+      <span class="kh-num">거래량</span>
       <span>적정가치</span><span>괴리율</span><span>신호</span>
     </div>
     <div id="list-kosdaq"></div>
@@ -603,9 +595,12 @@ footer a:hover{color:var(--cyan);}
       <div class="th kg">
         <span>순위</span><span>종목명</span>
         <span>현재가</span>
-        <span class="kh-gr">매출QoQ</span><span class="kh-gr">이익QoQ</span>
-        <span class="kh-gry">매출YoY</span><span class="kh-gry">이익YoY</span>
+        <span class="kh-num">EPS</span><span class="kh-num">ROE</span>
+        <span class="kh-num">PER</span><span class="kh-num">시가총액</span>
+        <span class="kh-gry">매출YoY</span><span class="kh-gr">매출QoQ</span>
+        <span class="kh-gry">이익YoY</span><span class="kh-gr">이익QoQ</span>
         <span class="kh-gry">Fwd매출</span><span class="kh-gry">FwdEPS</span>
+        <span class="kh-num">거래량</span>
         <span>적정가치</span><span>괴리율</span><span>신호</span>
       </div>
       <div id="rk-list-kospi"></div>
@@ -618,9 +613,12 @@ footer a:hover{color:var(--cyan);}
       <div class="th kg">
         <span>순위</span><span>종목명</span>
         <span>현재가</span>
-        <span class="kh-gr">매출QoQ</span><span class="kh-gr">이익QoQ</span>
-        <span class="kh-gry">매출YoY</span><span class="kh-gry">이익YoY</span>
+        <span class="kh-num">EPS</span><span class="kh-num">ROE</span>
+        <span class="kh-num">PER</span><span class="kh-num">시가총액</span>
+        <span class="kh-gry">매출YoY</span><span class="kh-gr">매출QoQ</span>
+        <span class="kh-gry">이익YoY</span><span class="kh-gr">이익QoQ</span>
         <span class="kh-gry">Fwd매출</span><span class="kh-gry">FwdEPS</span>
+        <span class="kh-num">거래량</span>
         <span>적정가치</span><span>괴리율</span><span>신호</span>
       </div>
       <div id="rk-list-kosdaq"></div>
@@ -728,6 +726,61 @@ function pctHtml(v,inv=false,cap=40){
   const isGood=inv?(n<0):(n>0);
   return`<span style="color:${gradColor(n,isGood,cap)}">${n>0?'+':''}${n.toFixed(1)}%</span>`;
 }
+
+/* ◆◆◆ codexs-style heat coloring system ◆◆◆ */
+function heatStyle(v,cap,invert){
+  if(v==null||!isFinite(v))return'';
+  // invert=true: 음수 = "좋음(저평가)" = green
+  const sign = invert ? (v<0?1:-1) : (v>=0?1:-1);
+  const mag = Math.min(Math.abs(v)/cap, 1);
+  const alpha = 0.06 + mag*0.72;
+  const borderA = 0.18 + mag*0.78;
+  if(sign > 0){
+    const fg = mag>0.62?'#052e16':mag>0.25?'#064e3b':'#15803d';
+    const fgD = mag>0.62?'#dcfce7':mag>0.25?'#bbf7d0':'#86efac';
+    return `--heat-bg:rgba(22,163,74,${alpha.toFixed(3)});--heat-bd:rgba(21,128,61,${borderA.toFixed(3)});--heat-fg:${fg};--heat-fgd:${fgD};`;
+  } else {
+    const fg = mag>0.62?'#450a0a':mag>0.25?'#7f1d1d':'#b91c1c';
+    const fgD = mag>0.62?'#fee2e2':mag>0.25?'#fecaca':'#fca5a5';
+    return `--heat-bg:rgba(220,38,38,${alpha.toFixed(3)});--heat-bd:rgba(185,28,28,${borderA.toFixed(3)});--heat-fg:${fg};--heat-fgd:${fgD};`;
+  }
+}
+function heatPct(v,cap=40,invert=false){
+  if(v==null||v===undefined||v===''||!isFinite(Number(v)))return'<span class="heat heat-empty">--</span>';
+  const n=Number(v);
+  if(n===0)return'<span class="heat heat-zero">0.0%</span>';
+  const sign = n>0?'+':'';
+  return `<span class="heat" style="${heatStyle(n,cap,invert)}">${sign}${n.toFixed(1)}%</span>`;
+}
+function heatPER(v){
+  if(v==null||v===0||!isFinite(v))return'<span class="heat heat-empty">--</span>';
+  const n=Number(v);
+  if(n<0)return`<span class="heat heat-neg">${n.toFixed(1)}</span>`;
+  // PER 저평가일수록 green: 5~12 진녹, 12~25 옅은, 25~45 옅은빨강, 45+ 진빨강
+  let style;
+  if(n<10)      style = heatStyle(40,30,false);    // strong green
+  else if(n<18) style = heatStyle(20,30,false);    // green
+  else if(n<30) style = heatStyle(0,30,false);     // neutral
+  else if(n<50) style = heatStyle(-15,30,false);   // red
+  else          style = heatStyle(-30,30,false);   // strong red
+  return `<span class="heat" style="${style}">${n.toFixed(1)}</span>`;
+}
+function fmtMcap(m){
+  if(!m||!isFinite(m))return'<span class="muted">--</span>';
+  if(m>=10000)return`<span class="mcap-l">${(m/10000).toFixed(1)}조</span>`;
+  return`<span class="mcap-m">${m.toLocaleString()}억</span>`;
+}
+function fmtVol(v){
+  if(!v||!isFinite(v))return'<span class="muted">--</span>';
+  if(v>=1e8)return`${(v/1e8).toFixed(2)}억`;
+  if(v>=1e4)return`${(v/1e4).toFixed(0)}만`;
+  return v.toLocaleString();
+}
+function fmtNum(v){
+  if(v==null||v===0||!isFinite(v))return'<span class="muted">--</span>';
+  if(Math.abs(v)>=10000)return `${(v/10000).toFixed(1)}만`;
+  return Number(v).toLocaleString();
+}
 function n1(v){if(v==null)return'--';const f=Number(v);return isNaN(f)?'--':f.toFixed(1);}
 function n2(v){if(v==null)return'--';const f=Number(v);return isNaN(f)?'--':f.toFixed(2);}
 
@@ -756,6 +809,7 @@ function enrichKr(s){
   }
   return{c:s[0],n:s[1],sec:s[2],p:s[3],b:bps,r:s[5],per:s[6],pbr:s[7],m:s[8],eg:s[9]||0,div:s[10]||0,
     rqoq:s[11]??null,iqoq:s[12]??null,ryoy:s[13]??null,iyoy:s[14]??null,frg:s[15]??null,feg:s[16]??null,
+    eps:s[17]??null,feps:s[18]??null,vol:s[19]??null,
     roe,k,vMax,vFair,vMin,gap};
 }
 
@@ -900,18 +954,23 @@ function renderKr(mkt,stocks,targetId){
       const row=document.createElement('div');
       row.className='tr kg';row.id='row-'+id;
       row.innerHTML=`
-        <span>${offset+i+1}</span>
-        <span><span class="nm">${s.n}</span><br><span class="cd">${s.c}</span></span>
-        <span>${fmt(s.p)}</span>
-        <span class="kh-gr kh-gr-cell">${pctHtml(s.rqoq,false,50)}</span>
-        <span class="kh-gr kh-gr-cell">${pctHtml(s.iqoq,false,80)}</span>
-        <span class="kh-gry kh-gry-cell">${pctHtml(s.ryoy,false,50)}</span>
-        <span class="kh-gry kh-gry-cell">${pctHtml(s.iyoy,false,80)}</span>
-        <span class="kh-gry kh-gry-cell">${pctHtml(s.frg,false,50)}</span>
-        <span class="kh-gry kh-gry-cell">${pctHtml(s.feg,false,80)}</span>
-        <span>${s.vFair!=null?fmt(s.vFair):'--'}</span>
-        <span style="color:${gc}">${s.gap!=null?(s.gap>0?'+':'')+s.gap.toFixed(1)+'%':'--'}</span>
-        <span><span class="chip ${sg.cls}">${sg.lbl}</span></span>`;
+        <span class="cell-rank">${offset+i+1}</span>
+        <span class="cell-name"><span class="nm">${s.n}</span><br><span class="cd">${s.c}</span></span>
+        <span class="cell-price">${fmt(s.p)}</span>
+        <span class="cell-eps kh-num kh-num-cell">${fmtNum(s.eps)}</span>
+        <span class="cell-roe kh-num kh-num-cell">${heatPct(s.r,30)}</span>
+        <span class="cell-per kh-num kh-num-cell">${heatPER(s.per)}</span>
+        <span class="cell-mcap kh-num kh-num-cell">${fmtMcap(s.m)}</span>
+        <span class="kh-gry kh-gry-cell">${heatPct(s.ryoy,50)}</span>
+        <span class="kh-gr kh-gr-cell">${heatPct(s.rqoq,50)}</span>
+        <span class="kh-gry kh-gry-cell">${heatPct(s.iyoy,80)}</span>
+        <span class="kh-gr kh-gr-cell">${heatPct(s.iqoq,80)}</span>
+        <span class="kh-gry kh-gry-cell">${heatPct(s.frg,50)}</span>
+        <span class="kh-gry kh-gry-cell">${heatPct(s.feg,80)}</span>
+        <span class="cell-vol kh-num kh-num-cell">${fmtVol(s.vol)}</span>
+        <span class="cell-fair">${s.vFair!=null?fmt(s.vFair):'<span class="muted">--</span>'}</span>
+        <span class="cell-gap">${heatPct(s.gap,35,true)}</span>
+        <span class="cell-sig"><span class="chip ${sg.cls}">${sg.lbl}</span></span>`;
       const pan=document.createElement('div');
       pan.className='exp';pan.id='exp-'+id;
       row.addEventListener('click',()=>toggleKr(id,realMkt,s));
