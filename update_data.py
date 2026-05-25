@@ -787,97 +787,133 @@ def fetch_us(include_quarterly=True):
 # ──────────────────────────────────────────────────────
 # 한국 주식
 # ──────────────────────────────────────────────────────
-def _fetch_krx_with_fallback(krx, market, max_back=7):
-    """Try today's KRX data; if empty (market hasn't closed yet),
-    walk back day-by-day until non-empty data is found.
-    Returns (fund_now, cap, ohlcv, date_used) or (None, None, None, None)."""
-    for back in range(max_back):
-        d = recent_day(back)
-        try:
-            fn  = krx.get_market_fundamental(d, market=market)
-            cp  = krx.get_market_cap(d,         market=market)
-            oh  = krx.get_market_ohlcv(d,       market=market)
-            if not fn.empty and not cp.empty and not oh.empty:
-                print(f"  [{market}] {d} 데이터 확보 (offset -{back}일)", flush=True)
-                return fn, cp, oh, d
-            print(f"  [{market}] {d} 빈 응답 (offset -{back}일) — 이전 거래일로 후퇴", flush=True)
-        except Exception as e:
-            print(f"  [{market}] {d} 조회 실패: {e}", flush=True)
-        time.sleep(0.5)
-    return None, None, None, None
+def _naver_parse_num(v):
+    """Naver API 숫자 문자열 파싱: '23.64배', '12,372원', '0.57%' → float"""
+    if v is None: return None
+    s = str(v).replace(',','').replace('배','').replace('원','').replace('%','').strip()
+    if not s or s in ('-','N/A'): return None
+    try: return float(s)
+    except ValueError: return None
+
+
+def _fetch_naver_one(code):
+    """Naver Mobile Stock API에서 한 종목의 펀더멘털 조회."""
+    import urllib.request, json as _json
+    url = f'https://m.stock.naver.com/api/stock/{code}/integration'
+    try:
+        req = urllib.request.Request(url, headers={'User-Agent':'Mozilla/5.0'})
+        with urllib.request.urlopen(req, timeout=5) as r:
+            data = _json.load(r)
+        info = {}
+        for item in data.get('totalInfos', []):
+            c = item.get('code','')
+            info[c] = _naver_parse_num(item.get('value'))
+        return code, {
+            'per': info.get('per'),
+            'pbr': info.get('pbr'),
+            'eps': info.get('eps'),
+            'bps': info.get('bps'),
+            'div': info.get('dividendYieldRatio'),
+            'cnsPer': info.get('cnsPer'),     # 컨센서스 PER
+            'cnsEps': info.get('cnsEps'),     # 컨센서스 EPS (선행)
+        }
+    except Exception:
+        return code, None
 
 
 def fetch_korean():
+    """KOSPI/KOSDAQ 전종목 크롤
+    - FDR: 종목 목록 + 시세 + 시가총액 + 업종
+    - Naver Mobile API: PER/PBR/BPS/EPS/배당 (병렬, ~100 req/s)
+    - yfinance: KR_SECTOR_MAP 매핑 종목의 분기 성장률
+    """
     try:
-        from pykrx import stock as krx
         import FinanceDataReader as fdr
     except ImportError as e:
-        print(f"  [KR] 라이브러리 없음: {e}", file=sys.stderr)
+        print(f"  [KR] FinanceDataReader 없음: {e}", file=sys.stderr)
         return [], []
 
-    results  = {}
+    from concurrent.futures import ThreadPoolExecutor
 
+    # 1) FDR로 KRX-DESC (업종 정보) 조회
+    sector_map = {}
+    try:
+        desc = fdr.StockListing('KRX-DESC')
+        if 'Code' in desc.columns:
+            desc['Code'] = desc['Code'].astype(str).str.zfill(6)
+            for _, row in desc.iterrows():
+                sec = str(row.get('Sector') or row.get('Industry') or '').strip()
+                sector_map[row['Code']] = sec
+        print(f"  [KR] KRX-DESC 업종 매핑: {len(sector_map)}종목", flush=True)
+    except Exception as e:
+        print(f"  [KR] KRX-DESC 실패 (FDR 원본 섹터 사용): {e}", flush=True)
+
+    results = {}
     for market in ("KOSPI", "KOSDAQ"):
-        print(f"\n  [{market}] 데이터 조회 중...", flush=True)
+        print(f"\n  [{market}] 종목 목록 조회 중...", flush=True)
+
         try:
-            raw = fdr.StockListing(market)
-            raw = raw.dropna(subset=["Code"]) if "Code" in raw.columns else raw
-            # Sector column name varies by FDR version
-            for scol in ("Sector","Industry","업종","섹터"):
-                if scol in raw.columns:
-                    raw = raw.rename(columns={scol:"Sector"})
-                    break
-            else:
-                raw["Sector"] = "기타"
-            cols = [c for c in ("Code","Name","Sector") if c in raw.columns]
-            listing = raw[cols]
-            print(f"  [{market}] FDR 목록: {len(listing)}종목", flush=True)
+            listing = fdr.StockListing(market)
+            listing = listing.dropna(subset=['Code'])
+            listing['Code'] = listing['Code'].astype(str).str.zfill(6)
+            # 우선주·관리종목 등 제외 (Code 끝자리 0이 아닌 우선주 일부 필터)
+            listing = listing[listing.get('Close', 0) > 0] if 'Close' in listing.columns else listing
+            codes = listing['Code'].tolist()
+            print(f"  [{market}] FDR 목록: {len(codes)}종목 (Close > 0)", flush=True)
         except Exception as e:
-            print(f"  [{market}] 목록 실패: {e}", file=sys.stderr)
+            print(f"  [{market}] FDR 실패: {e}", file=sys.stderr)
             results[market] = []; continue
 
-        # 당일/최근 거래일 데이터 (1~7일 fallback)
-        fund_now, cap, ohlcv, today = _fetch_krx_with_fallback(krx, market)
-        if fund_now is None:
-            print(f"  [{market}] 7일 이내 데이터 없음 — skip", file=sys.stderr)
-            results[market] = []; continue
+        # 2) Naver API 병렬 호출로 펀더멘털 수집
+        print(f"  [{market}] Naver API 펀더멘털 수집 중 (병렬)...", flush=True)
+        fund_data = {}
+        start = time.time()
+        with ThreadPoolExecutor(max_workers=20) as ex:
+            for code, fund in ex.map(_fetch_naver_one, codes):
+                if fund: fund_data[code] = fund
+        elapsed = time.time() - start
+        print(f"  [{market}] Naver: {len(fund_data)}/{len(codes)}종목 ({elapsed:.1f}s)", flush=True)
 
-        # 1년 전 EPS (성장률 계산용)
-        try:
-            year_ago = recent_day(252)
-            fund_prev = krx.get_market_fundamental(year_ago, market=market)
-        except Exception as e:
-            print(f"  [{market}] 1년전 데이터 실패: {e}", file=sys.stderr)
-            fund_prev = fund_now.iloc[:0]  # empty DataFrame
-
+        # 3) 종목별 데이터 통합
         stocks = []
         for _, row in listing.iterrows():
-            code   = str(row.get("Code","")).zfill(6)
-            name   = str(row.get("Name",""))
-            # 테마 업종 매핑 우선, 없으면 원본 섹터
-            sector = KR_SECTOR_MAP.get(code) or str(row.get("Sector") or "기타").strip() or "기타"
+            code = row['Code']
+            name = str(row.get('Name', ''))
 
-            price = int(ohlcv.loc[code,"종가"]) if code in ohlcv.index else None
+            # 가격 (FDR Close)
+            price = int(safe(row.get('Close', 0)))
             if not price: continue
 
-            bps, per, pbr, eps_now, div = 0, 0.0, 0.0, 0.0, 0.0
-            if code in fund_now.index:
-                r      = fund_now.loc[code]
-                bps    = int(safe(r.get("BPS")))
-                per    = round(safe(r.get("PER")), 1)
-                pbr    = round(safe(r.get("PBR")), 2)
-                eps_now = safe(r.get("EPS"))
-                div    = round(safe(r.get("DIV")), 2)
+            # 시가총액 (FDR Marcap, 단위: 원 → 억원)
+            mktcap = int(safe(row.get('Marcap', 0)) / 1e8)
 
-            # Use max(0, bps) so stocks with bps<=0 still appear
-            bps = max(0, bps)
+            # 섹터: KR_SECTOR_MAP 매핑 > KRX-DESC > FDR > 기타
+            def _clean(s):
+                if s is None: return ''
+                s = str(s).strip()
+                return '' if s.lower() in ('nan','none','','-') else s
+            sector = (KR_SECTOR_MAP.get(code)
+                      or _clean(sector_map.get(code))
+                      or _clean(row.get('Sector'))
+                      or _clean(row.get('Industry'))
+                      or '기타')
 
-            eps_prev = safe(fund_prev.loc[code,"EPS"]) if code in fund_prev.index else 0
-            eps_g    = round((eps_now-eps_prev)/abs(eps_prev)*100,1) if eps_prev else 0.0
-            mktcap   = int(cap.loc[code,"시가총액"]/1e8) if code in cap.index else 0
-            roe_pct  = round(eps_now/bps*100, 2) if bps > 0 and eps_now else 0.0
+            # 펀더멘털 (Naver)
+            f = fund_data.get(code, {})
+            per     = round(safe(f.get('per')), 1)
+            pbr     = round(safe(f.get('pbr')), 2)
+            bps     = int(safe(f.get('bps')))
+            eps_now = safe(f.get('eps'))
+            div     = round(safe(f.get('div')), 2)
+            bps     = max(0, bps)
+            # 컨센서스 forward EPS growth (선행 EPS / 현재 EPS - 1)
+            cns_eps = safe(f.get('cnsEps'))
+            eps_g = round((cns_eps - eps_now) / abs(eps_now) * 100, 1) if eps_now and cns_eps else 0.0
 
-            # yfinance 분기 성장률 — KR_SECTOR_MAP 매핑 종목만 (전체 조회 시 과도한 시간 방지)
+            # ROE = EPS / BPS * 100
+            roe_pct = round(eps_now / bps * 100, 2) if bps > 0 and eps_now else 0.0
+
+            # yfinance 분기 성장률 — KR_SECTOR_MAP 매핑 종목만
             sfx = "KS" if market == "KOSPI" else "KQ"
             rqoq = iqoq = ryoy = iyoy = None
             if code in KR_SECTOR_MAP:
@@ -888,7 +924,7 @@ def fetch_korean():
                     iqoq = qg.get('ni_qoq')
                     ryoy = qg.get('rev_yoy_q')
                     iyoy = qg.get('ni_yoy_q')
-                    time.sleep(0.1)
+                    time.sleep(0.05)
                 except Exception:
                     pass
 

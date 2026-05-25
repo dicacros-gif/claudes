@@ -27,7 +27,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install pykrx finance-datareader yfinance requests
+        run: pip install finance-datareader yfinance requests
 
       - name: Run update script
         run: python update_data.py
