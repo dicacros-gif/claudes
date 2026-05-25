@@ -162,67 +162,72 @@ KR_SECTOR_MAP = {
 }
 
 # ──────────────────────────────────────────────────────
-# 미국 섹터 정의 (35개 섹터, 450+ 유니크 종목)
+# 미국 섹터 정의 (45개 섹터, S&P500+NASDAQ100 수준 700+ 종목)
+# yfinance 실시간 크롤링 — 할루시네이션 없음
 # ──────────────────────────────────────────────────────
 US_SECTORS = {
-    # ─── AI & 빅테크 ───
-    "AI 인프라 & GPU":          ["NVDA","AMD","SMCI","DELL","HPE","VRT","ETN","MRVL","ANET","MSFT","AMZN","GOOG","META","AAPL","GEV"],
-    "AI 에이전트 & LLM":        ["PLTR","AI","ORCL","IBM","SNOW","GOOGL","PATH","BBAI"],
-    "AI 응용 소프트웨어":        ["APP","SOUN","TTD","RBLX","U","MGNI","CRCL","KVYO","SPRK","DUOL"],
-    "클라우드 & SaaS":           ["MDB","DDOG","NET","HUBS","CFLT","GTLB","WIX","BILL","DOCN","ZI","ESTC","TENB","ZM","TWLO","FIVN"],
-    "엔터프라이즈 SW":           ["ADBE","NOW","INTU","CRM","WDAY","TEAM","VEEV","ANSS","PTC","CDNS","SNPS","SAP","PAYC","SMAR"],
-    "사이버보안":                ["CRWD","PANW","FTNT","ZS","S","OKTA","CYBR","VRNS","RPD","QLYS","TPVG"],
-    "IT 서비스 & 컨설팅":        ["ACN","CTSH","INFY","EPAM","GLOB","DXC","IT","SSNC","EXLS","VRNT","MAN","NLOK"],
+    # ══════ AI & 빅테크 ══════
+    "AI 인프라·GPU":        ["NVDA","AMD","SMCI","DELL","HPE","VRT","ETN","MRVL","ANET","MSFT","AMZN","GOOG","META","AAPL","GEV","IONQ","QUBT"],
+    "AI 에이전트·LLM":      ["PLTR","AI","ORCL","IBM","SNOW","GOOGL","PATH","BBAI","SOUN","CRCL"],
+    "AI 응용 소프트웨어":    ["APP","TTD","RBLX","U","MGNI","KVYO","SPRK","DUOL","HOOD","GTLB"],
+    "클라우드·SaaS 고성장":  ["MDB","DDOG","NET","HUBS","CFLT","BILL","DOCN","ZI","ESTC","TWLO","FIVN","WIX","ZM","TENB"],
+    "엔터프라이즈 SW":       ["ADBE","NOW","INTU","CRM","WDAY","TEAM","VEEV","ANSS","PTC","CDNS","SNPS","SAP","PAYC","SMAR","DOCU","MSCI"],
+    "사이버보안":            ["CRWD","PANW","FTNT","ZS","S","OKTA","CYBR","VRNS","RPD","QLYS","CHKP","NLOK","FEYE"],
+    "IT 서비스·아웃소싱":    ["ACN","CTSH","INFY","EPAM","GLOB","DXC","IT","SSNC","EXLS","MAN","LDOS","BAH","SAIC","CACI"],
 
-    # ─── 반도체 ───
-    "AI 칩 & 팹리스":            ["AVGO","ARM","INTC","QCOM","TXN","ON","MCHP","NXPI","ADI","SWKS","QRVO","WOLF","LSCC","FORM"],
-    "메모리 & 스토리지":         ["MU","WDC","STX","NTAP","PSTG","IONQ"],
-    "반도체 장비·소재":          ["AMAT","LRCX","KLAC","ASML","TER","MPWR","ONTO","ACLS","CAMT","ENTG","MKSI","UCTT"],
-    "네트워킹 & 광통신칩":       ["CSCO","JNPR","FFIV","CIEN","COHR","VIAV","INFN","LITE","AAON","CALX"],
-    "PC & 서버 하드웨어":        ["HPQ","NTNX","CRDO","AMKR","LOGI"],
+    # ══════ 반도체 ══════
+    "AI 칩·팹리스":          ["AVGO","ARM","INTC","QCOM","TXN","ON","MCHP","NXPI","ADI","SWKS","QRVO","WOLF","LSCC","FORM","MTSI","POWI"],
+    "메모리·스토리지":       ["MU","WDC","STX","NTAP","PSTG","NTNX","CRDO"],
+    "반도체 장비·소재":      ["AMAT","LRCX","KLAC","ASML","TER","MPWR","ONTO","ACLS","CAMT","ENTG","MKSI","UCTT","AMKR"],
+    "네트워킹·광통신":       ["CSCO","JNPR","FFIV","CIEN","COHR","VIAV","INFN","CALX","LITE","AAON"],
+    "PC·하드웨어":           ["HPQ","LOGI","NTAP","WDC","DELL"],
 
-    # ─── 에너지 ───
-    "전력 & 전력인프라":         ["PWR","ROK","PH","AYI","URI","EMR","AMPS","HUBB","POWL"],
-    "원자력 & 소형원자로":       ["CEG","VST","CCJ","NNE","OKLO","SMR","NRG","TLN","LEU","BWX","BWXT"],
-    "신재생 & 태양광":           ["ENPH","FSLR","SEDG","RUN","NEE","AES","BEP","BEPC","ORA","ARRY","NOVA","CWEN"],
-    "석유 & 가스":               ["XOM","CVX","COP","SLB","EOG","OXY","HAL","MPC","PSX","DVN","HES","VLO","PXD","BKR","WMB","KMI","LNG"],
+    # ══════ 에너지 ══════
+    "전력 인프라·그리드":    ["PWR","ROK","PH","AYI","URI","EMR","AMPS","HUBB","POWL","ETN","EATON","REZI"],
+    "원자력·소형원자로":     ["CEG","VST","CCJ","NNE","OKLO","SMR","NRG","TLN","LEU","BWXT","BWX"],
+    "신재생·태양광·풍력":    ["ENPH","FSLR","SEDG","RUN","NEE","AES","BEP","BEPC","ORA","ARRY","NOVA","CWEN","PLUG","BE"],
+    "석유·가스·미드스트림":  ["XOM","CVX","COP","SLB","EOG","OXY","HAL","MPC","PSX","DVN","HES","VLO","BKR","WMB","KMI","LNG","FANG","MRO","APA"],
+    "유틸리티":              ["DUK","SO","AEP","EXC","SRE","XEL","PEG","ETR","EIX","WEC","ES","AWK","AEE","CNP","LNT","OGE","EVRG","PNW","NI","D"],
 
-    # ─── 금융 ───
-    "대형 은행":                 ["JPM","BAC","WFC","C","GS","MS","USB","PNC","TFC","COF","KEY","RF","FITB","ALLY","CFG","HBAN"],
-    "핀테크 & 결제":             ["V","MA","AXP","PYPL","SQ","AFRM","UPST","SOFI","NU","COIN","HOOD","CPNG","FOUR","GPN","FIS","FI"],
-    "보험":                      ["BRK-B","PGR","ALL","CB","TRV","MET","PRU","AFL","HIG","L","AIG","RE","RNR","ERIE"],
-    "자산운용 & 거래소":         ["BLK","SCHW","SPGI","MCO","ICE","CME","CBOE","MSCI","APO","KKR","BX","CG","ARES","BAM","TROW","STT"],
+    # ══════ 금융 ══════
+    "대형 은행·투자":        ["JPM","BAC","WFC","C","GS","MS","USB","PNC","TFC","COF","KEY","RF","FITB","ALLY","CFG","HBAN","ZION","MTB","SIVB"],
+    "핀테크·결제":           ["V","MA","AXP","PYPL","SQ","AFRM","UPST","SOFI","NU","COIN","FOUR","GPN","FIS","FI","WEX","FLYW","RELY"],
+    "보험":                  ["BRK-B","PGR","ALL","CB","TRV","MET","PRU","AFL","HIG","AIG","RE","RNR","ERIE","LNC","WTW","MMC","AON","CINF"],
+    "자산운용·거래소·사모":  ["BLK","SCHW","SPGI","MCO","ICE","CME","CBOE","MSCI","APO","KKR","BX","CG","ARES","BAM","TROW","STT","BEN","IVZ"],
 
-    # ─── 헬스케어 ───
-    "대형 제약":                 ["JNJ","PFE","MRK","ABBV","LLY","BMY","AMGN","GILD","AZN","NVO","GSK","SNY","TAK","BAYRY"],
-    "바이오텍":                  ["MRNA","BNTX","BIIB","REGN","VRTX","ALNY","SRPT","ARGX","BMRN","INCY","EXEL","ROIV","KYMR","DAWN"],
-    "의료기기 & 진단":           ["ISRG","MDT","ABT","BSX","SYK","EW","DXCM","RMD","INSP","IDXX","IRTC","NVCR","SWAV","ICLR","MEDP"],
-    "매니지드케어 & 헬스서비스": ["UNH","CVS","CI","HUM","CNC","ELV","MOH","HCA","DVA","ENSG","ACCD"],
+    # ══════ 헬스케어 ══════
+    "대형 제약":             ["JNJ","PFE","MRK","ABBV","LLY","BMY","AMGN","GILD","AZN","NVO","GSK","SNY","BAYRY","RHHBY","NVS"],
+    "바이오텍":              ["MRNA","BNTX","BIIB","REGN","VRTX","ALNY","SRPT","ARGX","BMRN","INCY","EXEL","ROIV","KYMR","DAWN","RXRX","ARQT"],
+    "의료기기·진단":         ["ISRG","MDT","ABT","BSX","SYK","EW","DXCM","RMD","INSP","IDXX","IRTC","NVCR","SWAV","ICLR","MEDP","HOLX","BIO","WAT","PODD","COO"],
+    "매니지드케어·병원":     ["UNH","CVS","CI","HUM","CNC","ELV","MOH","HCA","DVA","ENSG","ACCD","THC","UHS","CYH"],
+    "헬스케어 서비스":       ["IQVIA","A","TMO","ZBH","BAX","BDX","CAH","MCK","ABC","PDCO","PDSI","HSIC"],
 
-    # ─── 소비재 ───
-    "필수소비재":                ["WMT","COST","PG","KO","PEP","CL","GIS","MKC","KHC","MDLZ","CHD","PM","MO","STZ","TAP","EL","COTY"],
-    "임의소비재 & 리테일":       ["HD","MCD","NKE","SBUX","LOW","TJX","LULU","ULTA","DPZ","TSCO","RH","BBY","ETSY","RVLV","FIVE","RL"],
-    "전기차 & 자율주행":         ["TSLA","RIVN","NIO","XPEV","LI","GM","F","MBLY","LAZR","LCID","FSR","GOEV","CHPT"],
-    "여행 & 레저":               ["BKNG","ABNB","EXPE","MAR","HLT","UAL","DAL","LUV","CCL","RCL","LYFT","UBER","DKNG","MGM","WYNN"],
+    # ══════ 소비재 ══════
+    "필수소비재·식품·음료":  ["WMT","COST","PG","KO","PEP","CL","GIS","MKC","KHC","MDLZ","CHD","PM","MO","STZ","TAP","EL","KMB","SYY","HSY","CAG","HRL","CPB","TSN","ADM","BG"],
+    "임의소비재·리테일":     ["HD","MCD","NKE","SBUX","LOW","TJX","LULU","ULTA","DPZ","TSCO","RH","BBY","ETSY","RVLV","FIVE","RL","ORLY","AZO","POOL","W","CHWY","PRGO"],
+    "자동차·전기차·모빌리티":["TSLA","GM","F","RIVN","NIO","XPEV","LI","MBLY","LAZR","LCID","CHPT","LCID","UBER","LYFT","APTV","BWA","TEN"],
+    "여행·항공·레저":        ["BKNG","ABNB","EXPE","MAR","HLT","UAL","DAL","LUV","CCL","RCL","DKNG","MGM","WYNN","LVS","CZR","NCLH","AAL","ALK"],
 
-    # ─── 미디어 & 통신 ───
-    "미디어 & 스트리밍":         ["NFLX","DIS","WBD","CMCSA","PARA","SPOT","IMAX","AMC","LGF-A","FOXA"],
-    "소셜 & 디지털 광고":        ["SNAP","PINS","RDDT","PUBM","CRTO","DV","IAS"],
-    "통신사":                    ["T","VZ","TMUS","CHTR","LUMN","DISH","USM"],
+    # ══════ 미디어·통신 ══════
+    "미디어·스트리밍·콘텐츠":["NFLX","DIS","WBD","CMCSA","PARA","SPOT","IMAX","FOXA","LGF-A","WWE","MSGS"],
+    "소셜·디지털 광고":      ["SNAP","PINS","RDDT","PUBM","CRTO","DV","IAS","MGNI","TTD","META"],
+    "통신사·케이블":         ["T","VZ","TMUS","CHTR","LUMN","USM","LBRDA","CABO"],
 
-    # ─── 산업재 ───
-    "항공우주 & 방산":           ["LMT","RTX","NOC","GD","BA","HII","KTOS","AXON","TDG","HEI","MOOG","HAYW","SPR","WWD"],
-    "산업기계 & 제조":           ["CAT","DE","HON","GE","ITW","CMI","AME","ROP","OTIS","IR","XYL","DHR","FTV","GNRC","ALLE","IEX"],
-    "물류 & 운송":               ["UPS","FDX","ODFL","XPO","JBHT","CSX","NSC","UNP","CHRW","EXPD","ROAD","SAIA","ARCB","ECHO"],
-    "로봇 & 자동화":             ["ABB","AZTA","BRZE","RRX","ROCK","NOVT","TRMB","KEYS"],
-    "우주 & 위성통신":           ["RKLB","ASTS","LUNR","MNTS","SATL","SPIR"],
+    # ══════ 산업재 ══════
+    "항공우주·방산·보안":    ["LMT","RTX","NOC","GD","BA","HII","KTOS","AXON","TDG","HEI","MOOG","SPR","HEICO","CW","TDY","SAIC","LDOS"],
+    "산업기계·설비·제조":    ["CAT","DE","HON","GE","ITW","CMI","AME","ROP","OTIS","IR","XYL","DHR","FTV","GNRC","ALLE","IEX","MMM","PH","CARR","TT","FAST","NDSN","RBC","HUBB"],
+    "물류·운송·철도":        ["UPS","FDX","ODFL","XPO","JBHT","CSX","NSC","UNP","CHRW","EXPD","ROAD","SAIA","ARCB","ECHO","R","JBLU","MATX"],
+    "로봇·자동화·산업AI":    ["ABB","AZTA","RRX","ROCK","NOVT","TRMB","KEYS","BRZE","FLIR","ROK","ENOV"],
+    "건설·인프라·엔지니어링":["VMC","MLM","URI","PWR","PRIM","MTZ","TREX","MAS","SHW","RPM","OC","FND","BLDR","DOOR"],
+    "우주·위성통신":         ["RKLB","ASTS","LUNR","SPIR","SATL","MNTS","MAXN","GSAT"],
 
-    # ─── 부동산 ───
-    "데이터센터 리츠":           ["AMT","EQIX","DLR","CCI","IRM","CONE","QTS","SBAC","UNIT"],
-    "리츠 & 부동산":             ["PLD","SPG","O","VICI","AVB","EXR","WELL","WY","NNN","EQR","ARE","KIM","REG","BXP","AIV","UDR","CPT","ESS","MAA","NLY","AGNC"],
+    # ══════ 부동산 ══════
+    "데이터센터·통신 리츠":  ["AMT","EQIX","DLR","CCI","IRM","SBAC","UNIT","CONE"],
+    "상업·주거·특수 리츠":   ["PLD","SPG","O","VICI","AVB","EXR","WELL","WY","NNN","EQR","ARE","KIM","REG","BXP","UDR","CPT","ESS","MAA","NLY","AGNC","STAG","REXR","FR","ELS","SUI"],
 
-    # ─── 소재 & 광업 ───
-    "소재 & 광업":               ["NEM","FCX","GOLD","AA","NUE","CF","MOS","ALB","SQM","MP","VALE","RIO","SCCO","WPM","AEM","AGI","HL","CLF","X","RS","VMC","MLM","APD","LIN","ECL","PPG","SHW"],
+    # ══════ 소재·화학·광업 ══════
+    "소재·화학·포장재":      ["LIN","APD","ECL","PPG","SHW","DOW","LYB","EMN","CE","IFF","FMC","AVY","IP","PKG","SEE","CCK","SON","OLN","RPM"],
+    "금속·광업·희토류":      ["NEM","FCX","GOLD","AA","NUE","CF","MOS","ALB","SQM","MP","VALE","RIO","SCCO","WPM","AEM","AGI","HL","CLF","X","RS","CMC","STLD"],
 }
 
 # 거래소 매핑 (NMS/NGM → NASDAQ, NYQ/NYSE → NYSE)

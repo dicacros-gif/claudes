@@ -952,8 +952,13 @@ function setUSExch(exch,btn){
   G.usExch=exch;
   document.querySelectorAll('#tab-us .exch-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
+  // 현재 선택된 섹터 유지하며 필터 적용
+  const prevSec=G.activeUS;
   buildUSSectors();
-  if(G.activeUS){const s=getUSStocks(G.activeUS);renderUSStats(G.activeUS,s);renderUS(s);}
+  if(prevSec){
+    const idx=G.usSecs.indexOf(prevSec);
+    if(idx>=0){const b=document.querySelector(`#us-sectors-grid .sec-btn[data-idx="${idx}"]`);selectUSSecByIdx(idx,b);}
+  }
 }
 function setUSRankExch(exch,btn){
   G.usRankExch=exch;
@@ -972,28 +977,69 @@ function getUSRankStocksFiltered(allStocks,q){
 }
 
 // ════════════════════════════════════════════════════
-//  미국 섹터 그리드
+//  미국 섹터 그리드 (onclick에 & 포함 → data-idx 방식으로 안전 처리)
 // ════════════════════════════════════════════════════
+G.usSecs=[];  // 섹터명 인덱스 배열
 function buildUSSectors(){
   const wrap=document.getElementById('us-sectors-grid');
-  const secs=Object.keys(G.us);
-  wrap.innerHTML=secs.map(s=>{
+  G.usSecs=Object.keys(G.us);
+  const allStocks=getAllUSStocks();
+  const allBuy=allStocks.filter(x=>x.gap!=null&&x.gap<0).length;
+  // "전체" 버튼 먼저
+  const allBtn=document.createElement('button');
+  allBtn.className='sec-btn'+(G.activeUS===''?' active':'');
+  allBtn.dataset.idx='-1';
+  allBtn.innerHTML=`<span class="sbn">전체</span><span class="sbc">${allStocks.length}·↓${allBuy}</span>`;
+  allBtn.addEventListener('click',()=>selectUSSecByIdx(-1,allBtn));
+  wrap.innerHTML='';
+  wrap.appendChild(allBtn);
+  G.usSecs.forEach((s,i)=>{
     const stocks=getUSStocks(s);
     const buy=stocks.filter(x=>x.gap!=null&&x.gap<0).length;
-    const active=G.activeUS===s?' active':'';
-    return`<button class="sec-btn${active}" onclick="selectUSSec('${s.replace(/'/g,"\\'")}',this)">
-      <span class="sbn">${s}</span>
-      <span class="sbc">${stocks.length}${buy>0?` · ↓${buy}`:''}</span>
-    </button>`;
-  }).join('');
-  if(secs.length&&!G.activeUS)selectUSSec(secs[0],wrap.querySelector('.sec-btn'));
+    const btn=document.createElement('button');
+    btn.className='sec-btn'+(G.activeUS===s?' active':'');
+    btn.dataset.idx=String(i);
+    btn.innerHTML=`<span class="sbn">${s}</span><span class="sbc">${stocks.length}${buy>0?'·↓'+buy:''}</span>`;
+    btn.addEventListener('click',()=>selectUSSecByIdx(i,btn));
+    wrap.appendChild(btn);
+  });
+  // 초기 로드: 전체 표시
+  if(!G.activeUS&&G.activeUS!=='__done__'){
+    G.activeUS='';
+    allBtn.classList.add('active');
+    const st=getAllUSStocks();
+    renderUSStats('전체 ('+G.usSecs.length+'개 섹터)',st);
+    renderUS(st);
+    G.activeUS='__done__';G.activeUS='';
+  }
 }
-function selectUSSec(sec,btn){
-  G.activeUS=sec;
+function getAllUSStocks(){
+  const seen=new Set(); const all=[];
+  G.usSecs.forEach(s=>{
+    (G.usExch==='ALL'?G.us[s]:G.us[s].filter(x=>x.exch===G.usExch)).forEach(x=>{
+      if(!seen.has(x.t)){seen.add(x.t);all.push(x);}
+    });
+  });
+  return all.sort((a,b)=>(a.gap??999)-(b.gap??999));
+}
+function selectUSSecByIdx(idx,btn){
   document.querySelectorAll('#us-sectors-grid .sec-btn').forEach(b=>b.classList.remove('active'));
   if(btn)btn.classList.add('active');
-  const stocks=getUSStocks(sec);
-  renderUSStats(sec,stocks);renderUS(stocks);
+  if(idx===-1){
+    G.activeUS='';
+    const st=getAllUSStocks();
+    renderUSStats('전체 ('+G.usSecs.length+'개 섹터)',st);
+    renderUS(st);
+  } else {
+    const sec=G.usSecs[idx];
+    G.activeUS=sec;
+    const stocks=getUSStocks(sec);
+    renderUSStats(sec,stocks);renderUS(stocks);
+  }
+}
+function selectUSSec(sec,btn){
+  const i=G.usSecs.indexOf(sec);
+  selectUSSecByIdx(i,btn);
 }
 function renderUSStats(sec,stocks){
   const buy=stocks.filter(s=>s.gap!=null&&s.gap<0).length;
@@ -1008,34 +1054,45 @@ function renderUSStats(sec,stocks){
     <div class="st"><div class="st-l">평균 매출성장(YoY)</div><div class="st-v">${pctHtml(+avgRg)}</div></div>
     <div class="st"><div class="st-l">평균 매출성장(QoQ)</div><div class="st-v">${pctHtml(+avgQ)}</div></div>`;
 }
+function renderUSRow(s,stocks,list){
+  const sg=usSig(s,stocks);
+  const gc=gapColor(s.gap,35);
+  const id='us-'+s.t;
+  const ec=s.exch==='NASDAQ'?'#00aaff':s.exch==='NYSE'?'#aa44ff':'var(--t2)';
+  const row=document.createElement('div');
+  row.className='tr ug';row.id='row-'+id;
+  row.innerHTML=`
+    <span><b>${s.t}</b></span>
+    <span><span class="nm">${s.n}</span></span>
+    <span class="uh-s" style="color:${ec};font-size:9px">${s.exch||'--'}</span>
+    <span>$${s.p.toFixed(2)}</span>
+    <span style="color:${s.per>0?peColor(s.per):'var(--t2)'}">${s.per>0?s.per.toFixed(1)+'×':'--'}</span>
+    <span style="color:${s.fper>0?peColor(s.fper):'var(--t2)'}">${s.fper>0?s.fper.toFixed(1)+'×':'--'}</span>
+    <span class="uh-sm" style="color:${s.peg>0&&s.peg<20?pegColor(s.peg):'var(--t2)'}">${s.peg>0&&s.peg<20?s.peg.toFixed(2):'--'}</span>
+    <span class="uh-s">${pctHtml(s.rev_qoq)}</span>
+    <span class="uh-s">${pctHtml(s.ni_qoq)}</span>
+    <span style="color:${gc}">${s.tgt?'$'+s.tgt.toFixed(2):'--'}</span>
+    <span style="color:${gc};font-weight:${s.gap!=null&&Math.abs(s.gap)>15?700:400}">${s.gap!=null?(s.gap>0?'+':'')+s.gap.toFixed(1)+'%':'--'}</span>
+    <span><span class="chip ${sg.cls}">${sg.lbl}</span></span>`;
+  const pan=document.createElement('div');pan.className='exp';pan.id='exp-'+id;
+  row.addEventListener('click',()=>toggleUS(id,s,stocks));
+  list.appendChild(row);list.appendChild(pan);
+}
 function renderUS(stocks){
   const list=document.getElementById('list-us');
   list.innerHTML='';
   if(!stocks.length){list.innerHTML='<div style="padding:20px;text-align:center;color:var(--t2)">데이터 없음</div>';return;}
-  stocks.forEach((s,i)=>{
-    const sg=usSig(s,stocks);
-    const gc=gapColor(s.gap,35);
-    const id='us-'+s.t;
-    const ec=s.exch==='NASDAQ'?'#00aaff':s.exch==='NYSE'?'#aa44ff':'var(--t2)';
-    const row=document.createElement('div');
-    row.className='tr ug';row.id='row-'+id;
-    row.innerHTML=`
-      <span><b>${s.t}</b></span>
-      <span><span class="nm">${s.n}</span></span>
-      <span class="uh-s" style="color:${ec};font-size:9px">${s.exch||'--'}</span>
-      <span>$${s.p.toFixed(2)}</span>
-      <span style="color:${s.per>0?peColor(s.per):'var(--t2)'}">${s.per>0?s.per.toFixed(1)+'×':'--'}</span>
-      <span style="color:${s.fper>0?peColor(s.fper):'var(--t2)'}">${s.fper>0?s.fper.toFixed(1)+'×':'--'}</span>
-      <span class="uh-sm" style="color:${s.peg>0&&s.peg<20?pegColor(s.peg):'var(--t2)'}">${s.peg>0&&s.peg<20?s.peg.toFixed(2):'--'}</span>
-      <span class="uh-s">${pctHtml(s.rev_qoq)}</span>
-      <span class="uh-s">${pctHtml(s.ni_qoq)}</span>
-      <span style="color:${gc}">${s.tgt?'$'+s.tgt.toFixed(2):'--'}</span>
-      <span style="color:${gc};font-weight:${s.gap!=null&&Math.abs(s.gap)>15?700:400}">${s.gap!=null?(s.gap>0?'+':'')+s.gap.toFixed(1)+'%':'--'}</span>
-      <span><span class="chip ${sg.cls}">${sg.lbl}</span></span>`;
-    const pan=document.createElement('div');pan.className='exp';pan.id='exp-'+id;
-    row.addEventListener('click',()=>toggleUS(id,s,stocks));
-    list.appendChild(row);list.appendChild(pan);
-  });
+  const LIMIT=200;
+  if(stocks.length>LIMIT){
+    stocks.slice(0,LIMIT).forEach(s=>renderUSRow(s,stocks,list));
+    const btn=document.createElement('button');
+    btn.className='load-more';
+    btn.textContent=`더 보기 (${stocks.length-LIMIT}종목 더)`;
+    btn.onclick=()=>{btn.remove();stocks.slice(LIMIT).forEach(s=>renderUSRow(s,stocks,list));};
+    list.appendChild(btn);
+  } else {
+    stocks.forEach(s=>renderUSRow(s,stocks,list));
+  }
 }
 function toggleUS(id,s,peers){
   const pan=document.getElementById('exp-'+id),row=document.getElementById('row-'+id);
