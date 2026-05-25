@@ -257,6 +257,98 @@ body{font-family:'SF Mono','Fira Code','JetBrains Mono',Consolas,'Pretendard Var
 .cg input:focus{outline:none;border-color:var(--cyan);}
 .kd{font-weight:700;color:var(--cyan);font-size:14px;padding-bottom:4px;}
 
+/* ────────────────── Light theme: 셀별 다채색 가독성 향상 ────────────────── */
+/* Zebra striping */
+[data-theme="light"] .tbl-wrap > div > .tr:nth-of-type(odd){background:#fafcff;}
+[data-theme="light"] .tbl-wrap > div > .tr:nth-of-type(even){background:#f1f6fc;}
+[data-theme="light"] .tr:hover{background:#dbeaff !important;box-shadow:inset 3px 0 0 #0055cc;}
+[data-theme="light"] .tr.expanded{background:#cbe0ff !important;box-shadow:inset 3px 0 0 #0040a0;}
+
+/* 한국 표 (.kg) — 12열 컬럼 분류별 색조 */
+[data-theme="light"] .kg > span:nth-child(1){color:#6b8aa8;font-weight:600;}
+[data-theme="light"] .kg > span:nth-child(2) .nm{color:#0c1828;font-weight:600;}
+[data-theme="light"] .kg > span:nth-child(2) .cd{color:#7090b0;font-weight:500;}
+[data-theme="light"] .kg > span:nth-child(3){color:#102b56;font-weight:700;background:#f0f6ff;}
+[data-theme="light"] .kg > span:nth-child(4),
+[data-theme="light"] .kg > span:nth-child(5){background:#fff8ec;}
+[data-theme="light"] .kg > span:nth-child(6),
+[data-theme="light"] .kg > span:nth-child(7){background:#fff3e6;}
+[data-theme="light"] .kg > span:nth-child(8),
+[data-theme="light"] .kg > span:nth-child(9){background:#f5ffeb;}
+[data-theme="light"] .kg > span:nth-child(10){color:#5500a0;font-weight:600;background:#f8f0ff;}
+[data-theme="light"] .kg > span:nth-child(11){font-weight:700;background:#fffbe0;}
+[data-theme="light"] .kg > span:nth-child(12){background:#eef5ff;}
+
+/* 미국 표 (.ug) — 12열 */
+[data-theme="light"] .ug > span:nth-child(1){color:#0055cc;font-weight:700;letter-spacing:.3px;}
+[data-theme="light"] .ug > span:nth-child(2) .nm{color:#0c1828;font-weight:600;}
+[data-theme="light"] .ug > span:nth-child(3){font-size:9px;font-weight:600;letter-spacing:.5px;}
+[data-theme="light"] .ug > span:nth-child(4){color:#102b56;font-weight:700;background:#f0f6ff;}
+[data-theme="light"] .ug > span:nth-child(5),
+[data-theme="light"] .ug > span:nth-child(6){background:#fff8ec;font-weight:600;}
+[data-theme="light"] .ug > span:nth-child(7){background:#f5ffeb;font-weight:600;}
+[data-theme="light"] .ug > span:nth-child(8),
+[data-theme="light"] .ug > span:nth-child(9){background:#fff3e6;}
+[data-theme="light"] .ug > span:nth-child(10){color:#5500a0;font-weight:600;background:#f8f0ff;}
+[data-theme="light"] .ug > span:nth-child(11){font-weight:700;background:#fffbe0;}
+[data-theme="light"] .ug > span:nth-child(12){background:#eef5ff;}
+
+/* US 저평가 순위 (.upg) — 11열 */
+[data-theme="light"] .upg > span:nth-child(1){color:#6b8aa8;font-weight:600;}
+[data-theme="light"] .upg > span:nth-child(2) .nm{color:#0c1828;font-weight:600;}
+[data-theme="light"] .upg > span:nth-child(3){font-size:9px;font-weight:600;}
+[data-theme="light"] .upg > span:nth-child(4){color:#102b56;font-weight:700;background:#f0f6ff;}
+[data-theme="light"] .upg > span:nth-child(5),
+[data-theme="light"] .upg > span:nth-child(6){background:#fff8ec;font-weight:600;}
+[data-theme="light"] .upg > span:nth-child(7){background:#f5ffeb;font-weight:600;}
+[data-theme="light"] .upg > span:nth-child(8),
+[data-theme="light"] .upg > span:nth-child(9){background:#fff3e6;}
+[data-theme="light"] .upg > span:nth-child(10){font-weight:700;background:#fffbe0;}
+[data-theme="light"] .upg > span:nth-child(11){background:#eef5ff;}
+
+/* 한국 순위 (.pg) — 7열 */
+[data-theme="light"] .pg > span:nth-child(1){color:#6b8aa8;font-weight:600;}
+[data-theme="light"] .pg > span:nth-child(2){color:#0c1828;font-weight:600;}
+[data-theme="light"] .pg > span:nth-child(3){background:#f0f6ff;font-weight:700;}
+[data-theme="light"] .pg > span:nth-child(4){background:#f8f0ff;font-weight:600;}
+[data-theme="light"] .pg > span:nth-child(5){background:#fffbe0;font-weight:700;}
+[data-theme="light"] .pg > span:nth-child(6){background:#eef5ff;}
+
+/* 시그널 chip 라이트 모드 — 강한 색대비 */
+[data-theme="light"] .chip{padding:3px 7px;font-weight:800;border-radius:4px;letter-spacing:.4px;
+  box-shadow:0 1px 2px rgba(0,30,60,.12);}
+[data-theme="light"] .cB2{background:linear-gradient(135deg,#00a050,#007030);color:#fff;border:1px solid #005020;}
+[data-theme="light"] .cB1{background:linear-gradient(135deg,#28b070,#1a8050);color:#fff;border:1px solid #0d5530;}
+[data-theme="light"] .cH{background:linear-gradient(135deg,#f0a020,#c47800);color:#fff;border:1px solid #8a5500;}
+[data-theme="light"] .cO{background:linear-gradient(135deg,#dc1234,#a00820);color:#fff;border:1px solid #700014;}
+[data-theme="light"] .tr:hover .chip{filter:brightness(1.08) saturate(1.15);transform:scale(1.04);}
+
+/* 종목명/코드 */
+[data-theme="light"] .cd{color:#7090b0;font-size:9px;letter-spacing:.5px;}
+[data-theme="light"] .nm{color:#0c1828;}
+
+/* 거래소 색상 */
+[data-theme="light"] .uh-s{color:#005588;}
+
+/* 헤더 */
+[data-theme="light"] .th{font-weight:700;letter-spacing:.4px;text-transform:uppercase;
+  background:linear-gradient(180deg,#0e2040,#1c3760)!important;color:#dde6f5!important;}
+
+/* 표 격자 강화 */
+[data-theme="light"] .tr{border-bottom:1px solid #d8e4ee !important;}
+[data-theme="light"] .tr > span{padding:0 4px;border-right:1px solid rgba(190,210,230,.45);}
+[data-theme="light"] .tr > span:last-child{border-right:none;}
+
+/* 표 외곽 */
+[data-theme="light"] .tbl-wrap{border:1px solid #a8c0d8;box-shadow:0 2px 8px rgba(0,20,60,.08);
+  border-radius:6px;overflow:hidden;}
+
+/* 확장 패널 */
+[data-theme="light"] .exp{background:linear-gradient(180deg,#e8f1ff,#dde8f8) !important;
+  border-bottom:2px solid #88a8d0 !important;}
+[data-theme="light"] .exp .um{background:#fff;border:1px solid #b8ccdd;}
+[data-theme="light"] .exp .um:hover{border-color:#0055cc;box-shadow:0 2px 10px rgba(0,90,200,.18);}
+
 /* ── Value cards ── */
 .vcards{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px;}
 @media(max-width:480px){.vcards{grid-template-columns:1fr;}}

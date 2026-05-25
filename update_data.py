@@ -788,10 +788,11 @@ def fetch_us(include_quarterly=True):
 # 한국 주식
 # ──────────────────────────────────────────────────────
 def _naver_parse_num(v):
-    """Naver API 숫자 문자열 파싱: '23.64배', '12,372원', '0.57%' → float"""
+    """Naver API 숫자 문자열 파싱: '23.64배', '12,372원', '0.57%', '-1,212원' → float
+    음수도 파싱 (-EPS 등). 'N/A'/'-'는 None."""
     if v is None: return None
     s = str(v).replace(',','').replace('배','').replace('원','').replace('%','').strip()
-    if not s or s in ('-','N/A'): return None
+    if not s or s.upper() in ('-','N/A','NA','NULL'): return None
     try: return float(s)
     except ValueError: return None
 
@@ -898,20 +899,44 @@ def fetch_korean():
                       or _clean(row.get('Industry'))
                       or '기타')
 
-            # 펀더멘털 (Naver)
+            # 펀더멘털 (Naver) — TTM 우선, N/A시 컨센서스(forward)로 fallback
             f = fund_data.get(code, {})
-            per     = round(safe(f.get('per')), 1)
+            per_t   = f.get('per')        # trailing PER (적자종목은 None)
+            per_f   = f.get('cnsPer')     # forward PER (컨센서스)
+            # PER 표시값: trailing 우선, 없거나 음수면 forward
+            if per_t is not None and per_t > 0:
+                per_val = per_t
+            elif per_f is not None and per_f > 0:
+                per_val = per_f
+            else:
+                per_val = per_t or per_f  # 음수/None — 표시는 N/A
+            per = round(per_val, 1) if per_val is not None else 0.0
+
             pbr     = round(safe(f.get('pbr')), 2)
             bps     = int(safe(f.get('bps')))
-            eps_now = safe(f.get('eps'))
+            eps_t   = f.get('eps')        # trailing EPS (음수 가능)
+            eps_f   = f.get('cnsEps')     # forward EPS
+            eps_now = eps_t if (eps_t is not None) else 0.0
             div     = round(safe(f.get('div')), 2)
             bps     = max(0, bps)
-            # 컨센서스 forward EPS growth (선행 EPS / 현재 EPS - 1)
-            cns_eps = safe(f.get('cnsEps'))
-            eps_g = round((cns_eps - eps_now) / abs(eps_now) * 100, 1) if eps_now and cns_eps else 0.0
+            # 컨센서스 forward EPS growth: (forward - trailing) / |trailing|
+            if eps_f is not None and eps_t is not None and eps_t != 0:
+                eps_g = round((eps_f - eps_t) / abs(eps_t) * 100, 1)
+            elif eps_f is not None and eps_t is not None and eps_t == 0:
+                eps_g = 100.0 if eps_f > 0 else -100.0
+            else:
+                eps_g = 0.0
+            # feg(forward EPS growth) — eps_g와 동일하지만 별도 필드로도 저장
+            feg = eps_g if eps_g != 0.0 else None
 
-            # ROE = EPS / BPS * 100
-            roe_pct = round(eps_now / bps * 100, 2) if bps > 0 and eps_now else 0.0
+            # ROE = EPS(TTM) / BPS * 100. 적자 종목은 음수 ROE 허용.
+            if bps > 0 and eps_t is not None:
+                roe_pct = round(eps_t / bps * 100, 2)
+            elif bps > 0 and eps_f is not None:
+                # 적자→흑자 전환 컨센서스 가정시 forward EPS 사용
+                roe_pct = round(eps_f / bps * 100, 2)
+            else:
+                roe_pct = 0.0
 
             # yfinance 분기 성장률 — KR_SECTOR_MAP 매핑 종목만
             sfx = "KS" if market == "KOSPI" else "KQ"
@@ -929,7 +954,7 @@ def fetch_korean():
                     pass
 
             stocks.append([code, name, sector, price, bps, roe_pct, per, pbr, mktcap, eps_g, div,
-                           rqoq, iqoq, ryoy, iyoy, None, None])
+                           rqoq, iqoq, ryoy, iyoy, None, feg])
 
         stocks.sort(key=lambda x: x[8], reverse=True)
         results[market] = stocks
