@@ -211,7 +211,7 @@ body{font-family:'SF Mono','Fira Code','JetBrains Mono',Consolas,'Pretendard Var
 /* ── Table ── */
 .tbl-wrap{background:var(--bg1);border:1px solid var(--border);border-radius:4px;overflow:hidden;overflow-x:auto;}
 .kg{display:grid;grid-template-columns:32px minmax(140px,1.4fr) 80px 62px 56px 52px 78px 62px 62px 62px 62px 62px 62px 78px 80px 60px 56px;align-items:center;min-width:1280px;}
-.ug{display:grid;grid-template-columns:58px minmax(120px,1fr) 48px 80px 52px 52px 46px 62px 62px 76px 68px 62px;align-items:center;}
+.ug{display:grid;grid-template-columns:54px minmax(140px,1.4fr) 50px 78px 60px 56px 52px 56px 78px 62px 62px 62px 62px 62px 62px 78px 76px 60px 56px;align-items:center;min-width:1380px;}
 .th{padding:7px 10px;background:var(--bg3);font-size:9px;font-weight:700;color:var(--t2);
   letter-spacing:.6px;text-transform:uppercase;border-bottom:1px solid var(--border);}
 .th>span{text-align:right;padding:0 3px;}
@@ -258,45 +258,47 @@ body{font-family:'SF Mono','Fira Code','JetBrains Mono',Consolas,'Pretendard Var
 .kd{font-weight:700;color:var(--cyan);font-size:14px;padding-bottom:4px;}
 
 /* ────────────────── Heat coloring (codexs-style) — 양/음 셀별 다채색 ────────────────── */
+/* Dark mode 기본 (data-theme 미지정 또는 dark) */
 .heat{
   display:inline-flex;align-items:center;justify-content:center;
   min-width:48px;padding:2px 6px;border-radius:5px;font-weight:700;
-  background:var(--heat-bg,transparent);
-  color:var(--heat-fg, var(--t1));
+  background:var(--heat-bg, transparent);
+  color:var(--heat-fgd, var(--heat-fg, #c8dcf0));
   border:1px solid var(--heat-bd, transparent);
   transition:filter .12s;
 }
-[data-theme="light"] .heat{color:var(--heat-fg,#1c3a5e);}
-:root .heat{color:var(--heat-fgd, var(--heat-fg, #c8dcf0));}
-[data-theme="light"] .heat-empty{color:#9eb3c8;background:#f5f9fc;}
-:root .heat-empty{color:#4a6680;background:#0e1825;}
-.heat-zero{color:var(--t2);background:transparent;}
-.heat-neg{color:var(--red);background:rgba(220,38,38,.06);border:1px dashed var(--red);}
+.heat-empty{color:#4a6680;background:#0e1825;}
+.heat-zero{color:var(--t2);background:transparent;font-weight:400;}
+.heat-neg{color:var(--red);background:rgba(220,38,38,.08);border:1px dashed var(--red);}
 .tr:hover .heat{filter:brightness(1.08) saturate(1.1);}
 
-/* 셀별 배경 톤 (heat이 아닌 정보 셀) */
-[data-theme="light"] .cell-rank{color:#6b8aa8;font-weight:700;background:#eef3f8;}
+/* Dark mode 셀별 배경 */
+.cell-rank{color:#7a90b0;background:#0d1825;font-weight:700;}
+.cell-name .nm{color:#dde6f5;font-weight:600;}
+.cell-name .cd{color:#7a90b0;}
+.cell-price{color:#a8d5ff;background:#0a1830;font-weight:700;}
+.cell-eps{color:#82c8ff;background:#091a2c;font-weight:700;}
+.cell-mcap{color:#c890ff;background:#1a0c2a;font-weight:700;}
+.cell-vol{color:#a8b5cc;background:#0d1220;font-weight:600;}
+.cell-fair{color:#cc99ff;background:#15082a;font-weight:600;}
+.cell-sig{background:#1c1505;}
+.mcap-l{color:#ff7acc;font-weight:800;}
+.mcap-m{color:#c890ff;font-weight:700;}
+
+/* Light mode override — 어두운 텍스트 + 옅은 배경 */
+[data-theme="light"] .heat{color:var(--heat-fg, #1c3a5e);}
+[data-theme="light"] .heat-empty{color:#9eb3c8;background:#f5f9fc;}
+[data-theme="light"] .cell-rank{color:#3a5882;background:#dde8f5;}
 [data-theme="light"] .cell-name .nm{color:#0c1828;font-weight:600;}
 [data-theme="light"] .cell-name .cd{color:#7090b0;font-weight:500;}
-[data-theme="light"] .cell-price{color:#102b56;font-weight:700;background:#e3f0ff;}
-[data-theme="light"] .cell-eps{color:#28528c;background:#eaf3ff;font-weight:700;}
-[data-theme="light"] .cell-mcap{color:#6600cc;background:#f5ebff;font-weight:700;}
-[data-theme="light"] .cell-vol{color:#5a6280;background:#f0f0f5;font-weight:600;}
-[data-theme="light"] .cell-fair{color:#5500a0;background:#f8eeff;font-weight:600;}
-[data-theme="light"] .cell-sig{background:#fdf6e3;}
-[data-theme="light"] .mcap-l{color:#a00080;font-weight:800;}
+[data-theme="light"] .cell-price{color:#0a2050;background:#cce0ff;font-weight:700;}
+[data-theme="light"] .cell-eps{color:#0e3a72;background:#dcebff;font-weight:700;}
+[data-theme="light"] .cell-mcap{color:#5a0099;background:#ecdcff;font-weight:700;}
+[data-theme="light"] .cell-vol{color:#384060;background:#e0e2eb;font-weight:600;}
+[data-theme="light"] .cell-fair{color:#440080;background:#eddcff;font-weight:600;}
+[data-theme="light"] .cell-sig{background:#fff3c8;}
+[data-theme="light"] .mcap-l{color:#8a0070;font-weight:800;}
 [data-theme="light"] .mcap-m{color:#5500a0;font-weight:700;}
-
-/* Dark mode 보조 */
-:root .cell-rank{color:#7a90b0;background:#0d1825;}
-:root .cell-name .nm{color:#dde6f5;font-weight:600;}
-:root .cell-name .cd{color:#7a90b0;}
-:root .cell-price{color:#a8d5ff;background:#0a1830;font-weight:700;}
-:root .cell-eps{color:#82c8ff;background:#091a2c;font-weight:700;}
-:root .cell-mcap{color:#c890ff;background:#1a0c2a;font-weight:700;}
-:root .cell-vol{color:#a8b5cc;background:#0d1220;}
-:root .cell-fair{color:#cc99ff;background:#15082a;}
-:root .cell-sig{background:#1c1505;}
 
 /* 헤더 */
 [data-theme="light"] .th{font-weight:700;letter-spacing:.4px;
@@ -331,9 +333,10 @@ body{font-family:'SF Mono','Fira Code','JetBrains Mono',Consolas,'Pretendard Var
 [data-theme="light"] .exp .um{background:#fff;border:1px solid #b8ccdd;}
 [data-theme="light"] .exp .um:hover{border-color:#0055cc;box-shadow:0 2px 10px rgba(0,90,200,.18);}
 
-/* 표 전체 가로 스크롤 (17 컬럼) */
-.tbl-wrap{overflow-x:auto;}
-.tbl-wrap .tr,.tbl-wrap .th{min-width:1280px;}
+/* 표 전체 가로 스크롤 (KR 17 / US 19 컬럼) */
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.tbl-wrap .kg{min-width:1280px;}
+.tbl-wrap .ug{min-width:1380px;}
 
 /* ── Value cards ── */
 .vcards{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px;}
@@ -535,11 +538,15 @@ footer a:hover{color:var(--cyan);}
   <div class="stats-row" id="stats-us"></div>
   <div class="tbl-wrap">
     <div class="th ug">
-      <span>티커</span><span>종목명</span>
-      <span class="uh-s">거래소</span>
+      <span>티커</span><span>종목명</span><span>거래소</span>
       <span>현재가</span>
-      <span>P/E</span><span>Fwd P/E</span><span class="uh-sm">PEG</span>
-      <span class="uh-s">매출QoQ</span><span class="uh-s">이익QoQ</span>
+      <span>EPS</span><span>ROE</span>
+      <span>PER</span><span>Fwd P/E</span>
+      <span>시가총액</span>
+      <span>매출YoY</span><span>매출QoQ</span>
+      <span>이익YoY</span><span>이익QoQ</span>
+      <span>Fwd매출</span><span>Fwd EPS</span>
+      <span>거래량</span>
       <span>목표가</span><span>괴리율</span><span>신호</span>
     </div>
     <div id="list-us"><div style="padding:30px;text-align:center;color:var(--t2)">섹터를 선택하세요</div></div>
@@ -1192,24 +1199,44 @@ function renderUSStats(sec,stocks){
 }
 function renderUSRow(s,stocks,list){
   const sg=usSig(s,stocks);
-  const gc=gapColor(s.gap,35);
   const id='us-'+s.t;
   const ec=s.exch==='NASDAQ'?'#00aaff':s.exch==='NYSE'?'#aa44ff':'var(--t2)';
+  // 시가총액 ($B → 표시: 1조 이상 진보라, 미만 보라)
+  const mcDisplay = (mc)=>{
+    if(!mc||!isFinite(mc))return'<span class="muted">--</span>';
+    if(mc>=1000)return`<span class="mcap-l">$${(mc/1000).toFixed(2)}T</span>`;
+    return`<span class="mcap-m">$${mc}B</span>`;
+  };
+  // 거래량 (천 단위 K, 백만 M, 십억 B)
+  const volDisplay = (v)=>{
+    if(!v||!isFinite(v))return'<span class="muted">--</span>';
+    if(v>=1e9)return`${(v/1e9).toFixed(2)}B`;
+    if(v>=1e6)return`${(v/1e6).toFixed(2)}M`;
+    if(v>=1e3)return`${(v/1e3).toFixed(1)}K`;
+    return v.toLocaleString();
+  };
   const row=document.createElement('div');
   row.className='tr ug';row.id='row-'+id;
   row.innerHTML=`
-    <span><b>${s.t}</b></span>
-    <span><span class="nm">${s.n}</span></span>
-    <span class="uh-s" style="color:${ec};font-size:9px">${s.exch||'--'}</span>
-    <span>$${s.p.toFixed(2)}</span>
-    <span style="color:${s.per>0?peColor(s.per):'var(--t2)'}">${s.per>0?s.per.toFixed(1)+'×':'--'}</span>
-    <span style="color:${s.fper>0?peColor(s.fper):'var(--t2)'}">${s.fper>0?s.fper.toFixed(1)+'×':'--'}</span>
-    <span class="uh-sm" style="color:${s.peg>0&&s.peg<20?pegColor(s.peg):'var(--t2)'}">${s.peg>0&&s.peg<20?s.peg.toFixed(2):'--'}</span>
-    <span class="uh-s">${pctHtml(s.rev_qoq)}</span>
-    <span class="uh-s">${pctHtml(s.ni_qoq)}</span>
-    <span style="color:${gc}">${s.tgt?'$'+s.tgt.toFixed(2):'--'}</span>
-    <span style="color:${gc};font-weight:${s.gap!=null&&Math.abs(s.gap)>15?700:400}">${s.gap!=null?(s.gap>0?'+':'')+s.gap.toFixed(1)+'%':'--'}</span>
-    <span><span class="chip ${sg.cls}">${sg.lbl}</span></span>`;
+    <span class="cell-rank"><b>${s.t}</b></span>
+    <span class="cell-name"><span class="nm">${s.n}</span></span>
+    <span style="color:${ec};font-size:9px;font-weight:700;">${s.exch||'--'}</span>
+    <span class="cell-price">$${s.p.toFixed(2)}</span>
+    <span class="cell-eps">${s.eps!=null&&isFinite(s.eps)?'$'+s.eps.toFixed(2):'<span class="muted">--</span>'}</span>
+    <span>${heatPct(s.roe,30)}</span>
+    <span>${heatPER(s.per)}</span>
+    <span>${heatPER(s.fper)}</span>
+    <span class="cell-mcap">${mcDisplay(s.mc)}</span>
+    <span>${heatPct(s.rev_yoy_q,50)}</span>
+    <span>${heatPct(s.rev_qoq,50)}</span>
+    <span>${heatPct(s.ni_yoy_q,80)}</span>
+    <span>${heatPct(s.ni_qoq,80)}</span>
+    <span>${heatPct(s.fwd_rev_g,50)}</span>
+    <span>${heatPct(s.fwd_eps_g,80)}</span>
+    <span class="cell-vol">${volDisplay(s.vol)}</span>
+    <span class="cell-fair">${s.tgt?'$'+s.tgt.toFixed(2):'<span class="muted">--</span>'}</span>
+    <span>${heatPct(s.gap,35,true)}</span>
+    <span class="cell-sig"><span class="chip ${sg.cls}">${sg.lbl}</span></span>`;
   const pan=document.createElement('div');pan.className='exp';pan.id='exp-'+id;
   row.addEventListener('click',()=>toggleUS(id,s,stocks));
   list.appendChild(row);list.appendChild(pan);
@@ -1375,9 +1402,15 @@ function buildUSRankTab(){
     html+=`<div class="urk-sec">
       <div class="urk-title">${sec} <span class="cnt">${sorted.length}종목 · 저평가 ${buy}</span></div>
       <div class="tbl-wrap"><div class="th ug">
-        <span>티커</span><span>종목명</span><span class="uh-s">거래소</span><span>현재가</span>
-        <span>P/E</span><span>Fwd P/E</span><span class="uh-sm">PEG</span>
-        <span class="uh-s">매출QoQ</span><span class="uh-s">이익QoQ</span>
+        <span>티커</span><span>종목명</span><span>거래소</span>
+        <span>현재가</span>
+        <span>EPS</span><span>ROE</span>
+        <span>PER</span><span>Fwd P/E</span>
+        <span>시가총액</span>
+        <span>매출YoY</span><span>매출QoQ</span>
+        <span>이익YoY</span><span>이익QoQ</span>
+        <span>Fwd매출</span><span>Fwd EPS</span>
+        <span>거래량</span>
         <span>목표가</span><span>괴리율</span><span>신호</span>
       </div><div id="${domId}"></div></div>
     </div>`;
