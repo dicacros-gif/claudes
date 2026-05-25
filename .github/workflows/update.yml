@@ -4,6 +4,10 @@ on:
   schedule:
     - cron: '0 0 * * *'     # UTC 00:00 = KST 09:00, 매일 실행
   workflow_dispatch:          # 수동 실행 허용
+  push:
+    paths:
+      - 'update_data.py'      # update_data.py 변경 시 자동 실행
+      - '.github/workflows/update.yml'
 
 permissions:
   contents: write
