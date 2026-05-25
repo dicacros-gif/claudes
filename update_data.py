@@ -787,6 +787,26 @@ def fetch_us(include_quarterly=True):
 # ──────────────────────────────────────────────────────
 # 한국 주식
 # ──────────────────────────────────────────────────────
+def _fetch_krx_with_fallback(krx, market, max_back=7):
+    """Try today's KRX data; if empty (market hasn't closed yet),
+    walk back day-by-day until non-empty data is found.
+    Returns (fund_now, cap, ohlcv, date_used) or (None, None, None, None)."""
+    for back in range(max_back):
+        d = recent_day(back)
+        try:
+            fn  = krx.get_market_fundamental(d, market=market)
+            cp  = krx.get_market_cap(d,         market=market)
+            oh  = krx.get_market_ohlcv(d,       market=market)
+            if not fn.empty and not cp.empty and not oh.empty:
+                print(f"  [{market}] {d} 데이터 확보 (offset -{back}일)", flush=True)
+                return fn, cp, oh, d
+            print(f"  [{market}] {d} 빈 응답 (offset -{back}일) — 이전 거래일로 후퇴", flush=True)
+        except Exception as e:
+            print(f"  [{market}] {d} 조회 실패: {e}", flush=True)
+        time.sleep(0.5)
+    return None, None, None, None
+
+
 def fetch_korean():
     try:
         from pykrx import stock as krx
@@ -795,12 +815,10 @@ def fetch_korean():
         print(f"  [KR] 라이브러리 없음: {e}", file=sys.stderr)
         return [], []
 
-    today    = recent_day(0)
-    year_ago = recent_day(252)
     results  = {}
 
     for market in ("KOSPI", "KOSDAQ"):
-        print(f"\n  [{market}] 데이터 조회 중 ({today})...", flush=True)
+        print(f"\n  [{market}] 데이터 조회 중...", flush=True)
         try:
             raw = fdr.StockListing(market)
             raw = raw.dropna(subset=["Code"]) if "Code" in raw.columns else raw
@@ -813,17 +831,24 @@ def fetch_korean():
                 raw["Sector"] = "기타"
             cols = [c for c in ("Code","Name","Sector") if c in raw.columns]
             listing = raw[cols]
+            print(f"  [{market}] FDR 목록: {len(listing)}종목", flush=True)
         except Exception as e:
             print(f"  [{market}] 목록 실패: {e}", file=sys.stderr)
             results[market] = []; continue
-        try:
-            fund_now  = krx.get_market_fundamental(today,    market=market)
-            fund_prev = krx.get_market_fundamental(year_ago, market=market)
-            cap       = krx.get_market_cap(today,            market=market)
-            ohlcv     = krx.get_market_ohlcv(today,          market=market)
-        except Exception as e:
-            print(f"  [{market}] 배치 조회 실패: {e}", file=sys.stderr)
+
+        # 당일/최근 거래일 데이터 (1~7일 fallback)
+        fund_now, cap, ohlcv, today = _fetch_krx_with_fallback(krx, market)
+        if fund_now is None:
+            print(f"  [{market}] 7일 이내 데이터 없음 — skip", file=sys.stderr)
             results[market] = []; continue
+
+        # 1년 전 EPS (성장률 계산용)
+        try:
+            year_ago = recent_day(252)
+            fund_prev = krx.get_market_fundamental(year_ago, market=market)
+        except Exception as e:
+            print(f"  [{market}] 1년전 데이터 실패: {e}", file=sys.stderr)
+            fund_prev = fund_now.iloc[:0]  # empty DataFrame
 
         stocks = []
         for _, row in listing.iterrows():
@@ -887,7 +912,8 @@ def main():
 
     print("[ Korean stocks ]")
     kospi, kosdaq = fetch_korean()
-    if kospi or kosdaq:
+    # 최소 충분 조건: KOSPI 100+ 또는 KOSDAQ 100+ 종목이어야 의미있는 데이터
+    if len(kospi) >= 100 or len(kosdaq) >= 100:
         kr_data = {
             "updated": ts, "rf": DEFAULT_RF, "erp": DEFAULT_ERP,
             "f": ["c","n","s","p","b","r","per","pbr","m","eg","div","rqoq","iqoq","ryoy","iyoy","frg","feg"],
@@ -897,7 +923,7 @@ def main():
             json.dump(kr_data, f, ensure_ascii=False, separators=(",",":"))
         print(f"  [OK] stocks.json: KOSPI {len(kospi)}, KOSDAQ {len(kosdaq)}")
     else:
-        print("  [SKIP] Korean data empty — keeping existing stocks.json")
+        print(f"  [SKIP] Korean data insufficient (KOSPI={len(kospi)}, KOSDAQ={len(kosdaq)}) — keeping existing stocks.json")
 
     print("\n[ 미국 주식 ]")
     us = fetch_us(include_quarterly=True)
