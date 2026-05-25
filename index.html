@@ -168,7 +168,7 @@ body{font-family:'SF Mono','Fira Code','JetBrains Mono',Consolas,'Pretendard Var
 .sec-bar{display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;
   gap:5px;padding:8px 14px;background:var(--bg1);border-bottom:1px solid var(--border);}
 .sec-bar::-webkit-scrollbar{display:none;}
-.sec-grid{display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;
+.sec-grid{display:flex;flex-wrap:wrap;
   gap:5px;padding:8px 14px;background:var(--bg1);border-bottom:1px solid var(--border);}
 .sec-grid::-webkit-scrollbar{display:none;}
 .sec-btn{flex-shrink:0;white-space:nowrap;display:inline-flex;align-items:center;gap:4px;
@@ -1064,6 +1064,8 @@ function getUSStocks(sec){
 }
 function getUSRankStocksFiltered(allStocks,q){
   let s=G.usRankExch==='ALL'?allStocks:allStocks.filter(x=>x.exch===G.usRankExch);
+  // 적자 기업 제외 (net margin < 0). 무데이터는 포함.
+  s=s.filter(x=>!(typeof x.nm==='number' && x.nm<0));
   if(q)s=s.filter(x=>x.t.toUpperCase().includes(q.toUpperCase())||x.n.toLowerCase().includes(q.toLowerCase()));
   return s;
 }
@@ -1379,8 +1381,10 @@ function filterUSRank(){ buildUSRankTab(); }
 //  한국 순위 탭
 // ════════════════════════════════════════════════════
 function buildRankings(){
-  renderKr('_rk_kospi',  G.kospi.slice(0,100),  'rk-list-kospi');
-  renderKr('_rk_kosdaq', G.kosdaq.slice(0,100), 'rk-list-kosdaq');
+  // 적자 기업 제외 (ROE < 0). 무데이터(s.r == 0 or null)는 포함.
+  const filt = s => !(typeof s.r === 'number' && s.r < 0);
+  renderKr('_rk_kospi',  G.kospi.filter(filt).slice(0,100),  'rk-list-kospi');
+  renderKr('_rk_kosdaq', G.kosdaq.filter(filt).slice(0,100), 'rk-list-kosdaq');
 }
 </script>
 </body>
