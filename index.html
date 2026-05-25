@@ -439,27 +439,10 @@ body{font-family:'SF Mono','Fira Code','JetBrains Mono',Consolas,'Pretendard Var
   transition:border-color .15s;}
 .urk-search:focus{outline:none;border-color:var(--cyan);}
 
-/* ── Responsive ── */
-@media(max-width:1100px){
-  .kh-gry,.kh-gry-cell{display:none!important;}
-  .kg{grid-template-columns:22px minmax(110px,1fr) 70px 52px 52px 82px 62px 50px;}
-}
+/* ── Responsive ── 작은 화면에서도 모든 컬럼 표시. tbl-wrap 가로 스크롤 사용 ── */
 @media(max-width:900px){
-  .kg{grid-template-columns:20px minmax(100px,1fr) 68px 50px 50px 78px 60px 48px;}
-  .kh-s,.kh-s-cell,.kh-pbr{display:none!important;}
-  .ug{grid-template-columns:52px minmax(100px,1fr) 76px 50px 50px 70px 62px;}
-  .uh-s{display:none!important;}
-  .upg{grid-template-columns:50px 1fr 72px 48px 68px 62px 56px;}
-  .uph-s{display:none!important;}
-}
-@media(max-width:700px){
-  .kh-gr,.kh-gr-cell{display:none!important;}
-  .kg{grid-template-columns:18px minmax(95px,1fr) 66px 80px 60px 46px;}
-  .kh-sm,.kh-sm-cell{display:none!important;}
-  .pg{grid-template-columns:1fr 68px 80px 60px 56px;}
-  .ph-sm{display:none!important;}
-  .ug{grid-template-columns:48px 1fr 70px 68px 60px;}
-  .uh-sm{display:none!important;}
+  .tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .tbl-wrap .tr, .tbl-wrap .th{min-width:1280px;}
 }
 footer{text-align:center;padding:14px;font-size:10px;color:var(--t2);border-top:1px solid var(--border);margin-top:16px;}
 footer a{color:var(--t2);transition:color .1s;}
